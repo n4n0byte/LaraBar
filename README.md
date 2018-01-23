@@ -1,6 +1,6 @@
 # Social Networking Site | CST 256 #
 
-Connor Low, Ali Cooper
+Connor Low, Ali Cooper  
 Last README update: Jan 22, 2018
   
 ### Overview ###
