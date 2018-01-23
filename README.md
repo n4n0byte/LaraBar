@@ -4,9 +4,21 @@ Connor Low, Ali Cooper
   
 ### Overview ###
 This is a Social Media/Professional Networking site for CST 256 (Database Application Programming), built using the Laravel Framework.
-### Milestone 1 ###
+### This Repository ###
+There are two main directories: Project and Documentation.  
+Documentation includes:
+*Backlogs - SCRUM sheets
+*DB Design - Data dictionary, DDL Scripts, ER diagrams
+*Reports - Milestone Design Reports
 ----------------
+### Milestone 1 ###
 #### Requirements ####
-Login and Registration Pages
+Views:
+*Login page
+*Registration page
+Functionality:
+*Login
+*Registration
+*Basic form security
 #### Updates ####
 None yet.
