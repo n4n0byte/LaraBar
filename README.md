@@ -10,6 +10,9 @@ Documentation includes:
 * Backlogs - SCRUM sheets
 * DB Design - Data dictionary, DDL Scripts, ER diagrams
 * Reports - Milestone Design Reports
+Project includes:
+* CLC
+* That's all for now.
 ----------------
 ### Milestone 1 ###
 #### Requirements ####
