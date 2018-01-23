@@ -1,6 +1,7 @@
 # Social Networking Site | CST 256 #
 
 Connor Low, Ali Cooper
+Last README update: Jan 22, 2018
   
 ### Overview ###
 This is a Social Media/Professional Networking site for CST 256 (Database Application Programming), built using the Laravel Framework.
