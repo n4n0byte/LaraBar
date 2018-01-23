@@ -9,7 +9,7 @@ There are two main directories: Project and Documentation.
 Documentation includes:
 * Backlogs - SCRUM sheets
 * DB Design - Data dictionary, DDL Scripts, ER diagrams
-* Reports - Milestone Design Reports
+* Reports - Milestone Design Reports  
 Project includes:
 * CLC
 * That's all for now.
