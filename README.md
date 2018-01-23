@@ -4,7 +4,7 @@ Connor Low, Ali Cooper
   
 ### Overview ###
 This is a Social Media/Professional Networking site for CST 256 (Database Application Programming), built using the Laravel Framework.
-### This Repository ###
+### This Repository ###  
 There are two main directories: Project and Documentation.  
 Documentation includes:
 *Backlogs - SCRUM sheets
