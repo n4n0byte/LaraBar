@@ -21,6 +21,8 @@ Route::get('/register', function () {
     return view('register');
 });
 
+Route::post('/register', 'UserController@Register');
+
 Route::get('/login', function () {
     return view('login');
 });

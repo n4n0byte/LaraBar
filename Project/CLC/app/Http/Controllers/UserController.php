@@ -28,6 +28,9 @@ class UserController extends Controller
         
         $inputEmail = $request->input('email');
         $inputPassword = $request->input('password');
+        $inputFirstName = $request->input('firstName');
+        $inputLastName = $request->input('lastName');
+        
         
         $email = DB::table('users')->where('email', $inputEmail)->value('EMAIL');
         
@@ -36,8 +39,11 @@ class UserController extends Controller
             
             // inserts data if email is not found
             DB::table('users')->insert(
-                ['email' => $inputEmail, 'password' => $inputPassword]
-                );
+                ['email' => $inputEmail, 'password' => $inputPassword, 'firstname' => $inputFirstName, 'lastName' => $inputLastName]
+            );
+            
+            
+            
         }
         else {
             return view("login_error");

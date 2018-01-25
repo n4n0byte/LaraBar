@@ -23,7 +23,7 @@ We used source code from the following websites to complete this assignment: N/A
         <h1>Create New Account</h1>
     </div>
     <div id="registerForm" class="basicForm" >
-        <form method="POST" action="create_account">
+        <form method="POST" action="register">
             <input type="hidden" name="_token" value="@php echo csrf_token() @endphp">
             
             <div class="form-horizontal">
@@ -33,12 +33,12 @@ We used source code from the following websites to complete this assignment: N/A
             
             <div class="form-horizontal">
                 <h3>First Name</h3>
-                <input max="200" name="email" type="text" title="Email" required>
+                <input max="200" name="firstName" type="text" title="First Name" required>
             </div>
             
             <div class="form-horizontal">
                 <h3>Last Name</h3>
-                <input max="200" name="email" type="text" title="Email" required>
+                <input max="200" name="lastName" type="text" title="Last Name" required>
             </div>
             
             
@@ -47,7 +47,7 @@ We used source code from the following websites to complete this assignment: N/A
                 <input max="200" name="password" title="Password" type="password" required>
             </div>
             <div class="form-submit">
-                <input title="Sign In" type="submit">
+                <input title="Sign up" type="submit">
             </div>
         </form>
     </div>
