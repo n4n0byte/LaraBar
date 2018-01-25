@@ -36,4 +36,6 @@ Route::get('/home', function () {
 
 Route::post('/create_account', 'UserController@register');
 
+Route::post('/error', 'UserController@login_error');
+
 Route::get('/home', 'HomeController@index')->name('home');
