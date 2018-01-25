@@ -3,7 +3,7 @@
 /*
 version 1.0
 
-Connor
+Connor / Ali
 CST-256
 January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
@@ -35,7 +35,7 @@ Route::post('/login', 'UserController@login');
 
 Route::get('/home', function () {
     return view('home');
-}); //TODO change to ask when implemented
+});
 
 
 Route::get('/home', 'HomeController@index')->name('home');
