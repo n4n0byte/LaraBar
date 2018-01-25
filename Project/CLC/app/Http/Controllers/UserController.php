@@ -16,29 +16,30 @@ class UserController extends Controller
         return view('Login');
     }
     
+    public function login_error(){
+        return view('login_error');
+    }
+    
     public function login(Request $request)
     {
         // create a business service
         
         // get result, store in session
         
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $inputEmail = $request->input('email');
+        $inputPassword = $request->input('password');
          
-        $results = DB::select('select * from users where email = :email and password = :password', ['email' => $email, 'password' => $password ]);
+        $email = DB::table('users')->where('email', $inputEmail)->value('EMAIL');
+        $pass = DB::table('users')->where('email', $inputPassword)->value('PASSWORD');
         
-//         if (sizeof($results) === 1){
-            
-//             echo "Congradulations " + $results[0];
-//             echo "<br> you are signed in";
-//         }
-//         else{
-//             echo "bad";
-//         }
-        
-        // if successful, go to Home
-        return view("Home",['results' => $results]);
-        // if unsuccessful, go to Login
+        if ($email === $inputEmail && $inputPassword === $pass){
+    
+            return view("Home",['email' => $email]);
+           
+        }
+        else {
+            return view("login_error");
+        }
         
     }
 }
