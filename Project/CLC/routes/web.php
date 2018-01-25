@@ -22,6 +22,6 @@ Route::get('/register', function () {
     return view('register');
 });
 
-Route::get('/login', 'LoginController@ask');
+Route::get('/login', 'UserController@ask');
 
-Route::get('/login/submit', 'LoginController@login');
+Route::get('/login/submit', 'UserController@login');

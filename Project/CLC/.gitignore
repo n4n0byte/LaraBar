@@ -2,3 +2,4 @@
 .env
 
 .buildpath
+/vendor/
