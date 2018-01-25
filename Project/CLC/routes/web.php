@@ -24,4 +24,4 @@ Route::get('/register', function () {
 
 Route::get('/login', 'UserController@ask');
 
-Route::get('/login/submit', 'UserController@login');
+Route::post('/login', 'UserController@login');
