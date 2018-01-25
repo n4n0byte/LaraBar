@@ -23,7 +23,8 @@ We used source code from the following websites to complete this assignment: N/A
         <h1>Sign in</h1>
     </div>
     <div id="loginForm" class="basicForm">
-        <form method="post">
+        <form method="post" action="submit">
+            <input type="hidden" name="_token" value="@php echo csrf_token() @endphp">
             <div class="form-horizontal">
                 <h3>Email</h3>
                 <input max="200" name="email" title="Email">
