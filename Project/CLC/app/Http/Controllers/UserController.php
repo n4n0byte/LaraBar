@@ -76,7 +76,7 @@ class UserController extends Controller
         $inputPassword = $request->input('password');
          
         $email = DB::table('users')->where('email', $inputEmail)->value('EMAIL');
-        $pass = DB::table('users')->where('email', $inputPassword)->value('PASSWORD');
+        $pass = DB::table('users')->where('password', $inputPassword)->value('PASSWORD');
         
         if ($email === $inputEmail && $inputPassword === $pass){
     

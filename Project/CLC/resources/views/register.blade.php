@@ -2,7 +2,7 @@
 /*
 version 0.2
 
-Connor
+Connor / Ali
 CST-256
 January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.

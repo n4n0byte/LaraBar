@@ -21,9 +21,6 @@ Route::get('/register', function () {
     return view('register');
 });
 
-Route::post('/register', 'UserController@Register');
-
-
 Route::get('/login', function () {
     return view('login');
 });
@@ -31,11 +28,13 @@ Route::get('/login', function () {
 Route::get('/logout', function () {
     return view('welcome');
 });
-Route::post('/login', 'UserController@login');
 
 Route::get('/home', function () {
     return view('home');
 });
 
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/login', 'UserController@login');
+
+Route::post('/register', 'UserController@Register');
