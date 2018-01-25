@@ -1,13 +1,14 @@
 <?php
 /*
-version 0.1
+version 0.2
 
 Connor
 CST-256
-January 19, 2018
+January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+
 ?>
 
 <html>
@@ -27,11 +28,11 @@ We used source code from the following websites to complete this assignment: N/A
             <input type="hidden" name="_token" value="@php echo csrf_token() @endphp">
             <div class="form-horizontal">
                 <h3>Email</h3>
-                <input max="200" type="email" name="email" title="Email" required>
+                <input max="200" name="email" title="Email">
             </div>
             <div class="form-horizontal">
                 <h3>Password</h3>
-                <input max="200" name="password" title="Password" type="password" required>
+                <input max="200" name="password" title="Password" type="password">
             </div>
             <div class="form-submit">
                 <input title="Sign In" type="submit">
