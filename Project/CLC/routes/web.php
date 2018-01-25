@@ -23,6 +23,7 @@ Route::get('/register', function () {
 
 Route::post('/register', 'UserController@Register');
 
+
 Route::get('/login', function () {
     return view('login');
 });
@@ -36,8 +37,5 @@ Route::get('/home', function () {
     return view('home');
 }); //TODO change to ask when implemented
 
-Route::post('/create_account', 'UserController@register');
-
-Route::post('/error', 'UserController@login_error');
 
 Route::get('/home', 'HomeController@index')->name('home');

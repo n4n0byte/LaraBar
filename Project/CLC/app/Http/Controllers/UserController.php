@@ -1,4 +1,13 @@
 <?php
+/*
+version 0.1
+
+Ali
+CST-256
+January 19, 2018
+This assignment was completed in collaboration with Connor Low, Ali Cooper.
+We used source code from the following websites to complete this assignment: N/A
+*/
 
 namespace App\Http\Controllers;
 
@@ -42,7 +51,7 @@ class UserController extends Controller
                 ['email' => $inputEmail, 'password' => $inputPassword, 'firstname' => $inputFirstName, 'lastName' => $inputLastName]
             );
             
-            
+            return view("Home",['email' => $email]);
             
         }
         else {

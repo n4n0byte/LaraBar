@@ -1,15 +1,15 @@
 <?php
 /*
-version 0.2
-
-Connor
-CST-256
-January 24, 2018
-This assignment was completed in collaboration with Connor Low, Ali Cooper.
-We used source code from the following websites to complete this assignment: N/A
-*/
-
+ version 0.1
+ 
+ Connor
+ CST-256
+ January 19, 2018
+ This assignment was completed in collaboration with Connor Low, Ali Cooper.
+ We used source code from the following websites to complete this assignment: N/A
+ */
 ?>
+
 
 <html>
 @php include('resources/assets/snippets/html_head.php');
