@@ -8,20 +8,20 @@
  * | Here is where you can register web routes for your application. These
  * | routes are loaded by the RouteServiceProvider within a group which
  * | contains the "web" middleware group. Now create something great!
- * |
+ * | 
  */
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/', function () {  
     return view('welcome');
 });
 
 // Sign-in/login page
-Route::get('/login', function () {
-    return view('login');
-});
-
 Route::get('/register', function () {
     return view('register');
 });
+
+Route::get('/login', 'LoginController@ask');
+
+Route::get('/login/submit', 'LoginController@login');

@@ -9,7 +9,10 @@ This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
 ?>
+
 <html>
+@php include('resources/assets/snippets/html_head.php');
+@endphp
 <head>
     <link rel="stylesheet" href="public/css/styles.css">
     <title>Create Account</title>
@@ -19,8 +22,20 @@ We used source code from the following websites to complete this assignment: N/A
     <div class="pageTitle">
         <h1>Create New Account</h1>
     </div>
-    <div>
-        [form]
+    <div id="registerForm" class="basicForm" action="/submit">
+        <form method="post">
+            <div class="form-horizontal">
+                <h3>Email</h3>
+                <input max="200" name="email" title="Email">
+            </div>
+            <div class="form-horizontal">
+                <h3>Password</h3>
+                <input max="200" name="password" title="Password" type="password">
+            </div>
+            <div class="form-submit">
+                <input title="Sign In" type="submit">
+            </div>
+        </form>
     </div>
     <div class="links">
         <p>Already have an account? <a href="login">Sign-in</a>.</p>
