@@ -1,5 +1,6 @@
 /.idea
 .env
-
+build.properties
 .buildpath
 /vendor/
+.gitignore
