@@ -1,10 +1,10 @@
 <?php
 /*
-version 0.1
+version 0.2
 
 Connor
 CST-256
-January 19, 2018
+January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
@@ -24,8 +24,9 @@ We used source code from the following websites to complete this assignment: N/A
     </div>
     <div id="welcomeHome">
         <p>Sign-in successful.</p>
+        <p>@php echo $email @endphp</p>
     </div>
-    <a href="logout">Sign out</a>
+    <a href="./logout">Sign out</a>
 </div>
 </body>
 </html>
