@@ -20,8 +20,9 @@ We used source code from the following websites to complete this assignment: N/A
 </head>
 <body>
 	<h1>Invalid Credentials</h1>
-	<a href="./login">Retry?</a>
-	<a href="./register">register</a>
+	<h2>@php echo $error @endphp</h2>
+	<a href="./login">Retry?</a><br>
+	<a href="./register">Register?</a>
 	
 </body>
 </html>

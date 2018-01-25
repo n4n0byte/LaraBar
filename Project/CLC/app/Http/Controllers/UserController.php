@@ -55,7 +55,7 @@ class UserController extends Controller
             
         }
         else {
-            return view("login_error");
+            return view("login_error",['error' => $error = "Someone else has that Email already"]);
         }
         
     }
@@ -84,7 +84,7 @@ class UserController extends Controller
            
         }
         else {
-            return view("login_error");
+            return view("login_error",['error' => $error = "Login info is incorrect"]);
         }
         
     }
