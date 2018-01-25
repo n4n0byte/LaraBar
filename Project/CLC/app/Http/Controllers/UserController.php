@@ -27,12 +27,14 @@ class UserController extends Controller
          
         $results = DB::select('select * from users where email = :email and password = :password', ['email' => $email, 'password' => $password ]);
         
-        if (sizeof($results) == 1){
-            echo "goof";
-        }
-        else{
-            echo "bad";
-        }
+//         if (sizeof($results) === 1){
+            
+//             echo "Congradulations " + $results[0];
+//             echo "<br> you are signed in";
+//         }
+//         else{
+//             echo "bad";
+//         }
         
         // if successful, go to Home
         return view("Home",['results' => $results]);
