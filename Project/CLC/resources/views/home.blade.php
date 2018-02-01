@@ -24,7 +24,7 @@ We used source code from the following websites to complete this assignment: N/A
     </div>
     <div id="welcomeHome">
         <p>Sign-in successful.</p>
-        <p> Hello, @php echo $email @endphp</p>
+        <p>@php echo $email @endphp</p>
     </div>
     <a href="./logout">Sign out</a>
 </div>

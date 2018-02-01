@@ -2,7 +2,7 @@
 /*
 version 0.2
 
-Connor / Ali
+Connor
 CST-256
 January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
@@ -28,23 +28,23 @@ We used source code from the following websites to complete this assignment: N/A
             
             <div class="form-horizontal">
                 <h3>Email</h3>
-                <input max="200" name="email" type="email" title="Email" minlength="4" maxlength="100" required>
+                <input max="200" name="email" type="email" title="Email" required>
             </div>
             
             <div class="form-horizontal">
                 <h3>First Name</h3>
-                <input max="200" name="firstName" type="text" title="First Name" maxlength="100" minlength="4" required>
+                <input max="200" name="firstName" type="text" title="First Name" required>
             </div>
             
             <div class="form-horizontal">
                 <h3>Last Name</h3>
-                <input max="200" name="lastName" type="text" title="Last Name" maxlength="100" minlength="4" required>
+                <input max="200" name="lastName" type="text" title="Last Name" required>
             </div>
             
             
             <div class="form-horizontal">
                 <h3>Password</h3>
-                <input max="200" name="password" title="Password" type="password"  maxlength="100" minlength="4" required>
+                <input max="200" name="password" title="Password" type="password" required>
             </div>
             <div class="form-submit">
                 <input title="Sign up" type="submit">
