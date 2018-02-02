@@ -1,7 +1,2 @@
-/.idea
-.env
+.idea
 build.properties
-build.xml
-.buildpath
-/vendor/
-
