@@ -41,6 +41,7 @@ class UserDataAccessService
         $password = $user->getPassword();
         // build query
         $query = $this->ini['User']['Select'];
+        echo("query: " . $query);
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);

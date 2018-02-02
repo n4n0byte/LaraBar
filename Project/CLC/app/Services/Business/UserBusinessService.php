@@ -11,6 +11,7 @@
 
 namespace App\Services\Business;
 
+use App\Model\UserModel;
 use App\Services\Data\UserDataAccessService;
 use App\Services\DatabaseAccess;
 use PDOException;
@@ -22,9 +23,9 @@ class UserBusinessService
 
     /**
      * UserBusinessService constructor.
-     * @param $user
+     * @param UserModel $user
      */
-    public function __construct($user)
+    public function __construct(UserModel $user)
     {
         $this->user = $user;
     }
@@ -53,6 +54,8 @@ class UserBusinessService
     {
         try {
             $das = new UserDataAccessService(DatabaseAccess::connect());
+            echo("Email = " . $this->user->getEmail());
+            echo("Password = " . $this->user->getPassword());
             return $das->read($this->user);
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .
@@ -71,8 +74,8 @@ class UserBusinessService
             // check for username (use read)
 
             // return success
-        } catch (Exception $e) {
-            throw new Exception("Exception in SecurityBSO::login {\n" .
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityBSO::login {\n" .
                 $e->getMessage() . "\n}");
         }
     }
