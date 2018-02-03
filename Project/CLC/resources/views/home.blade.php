@@ -15,6 +15,11 @@ We used source code from the following websites to complete this assignment: N/A
 @endphp
 <head>
     <link rel="stylesheet" href="public/css/styles.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../resources/assets/css/bootstrap.css">
+    <script src="../../resources/assets/js/bootstrap.js"></script>
+
     <title>Create Account</title>
 </head>
 <body>
@@ -24,6 +29,7 @@ We used source code from the following websites to complete this assignment: N/A
     </div>
     <div id="welcomeHome">
         <p>Sign-in successful.</p>
+
         <p>@php echo $email @endphp</p>
     </div>
     <a href="./logout">Sign out</a>

@@ -22,4 +22,5 @@ Route::get('/login', function () {
     return view('login');
 });
 
-Route::get('/register', 'AskLoginController@ask');
+    
+Route::post('/register', 'AskLoginController@ask');
