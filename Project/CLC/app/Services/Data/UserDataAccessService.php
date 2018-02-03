@@ -11,7 +11,6 @@
 
 namespace App\Services\Data;
 
-use Illuminate\Database\Connection;
 use App\Model\UserModel;
 use PDO;
 use PDOException;
@@ -41,7 +40,7 @@ class UserDataAccessService
         $password = $user->getPassword();
         // build query
         $query = $this->ini['User']['Select'];
-        echo("query: " . $query);
+        // $query = "select * from USERS where EMAIL = :email and PASSWORD = :password;";
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
@@ -51,7 +50,7 @@ class UserDataAccessService
             // TODO: return all user properties
             return $statement->rowCount() == 1;
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::findByUser" . $e->getMessage());
+            throw new PDOException("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
         }
     }
 

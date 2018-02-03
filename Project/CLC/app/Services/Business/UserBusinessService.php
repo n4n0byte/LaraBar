@@ -18,9 +18,9 @@ use PDOException;
 
 class UserBusinessService
 {
-
+    
     private $user;
-
+    
     /**
      * UserBusinessService constructor.
      * @param UserModel $user
@@ -29,7 +29,7 @@ class UserBusinessService
     {
         $this->user = $user;
     }
-
+    
     /**
      * @return mixed
      */
@@ -37,7 +37,7 @@ class UserBusinessService
     {
         return $this->user;
     }
-
+    
     /**
      * @param mixed $user
      */
@@ -45,8 +45,8 @@ class UserBusinessService
     {
         $this->user = $user;
     }
-
-
+    
+    
     /**
      * @return mixed
      */
@@ -54,25 +54,22 @@ class UserBusinessService
     {
         try {
             $das = new UserDataAccessService(DatabaseAccess::connect());
-            echo("Email = " . $this->user->getEmail());
-            echo("Password = " . $this->user->getPassword());
             return $das->read($this->user);
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .
                 $e->getMessage() . "\n}");
         }
     }
-
-
+    
     public function register()
     {
         try {
             // TODO: add security checks
-
+            
             // Data Access Service
-
+            
             // check for username (use read)
-
+            
             // return success
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .
