@@ -14,17 +14,17 @@ We used source code from the following websites to complete this assignment: N/A
 @php include('resources/assets/snippets/html_head.php');
 @endphp
 <head>
-    <link rel="stylesheet" href="public/css/styles.css">
-    <title>Create Account</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+    <title>Home</title>
 </head>
 <body>
 <div class="container">
     <div class="pageTitle">
         <h1>Home</h1>
+        <h3>Welcome back, @php echo $user->getFirstname() . " " . $user->getLastname() @endphp </h3>
     </div>
     <div id="welcomeHome">
         <p>Sign-in successful.</p>
-        <p>@php echo $email @endphp</p>
     </div>
     <a href="./logout">Sign out</a>
 </div>

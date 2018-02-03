@@ -14,6 +14,7 @@ namespace App\Services\Data;
 use App\Model\UserModel;
 use PDO;
 use PDOException;
+use PDOStatement;
 
 class UserDataAccessService
 {
@@ -30,23 +31,53 @@ class UserDataAccessService
     }
 
     /**
-     * @param $user
-     * @param bool $limit
-     * @return mixed
+     * @param UserModel $user
+     * @param bool $login
+     * @return UserModel|bool
      */
-    public function read(UserModel $user, $limit = TRUE)
-    { // $limit should control if one or all users are selected
+    public function read(UserModel $user, $login = TRUE)
+    { // $login should control if one or all users are selected
         $email = $user->getEmail();
         $password = $user->getPassword();
+
         // build query
-        $query = $this->ini['User']['Select'];
-        // $query = "select * from USERS where EMAIL = :email and PASSWORD = :password;";
+        $query = $login ? $this->ini['User']['select'] : $this->ini['User']['select.all'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
         try {
             $statement->execute();
+            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
+            $user->setId($assoc_array["ID"][0]);
+            $user->setEmail($assoc_array["EMAIL"]);
+            $user->setPassword($assoc_array["PASSWORD"]);
+            $user->setFirstName($assoc_array["FIRSTNAME"]);
+            $user->setLastName($assoc_array["LASTNAME"]);
+            $user->setAvatar($assoc_array["AVATAR"]);
+            return $statement->rowCount() == 1 ? $user : $statement->rowCount();
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
+        }
+    }
 
+    /**
+     * @param UserModel $user
+     * @return bool
+     */
+    public function create(UserModel $user)
+    {
+        // build query
+        if($this->read($user, FALSE) != 0)
+            return -1;
+        $query = $this->ini['User']['create'];
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(":email", $user->getEmail());
+        $statement->bindParam(":password", $user->getPassword());
+        $statement->bindParam(":firstname", $user->getPassword());
+        $statement->bindParam(":lastname", $user->getPassword());
+        $statement->bindParam(":avatar", $user->getAvatar());
+        try {
+            $statement->execute();
             // TODO: return all user properties
             return $statement->rowCount() == 1;
         } catch (PDOException $e) {
@@ -54,8 +85,4 @@ class UserDataAccessService
         }
     }
 
-    public function create($user)
-    {
-
-    }
 }

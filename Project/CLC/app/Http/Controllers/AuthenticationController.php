@@ -76,15 +76,14 @@ class AuthenticationController extends Controller
         // get inputs
         $inputEmail = $request->input('email');
         $inputPassword = $request->input('password');
-        $user = new UserModel($inputEmail,$inputPassword);
+        $user = new UserModel(0, $inputEmail,$inputPassword);
 
         // create a business service
         $service = new UserBusinessService($user);
 
-        exit("Debug-stop");
         // attempt login
         if ($service->login()){
-            return view("Home",['user' => $user]);
+            return view("Home")->with(['user' => $user]);
         }
         else {
             return view("login_error",['error' => $error = "Login info is incorrect"]);

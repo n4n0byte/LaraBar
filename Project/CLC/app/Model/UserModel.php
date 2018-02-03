@@ -10,6 +10,11 @@
  */
 
 namespace App\Model;
+
+use App\Services\DatabaseAccess;
+use PDO;
+use PDOStatement;
+
 class UserModel
 {
     private $id;
@@ -17,6 +22,8 @@ class UserModel
     private $password;
     private $firstName;
     private $lastName;
+    private $avatar;
+    private $admin;
 
     /**
      * User constructor.
@@ -115,5 +122,36 @@ class UserModel
         $this->lastName = $lastName;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $url
+     */
+    public function setAvatar($url)
+    {
+        $this->avatar = $url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param mixed $admin
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+    }
 
 }
