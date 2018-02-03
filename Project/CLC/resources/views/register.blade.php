@@ -22,26 +22,46 @@ We used source code from the following websites to complete this assignment: N/A
     <div class="pageTitle">
         <h1>Create New Account</h1>
     </div>
-    <div id="registerForm" class="basicForm" >
+    <div id="registerForm" class="basicForm">
+        @if(isset($status) && !is_null($status))
+            <p>
+                <?php
+                switch ($status) {
+                    case -1:
+                        echo "Invalid email/password. Must not contain: <pre>\" ' * \ / =</pre>.";
+                        break;
+                    case -2:
+                        echo "Please fill out all forms.";
+                        break;
+                    case -11:
+                        echo "Username has already been taken.";
+                        break;
+                    default:
+                        echo "Error: failed to register. $status";
+                        break;
+                }
+                ?>
+            </p>
+        @endif
         <form method="POST" action="register">
             <input type="hidden" name="_token" value="@php echo csrf_token() @endphp">
-            
+
             <div class="form-horizontal">
                 <h3>Email</h3>
                 <input max="200" name="email" type="email" title="Email" required>
             </div>
-            
+
             <div class="form-horizontal">
                 <h3>First Name</h3>
                 <input max="200" name="firstName" type="text" title="First Name" required>
             </div>
-            
+
             <div class="form-horizontal">
                 <h3>Last Name</h3>
                 <input max="200" name="lastName" type="text" title="Last Name" required>
             </div>
-            
-            
+
+
             <div class="form-horizontal">
                 <h3>Password</h3>
                 <input max="200" name="password" title="Password" type="password" required>

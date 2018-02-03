@@ -1,13 +1,15 @@
 <?php
 /*
-version 0.2
+version 0.3
 
 Connor
 CST-256
-January 24, 2018
+February 3, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+// header("Content-Type: text/plain; charset=utf-8");
+
 ?>
 
 <html>

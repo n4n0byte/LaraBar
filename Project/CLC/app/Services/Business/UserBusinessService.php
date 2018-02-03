@@ -16,11 +16,20 @@ use App\Services\Data\UserDataAccessService;
 use App\Services\DatabaseAccess;
 use PDOException;
 
+/**
+ * Class UserBusinessService
+ * @package App\Services\Business
+ *
+ * Errors:
+ *      -1 => Invalid input (email and/or password)
+ *      -2 => Blank trim(input)
+ *      -11 => Username taken
+ */
 class UserBusinessService
 {
-    
+
     private $user;
-    
+
     /**
      * UserBusinessService constructor.
      * @param UserModel $user
@@ -29,7 +38,7 @@ class UserBusinessService
     {
         $this->user = $user;
     }
-    
+
     /**
      * @return mixed
      */
@@ -37,7 +46,7 @@ class UserBusinessService
     {
         return $this->user;
     }
-    
+
     /**
      * @param mixed $user
      */
@@ -45,8 +54,8 @@ class UserBusinessService
     {
         $this->user = $user;
     }
-    
-    
+
+
     /**
      * @return mixed
      */
@@ -60,21 +69,42 @@ class UserBusinessService
                 $e->getMessage() . "\n}");
         }
     }
-    
+
+    /**
+     * @return UserModel|bool|int
+     */
     public function register()
     {
+        if (!$this->inputIsValid())
+            return false;
         try {
-            // TODO: add security checks
-            
+
             // Data Access Service
-            
-            // check for username (use read)
-            
+            $das = new UserDataAccessService(DatabaseAccess::connect());
+
             // return success
+            $status = $das->create($this->user);
+            return $status;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .
                 $e->getMessage() . "\n}");
         }
+    }
+
+    /**
+     * @return bool|int
+     */
+    public function inputIsValid()
+    {
+        // define characters that are not allowed
+        $invalidChars = array("\"", "'", "\\", "*", "/", "=");
+
+        // run character checks
+        foreach ((array)$this->user as $param)
+            foreach ($invalidChars as $c)
+                if (strpos($param, $c))
+                    return -1;
+        return TRUE;
     }
 }
 

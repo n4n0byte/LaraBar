@@ -24,12 +24,13 @@ class AuthenticationController extends Controller
     public function ask()
     {
         // if user is logged in, return home
-        
+
         // else, send to login form
         return view('Login');
     }
-    
-    public function login_error(){
+
+    public function login_error()
+    {
         return view('login_error');
     }
 
@@ -38,33 +39,31 @@ class AuthenticationController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function register(Request $request){
-        
+    public function register(Request $request)
+    {
+        // get inputs
         $inputEmail = $request->input('email');
         $inputPassword = $request->input('password');
         $inputFirstName = $request->input('firstName');
         $inputLastName = $request->input('lastName');
-        
-        
-        $email = DB::table('users')->where('email', $inputEmail)->value('EMAIL');
-        
-        
-        if ($email == ""){
-            
-            // inserts data if email is not found
-            DB::table('users')->insert(
-                ['email' => $inputEmail, 'password' => $inputPassword, 'firstname' => $inputFirstName, 'lastName' => $inputLastName]
-            );
-            
-            return view("Home",['email' => $email]);
-            
+
+        // create UserModel
+        if ($inputPassword == "" || $inputEmail == "")
+            return view("register")->with(['status' => -1]);
+        $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
+
+        // create a business service
+        $service = new UserBusinessService($user);
+
+        // attempt registration
+        if ($status = $service->register() > -1) {
+            return view("home")->with(['user' => $user]);
+        } else {
+            return view("register")->with(['user' => $user, 'status' => $status]);
         }
-        else {
-            return view("login_error",['error' => $error = "Someone else has that Email already"]);
-        }
-        
+
     }
-    
+
     /**
      * checks for valid inputs,
      * shows error page if input is invalid
@@ -76,18 +75,21 @@ class AuthenticationController extends Controller
         // get inputs
         $inputEmail = $request->input('email');
         $inputPassword = $request->input('password');
-        $user = new UserModel(0, $inputEmail,$inputPassword);
+
+        // create UserModel
+        if ($inputPassword == "" || $inputEmail == "")
+            return view("login")->with(['status' => 1]);
+        $user = new UserModel(0, $inputEmail, $inputPassword);
 
         // create a business service
         $service = new UserBusinessService($user);
 
         // attempt login
-        if ($service->login()){
-            return view("Home")->with(['user' => $user]);
+        if ($status = $service->login()) {
+            return view("home")->with(['user' => $user]);
+        } else {
+            return view("login")->with(['user' => $user, 'status' => $status]);
         }
-        else {
-            return view("login_error",['error' => $error = "Login info is incorrect"]);
-        }
-        
+
     }
 }

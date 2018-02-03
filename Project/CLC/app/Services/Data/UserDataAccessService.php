@@ -33,7 +33,7 @@ class UserDataAccessService
     /**
      * @param UserModel $user
      * @param bool $login
-     * @return UserModel|bool
+     * @return UserModel|bool|int
      */
     public function read(UserModel $user, $login = TRUE)
     { // $login should control if one or all users are selected
@@ -41,20 +41,26 @@ class UserDataAccessService
         $password = $user->getPassword();
 
         // build query
-        $query = $login ? $this->ini['User']['select'] : $this->ini['User']['select.all'];
+        $query = $login ? $this->ini['User']['select.login'] : $this->ini['User']['select.all'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
         try {
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
-            $user->setId($assoc_array["ID"][0]);
-            $user->setEmail($assoc_array["EMAIL"]);
-            $user->setPassword($assoc_array["PASSWORD"]);
-            $user->setFirstName($assoc_array["FIRSTNAME"]);
-            $user->setLastName($assoc_array["LASTNAME"]);
-            $user->setAvatar($assoc_array["AVATAR"]);
-            return $statement->rowCount() == 1 ? $user : $statement->rowCount();
+
+            // make sure values were returned
+            if ($assoc_array) {
+                $user->setId($assoc_array["ID"]);
+                $user->setEmail($assoc_array["EMAIL"]);
+                $user->setPassword($assoc_array["PASSWORD"]);
+                $user->setFirstName($assoc_array["FIRSTNAME"]);
+                $user->setLastName($assoc_array["LASTNAME"]);
+                $user->setAvatar($assoc_array["AVATAR"]);
+                return $user;
+
+            }
+            return FALSE;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
@@ -66,16 +72,34 @@ class UserDataAccessService
      */
     public function create(UserModel $user)
     {
+        // define params
+        $email = $user->getEmail();
+        $password = $user->getPassword();
+        $firstName = $user->getFirstName();
+        $lastName = $user->getLastName();
+        $avatar = $user->getAvatar();
+
+        // Check for unique email
+        $query = $this->ini['User']['select'] . " EMAIL = :email ;";
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(":email", $email);
+        try {
+            $statement->execute();
+            if ($statement->rowCount() > 0)
+                return -11;
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+        }
+        var_dump($user);
+        exit("");
         // build query
-        if($this->read($user, FALSE) != 0)
-            return -1;
         $query = $this->ini['User']['create'];
         $statement = $this->conn->prepare($query);
-        $statement->bindParam(":email", $user->getEmail());
-        $statement->bindParam(":password", $user->getPassword());
-        $statement->bindParam(":firstname", $user->getPassword());
-        $statement->bindParam(":lastname", $user->getPassword());
-        $statement->bindParam(":avatar", $user->getAvatar());
+        $statement->bindParam(":email", $email);
+        $statement->bindParam(":password", $password);
+        $statement->bindParam(":firstname", $firstName);
+        $statement->bindParam(":lastname", $lastName);
+        $statement->bindParam(":avatar", $avatar);
         try {
             $statement->execute();
             // TODO: return all user properties
@@ -84,5 +108,4 @@ class UserDataAccessService
             throw new PDOException("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
         }
     }
-
 }
