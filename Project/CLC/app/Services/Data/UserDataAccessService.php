@@ -90,8 +90,7 @@ class UserDataAccessService
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
         }
-        var_dump($user);
-        exit("");
+
         // build query
         $query = $this->ini['User']['create'];
         $statement = $this->conn->prepare($query);
@@ -102,8 +101,7 @@ class UserDataAccessService
         $statement->bindParam(":avatar", $avatar);
         try {
             $statement->execute();
-            // TODO: return all user properties
-            return $statement->rowCount() == 1;
+            return true;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
         }
