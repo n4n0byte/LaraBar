@@ -10,7 +10,6 @@
  */
 ?>
 
-
 <html>
 @php include('resources/assets/snippets/html_head.php');
 @endphp

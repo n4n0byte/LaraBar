@@ -45,7 +45,6 @@ class UserController extends Controller
         
         
         if ($email == ""){
-            
             // inserts data if email is not found
             DB::table('users')->insert(
                 ['email' => $inputEmail, 'password' => $inputPassword, 'firstname' => $inputFirstName, 'lastName' => $inputLastName]

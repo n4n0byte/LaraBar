@@ -1,9 +1,9 @@
 <?php
 
 /*
-version 1.0
+version 1.1
 
-Connor
+Connor / Ali
 CST-256
 January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
@@ -29,13 +29,16 @@ Route::get('/login', function () {
 });
 
 Route::get('/logout', function () {
+    session()->forget('UID');
     return view('welcome');
 });
 Route::post('/login', 'AuthenticationController@login');
 
 Route::get('/home', function () {
-    return view('home');
+    return view('Home');
 }); //TODO change to ask when implemented
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile',function(){
+    return view('profile');
+});

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use PDO;
+use DebugBar\DataCollector\PDO\TraceablePDO;
 
 class DatabaseAccess
 {
