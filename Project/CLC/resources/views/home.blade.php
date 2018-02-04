@@ -1,10 +1,10 @@
 <?php
 /*
-version 0.2
+version 0.3
 
 Connor
 CST-256
-January 24, 2018
+February 3, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
@@ -26,6 +26,7 @@ We used source code from the following websites to complete this assignment: N/A
 <div class="container">
     <div class="pageTitle">
         <h1>Home</h1>
+        <h3>Welcome back, @php echo $user->getFirstname() . " " . $user->getLastname() @endphp </h3>
     </div>
     <div id="welcomeHome">
         <p>Sign-in successful.</p>
