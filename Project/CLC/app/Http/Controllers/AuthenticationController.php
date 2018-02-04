@@ -56,7 +56,7 @@ class AuthenticationController extends Controller
         $service = new UserBusinessService($user);
 
         // attempt registration
-        if ($status = $service->register() > -1) {
+        if ($status = $service->register()) {
             return view("home")->with(['user' => $user]);
         } else {
             return view("register")->with(['user' => $user, 'status' => $status]);
