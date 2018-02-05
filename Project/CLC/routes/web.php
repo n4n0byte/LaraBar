@@ -44,3 +44,4 @@ Route::get('/edit', 'UserProfileEditController@showEditor');
 Route::post('/edit', 'UserProfileEditCont   roller@update');
 Route::get('admin', 'AdminController@index');
 Route::get('admin/suspend/{id}', 'AdminController@suspend');
+Route::get('admin/reactivate/{id}', 'AdminController@reactivate');

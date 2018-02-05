@@ -18,8 +18,9 @@ class AdminController extends Controller
 
         // generate users list
         $temp = new UserModel(0);
-        $service = new UserBusinessService($temp);
-        $userList = $service->listUsers();
+        $userService = new UserBusinessService($temp);
+        $userList = $userService->listUsers();
+
         // return view with users list
         return view("admin")->with(["userList" => $userList]);
     }

@@ -8,7 +8,7 @@ February 4, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
-
+use \App\Services\Business\SuspendUserBusinessService;
 ?>
 <html>
 
@@ -56,12 +56,19 @@ We used source code from the following websites to complete this assignment: N/A
                 /* @var $user \App\Model\UserModel */
                 if (isset($userList))
                 foreach ($userList as $user) {
+                $susService = new SuspendUserBusinessService();
                 ?>
                 <tr>
                     <td>@php echo $user->getId(); @endphp</td>
                     <td>@php echo $user->getEmail(); @endphp</td>
                     <td>
+                        @if($susService->suspensionStatus($user)) {
+                        <a href="admin/reactivate/<?php echo $user->getId(); ?>">Suspend User</a>
+                        }
+                        @else {
                         <a href="admin/suspend/<?php echo $user->getId(); ?>">Suspend User</a>
+                        }
+                        @endif
                     </td>
                 </tr>
                 <?php } ?>
