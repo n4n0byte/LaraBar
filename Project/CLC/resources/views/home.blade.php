@@ -35,21 +35,24 @@ We used source code from the following websites to complete this assignment: N/A
     <li class="nav-item">
         <a class="nav-link" href="logout">Log Out</a>
     </li>
-
+    @if(isset($user) && $user->getAdmin())
+        <li class="nav-item">
+            <a class="nav-link" href="admin">Administrator</a>
+        </li>
+    @endif
 </ul>
-
 
 
 <div class="pageTitle">
 
-        <h1>Home</h1>
-        {{--<h3>Welcome back, @php echo $user->getID() . " " .$user->getFirstname() . " " . $user->getLastname() @endphp </h3>--}}
-        <?php
-            $user = \App\Services\Data\Utilities\DataRetrieval::getModelByUID(3);
-            $user->getEmail();
-        ?>
-    </div>
-    <a href="./logout">Sign out</a>
+    <h1>Home</h1>
+    {{--<h3>Welcome back, @php echo $user->getID() . " " .$user->getFirstname() . " " . $user->getLastname() @endphp </h3>--}}
+    <?php
+    $user = \App\Services\Data\Utilities\DataRetrieval::getModelByUID(3);
+    $user->getEmail();
+    ?>
+</div>
+<a href="./logout">Sign out</a>
 
 </body>
 </html>

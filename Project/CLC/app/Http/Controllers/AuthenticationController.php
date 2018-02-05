@@ -14,9 +14,6 @@ namespace App\Http\Controllers;
 use App\Model\UserModel;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use Symfony\Component\Console\Helper\Table;
 
 class AuthenticationController extends Controller
 {
@@ -86,8 +83,6 @@ class AuthenticationController extends Controller
 
         // attempt login
         if ($status = $service->login()) {
-            session()->put(['UID' => $user->getId()]);
-            session()->save();
             return view("home")->with(['user' => $user]);
         } else {
             return view("login")->with(['user' => $user, 'status' => $status]);
