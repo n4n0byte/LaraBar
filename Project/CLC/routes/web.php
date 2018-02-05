@@ -40,3 +40,5 @@ Route::get('/home', function () {
 
 
 Route::get('/profile', 'UserProfileController@show');
+Route::get('admin', 'AdminController@index');
+Route::get('admin/suspend/{id}', 'AdminController@suspend');

@@ -128,3 +128,37 @@ Did you mean one of these?
 #4 D:\\Users\\Ali\\Documents\\Laravel\\CST256\\Project\\CLC\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #5 {main}
 "} 
+[2018-02-05 01:24:20] local.ERROR: Route is not bound. {"exception":"[object] (LogicException(code: 0): Route is not bound. at C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php:383)
+[stacktrace]
+#0 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(340): Illuminate\\Routing\\Route->parameters()
+#1 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(896): Illuminate\\Routing\\Route->parameter('name')
+#2 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\outes\\web.php(44): Illuminate\\Routing\\Route->__get('name')
+#3 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(393): require('C:\\\\Users\\\\speed\\\\...')
+#4 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(349): Illuminate\\Routing\\Router->loadRoutes('C:\\\\Users\\\\speed\\\\...')
+#5 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteRegistrar.php(105): Illuminate\\Routing\\Router->group(Array, 'C:\\\\Users\\\\speed\\\\...')
+#6 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\app\\Providers\\RouteServiceProvider.php(56): Illuminate\\Routing\\RouteRegistrar->group('C:\\\\Users\\\\speed\\\\...')
+#7 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\app\\Providers\\RouteServiceProvider.php(40): App\\Providers\\RouteServiceProvider->mapWebRoutes()
+#8 [internal function]: App\\Providers\\RouteServiceProvider->map()
+#9 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(29): call_user_func_array(Array, Array)
+#10 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(87): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#11 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(31): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#12 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(549): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#13 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(74): Illuminate\\Container\\Container->call(Array)
+#14 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(33): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->loadRoutes()
+#15 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\app\\Providers\\RouteServiceProvider.php(28): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->boot()
+#16 [internal function]: App\\Providers\\RouteServiceProvider->boot()
+#17 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(29): call_user_func_array(Array, Array)
+#18 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(87): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#19 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(31): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#20 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(549): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#21 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(792): Illuminate\\Container\\Container->call(Array)
+#22 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(775): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\RouteServiceProvider))
+#23 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\RouteServiceProvider), 18)
+#24 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(776): array_walk(Array, Object(Closure))
+#25 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#26 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(213): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#27 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(296): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#28 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(119): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#29 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#30 {main}
+"} 
