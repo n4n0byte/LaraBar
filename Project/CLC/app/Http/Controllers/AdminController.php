@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Http\Request;
 
@@ -26,8 +27,23 @@ class AdminController extends Controller
     public function suspend($userId)
     {
         // create suspended_user business service
+        $service = new SuspendUserBusinessService();
 
         // call suspend user method
+        $user = new UserModel($userId);
+        $service->suspend($user);
+
+        // run index to generate updated user list
+        $this->index("User [$userId] suspended.");
+    }
+
+    public  function reactivate($userId) {
+        // create suspended_user business service
+        $service = new SuspendUserBusinessService();
+
+        // call reactive user method
+        $user = new UserModel($userId);
+        $service->reactivate($user);
 
         // run index to generate updated user list
         $this->index("User [$userId] suspended.");
