@@ -15,9 +15,8 @@ use App\Services\DatabaseAccess;
 use PDO;
 use PDOStatement;
 
-class UserProfileModel
-{
-    private $id, $imgURL, $uid, $bio, $location, $education;
+class UserProfileModel {
+    private $id, $imgURL, $uid, $bio, $location, $education, $employmentHistory;
 
     /**
      * UserModel constructor.
@@ -28,8 +27,8 @@ class UserProfileModel
      * @param $location
      * @param $education
      */
-    public function __construct($imgURL = "", $bio = "", $location = "", $education = "") {
-
+    public function __construct($imgURL = "", $bio = "", $location = "", $education = "", $employmentHistory = "") {
+        $this->employmentHistory = $employmentHistory;
         $this->imgURL = $imgURL;
         $this->bio = $bio;
         $this->location = $location;
@@ -55,6 +54,23 @@ class UserProfileModel
      */
     public function getUid() {
         return $this->uid;
+
+
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id) {
+        $this->id = $id;
     }
 
     /**
@@ -106,6 +122,19 @@ class UserProfileModel
         $this->education = $education;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEmploymentHistory() {
+        return $this->employmentHistory;
+    }
+
+    /**
+     * @param mixed $employmentHistory
+     */
+    public function setEmploymentHistory($employmentHistory) {
+        $this->employmentHistory = $employmentHistory;
+    }
 
 
 }

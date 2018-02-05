@@ -41,56 +41,28 @@ $userProfile = $data['userProfile'];
 </ul>
 
 
+
 <div class="container mx-lg-auto mt-5">
 
-    <div class="card-deck">
+    <form method="post" action="edit">
+        <input type="hidden" <?=csrf_token()?>>
 
-        <div class="card">
-
-            <div class="card-header">
-                <h3>Personal Details</h3>
-            </div>
-
-            <div class="card-body">
-                Name: <?=$user->getFirstName() . " ". $user->getLastName()?> <br>
-                Email: <?=$user->getEmail()?><br>
-                Employment History:<?=$userProfile->getEmploymentHistory()?>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="card mt-5">
-
-        <div class="card-header">
-            <h3 class="p-2">Biography</h3>
+        <div class="form-group">
+            <label class="label">Employment History</label>
+            <textarea class="form-control" name="employmentHistory" cols="40" rows="5"></textarea>
         </div>
 
-        <div class="card-body">
-
-            <div class="container">
-                <?=$userProfile->getBio();?>
-            </div>
-
+        <div class="form-group">
+            <label class="label">Email address</label>
+            <input type="text"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
         </div>
-    </div>
 
-    <div class="card mt-5">
-
-        <div class="card-header">
-            <h3 class="p-2">Education</h3>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
-        <div class="card-body">
-
-            <div class="container">
-                <p>
-                   <?=$userProfile->getEducation()?>
-                </p>
-            </div>
-
-        </div>
-    </div>
-
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
 </div>
 

@@ -40,5 +40,7 @@ Route::get('/home', function () {
 
 
 Route::get('/profile', 'UserProfileController@show');
+Route::get('/edit', 'UserProfileEditController@showEditor');
+Route::post('/edit', 'UserProfileEditController@update');
 Route::get('admin', 'AdminController@index');
 Route::get('admin/suspend/{id}', 'AdminController@suspend');

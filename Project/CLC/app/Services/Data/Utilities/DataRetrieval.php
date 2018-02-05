@@ -108,7 +108,7 @@ class DataRetrieval {
 
             // make sure values were returned
             if ($assoc_array) {
-                $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"],$assoc_array["LOCATION"], $assoc_array["EDUCATION"]);
+                $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"],$assoc_array["LOCATION"], $assoc_array["EDUCATION"], $assoc_array["EMPLOYMENT_HISTORY"]);
                 $user = self::getModelByUID($id);
                 return array('user' => $user, 'userProfile' => $userProfile);
             } else {
