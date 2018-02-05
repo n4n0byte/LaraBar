@@ -112,7 +112,8 @@ class DataRetrieval {
                 $user = self::getModelByUID($id);
                 return array('user' => $user, 'userProfile' => $userProfile);
             } else {
-                exit("Error");
+                var_dump($assoc_array);
+                exit("END - ERROR");
             }
             return FALSE;
         } catch (PDOException $e) {
