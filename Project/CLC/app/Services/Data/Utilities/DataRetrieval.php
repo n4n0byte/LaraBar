@@ -1,13 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: George
- * Date: 2/4/2018
- * Time: 3:20 AM
- */
+/*
+version 1.0
+
+Ali
+CST-256
+January 31, 2018
+This assignment was completed in collaboration with Connor Low, Ali Cooper.
+We used source code from the following websites to complete this assignment: N/A
+*/
 
 namespace App\Services\Data\Utilities;
 use App\Model\UserModel;
+use App\Model\UserProfileModel;
 use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
@@ -83,6 +87,38 @@ class DataRetrieval {
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
+    }
+
+
+    public static function getUserProfileById(){
+        $id = session('UID');
+
+        $conn = DatabaseAccess::connect();
+
+        // build query
+        $query = self::getParsedIni()['UserProfile']['select'];
+        $statement = $conn->prepare($query);
+        $statement->bindParam(":id", $id);
+        $userProfile = null;
+
+        try {
+            $statement->execute();
+            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
+
+            // make sure values were returned
+            if ($assoc_array) {
+                $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"],$assoc_array["LOCATION"], $assoc_array["EDUCATION"]);
+                $user = self::getModelByUID($id);
+                return ['user' => $user, 'userProfile' => $userProfile];
+            } else {
+                exit("Error");
+            }
+            return FALSE;
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
+        }
+
+
     }
 
 }

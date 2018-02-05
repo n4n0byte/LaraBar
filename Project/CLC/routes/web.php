@@ -39,6 +39,4 @@ Route::get('/home', function () {
 }); //TODO change to ask when implemented
 
 
-Route::get('/profile',function(){
-    return view('profile');
-});
+Route::get('/profile', 'UserProfileController@show');

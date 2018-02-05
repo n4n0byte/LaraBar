@@ -15,9 +15,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Symfony\Component\Console\Helper\Table;
+use \App\Services\Data\UserProfileDataAccessService;
 
 class UserProfileController extends Controller{
 
-
+    function show(){
+        $profile = new UserProfileDataAccessService();
+        return view('profile');
+    }
 
 }

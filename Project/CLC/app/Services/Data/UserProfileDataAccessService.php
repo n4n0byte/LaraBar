@@ -12,10 +12,12 @@
 namespace App\Services\Data;
 
 use App\Model\UserModel;
+use App\Services\Data\Utilities\DataRetrieval;
+use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
 
-class UserProfileService
+class UserProfileDataAccessService
 {
     private $conn, $ini;
 
@@ -23,9 +25,9 @@ class UserProfileService
      * UserDataAccessService constructor.
      * @param $conn
      */
-    public function __construct(PDO $conn)
+    public function __construct()
     {
-        $this->conn = $conn;
+        $this->conn = DatabaseAccess::connect();
         $this->ini = parse_ini_file("db.ini", true);
     }
 
@@ -34,38 +36,9 @@ class UserProfileService
      * @param bool $login
      * @return UserModel|bool|int
      */
-    public function read(UserModel $user, $login = TRUE)
-    { // $login should control if one or all users are selected
-        $email = $user->getEmail();
-        $password = $user->getPassword();
-
-
-
-        // build query
-        $query = $login ? $this->ini['User']['select.login'] : $this->ini['User']['select.all'];
-        $statement = $this->conn->prepare($query);
-        $statement->bindParam(":email", $email);
-        $statement->bindParam(":password", $password);
-
-        try {
-            $statement->execute();
-            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
-
-            // make sure values were returned
-            if ($assoc_array) {
-                $user->setId($assoc_array["ID"]);
-                $user->setEmail($assoc_array["EMAIL"]);
-                $user->setPassword($assoc_array["PASSWORD"]);
-                $user->setFirstName($assoc_array["FIRSTNAME"]);
-                $user->setLastName($assoc_array["LASTNAME"]);
-                $user->setAvatar($assoc_array["AVATAR"]);
-                return $user;
-
-            }
-            return FALSE;
-        } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
-        }
+    public function read()
+    {
+        DataRetrieval::getUserProfileById(session('id'));
     }
 
     /**
