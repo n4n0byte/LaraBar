@@ -7,6 +7,8 @@ January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+$user = $data['user'];
+$userProfile = $data['userProfile']
 ?>
 
 <html>
@@ -46,9 +48,8 @@ We used source code from the following websites to complete this assignment: N/A
         <div class="card">
 
             <div class="card-header">
-                Username: JohnDoe<br>
-                Name: John Doe <br>
-                Email: test@test.test
+                Name: <?=$user->getFirstName() . " ". $user->getLastName()?> <br>
+                Email: <?=$user->getEmail()?><br>
             </div>
 
             <div class="card-body">

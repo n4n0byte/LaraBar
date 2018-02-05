@@ -12,6 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Services\Data\Utilities;
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
+use App\Services\Data\UserProfileDataAccessService;
 use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
@@ -109,7 +110,7 @@ class DataRetrieval {
             if ($assoc_array) {
                 $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"],$assoc_array["LOCATION"], $assoc_array["EDUCATION"]);
                 $user = self::getModelByUID($id);
-                return ['user' => $user, 'userProfile' => $userProfile];
+                return array('user' => $user, 'userProfile' => $userProfile);
             } else {
                 exit("Error");
             }

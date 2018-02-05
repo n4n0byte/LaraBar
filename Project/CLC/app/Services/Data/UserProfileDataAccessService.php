@@ -38,7 +38,7 @@ class UserProfileDataAccessService
      */
     public function read()
     {
-        DataRetrieval::getUserProfileById(session('id'));
+        return DataRetrieval::getUserProfileById(session('id'));
     }
 
     /**
