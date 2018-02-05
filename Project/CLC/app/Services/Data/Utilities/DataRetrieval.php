@@ -25,6 +25,17 @@ class DataRetrieval {
         return  parse_ini_file(self::$iniPath, true);
     }
 
+    static function hasProfile(){
+        $id = session('uid');
+        $conn = DatabaseAccess::connect();
+
+        // build query
+        $query = self::getParsedIni()['User']['select'] . " ID = :id;";
+        $statement = $conn->prepare($query);
+        $statement->bindParam(":id", $id);
+        $user = new UserModel(0, "", "");
+    }
+
     static function getModelByUID($id){
         $conn = DatabaseAccess::connect();
 
@@ -48,7 +59,7 @@ class DataRetrieval {
                 $user->setAvatar($assoc_array["AVATAR"]);
                 return $user;
             } else {
-                exit("Error");
+                return new UserModel(session('UID'));
             }
             return FALSE;
         } catch (PDOException $e) {
@@ -106,21 +117,12 @@ class DataRetrieval {
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
-            // make sure values were returned
-            if ($assoc_array) {
-                $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"],$assoc_array["LOCATION"], $assoc_array["EDUCATION"], $assoc_array["EMPLOYMENT_HISTORY"]);
-                $user = self::getModelByUID($id);
-                return array('user' => $user, 'userProfile' => $userProfile);
-            } else {
-                var_dump($assoc_array);
-                exit("END - ERROR");
-            }
-            return FALSE;
+            $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"],$assoc_array["LOCATION"], $assoc_array["EDUCATION"], $assoc_array["EMPLOYMENT_HISTORY"]);
+            $user = self::getModelByUID($id);
+            return array('user' => $user, 'userProfile' => $userProfile);
+
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
-
-
     }
-
 }
