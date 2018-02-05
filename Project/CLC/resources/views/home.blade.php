@@ -37,7 +37,7 @@ We used source code from the following websites to complete this assignment: N/A
     </li>
     @if(isset($user) && $user->getAdmin())
         <li class="nav-item">
-            <a class="nav-link" href="Admin">Administrator</a>
+            <a class="nav-link" href="admin">Administrator</a>
         </li>
     @endif
 </ul>
