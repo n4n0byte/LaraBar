@@ -53,8 +53,8 @@ $userProfile = $data['userProfile'];
         </div>
 
         <div class="form-group">
-            <label class="label">Email address</label>
-            <input type="text"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <label class="label">Education</label>
+            <textarea class="form-control" name="" >
         </div>
 
         <div class="form-group">
