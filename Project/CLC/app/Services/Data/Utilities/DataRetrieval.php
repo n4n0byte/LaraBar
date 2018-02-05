@@ -124,8 +124,5 @@ class DataRetrieval {
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
-
-
     }
-
 }

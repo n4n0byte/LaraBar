@@ -24,7 +24,6 @@ class UserProfileDataAccessService
 
     /**
      * UserDataAccessService constructor.
-     * @param $conn
      */
     public function __construct()
     {
@@ -33,8 +32,6 @@ class UserProfileDataAccessService
     }
 
     /**
-     * @param UserModel $user
-     * @param bool $login
      * @return UserModel|bool|int
      */
     public function read()
