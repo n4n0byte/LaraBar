@@ -70,6 +70,8 @@ class UserDataAccessService
             // make sure values were returned
             if ($assoc_array) {
                 $user->setId($assoc_array["ID"]);
+                session()->put(['UID'=>$user->getId()]);
+                session()->save();
                 $user->setEmail($assoc_array["EMAIL"]);
                 $user->setPassword($assoc_array["PASSWORD"]);
                 if (!is_null($assoc_array["FIRSTNAME"]))

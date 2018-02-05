@@ -14,7 +14,6 @@ namespace App\Services\Business;
 use App\Model\UserModel;
 use App\Services\Data\UserDataAccessService;
 use App\Services\DatabaseAccess;
-use App\User;
 use PDOException;
 
 /**

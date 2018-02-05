@@ -55,7 +55,9 @@ class AuthenticationController extends Controller
 
         // attempt registration
         if ($status = $service->register()) {
-            return view("home")->with(['user' => $user]);
+            session()->put(['UID' => $user->getId()]);
+            session()->save();
+            return view("welcome");
         } else {
             return view("register")->with(['user' => $user, 'status' => $status]);
         }
@@ -85,7 +87,8 @@ class AuthenticationController extends Controller
         // attempt login
         if ($status = $service->login()) {
             $susService = new SuspendUserBusinessService();
-
+            session()->put(['UID' => $user->getId()]);
+            session()->save();
             return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
         } else {
             return view("login")->with(['user' => $user, 'status' => $status]);
