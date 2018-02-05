@@ -115,7 +115,8 @@ class UserBusinessService
         $users = array();
         $i = 0;
         foreach($list as $item) {
-            $users[$i++] = new UserModel($item["ID"], $item["EMAIL"]);
+            $users[$i] = new UserModel($item["ID"], $item["EMAIL"]);
+            $users[$i++]->setAdmin($item["ADMIN"]);
         }
         return $users;
     }

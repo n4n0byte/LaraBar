@@ -1,8 +1,8 @@
 <?php
 /*
-version 1.0
+version 1.1
 
-Ali, Connor
+Connor, Ali
 CST-256
 February 4, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
@@ -27,19 +27,19 @@ use \App\Services\Business\SuspendUserBusinessService;
     <nav class="nav-pills">
         <ul class="nav nav-tabs justify-content-end  ">
             <li class="nav-item">
-                <a class="nav-link" href="home">Home</a>
+                <a class="nav-link" href="/CLC/home">Home</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="profile">Profile</a>
+                <a class="nav-link" href="/CLC/profile">Profile</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="logout">Log Out</a>
+                <a class="nav-link" href="/CLC/logout">Log Out</a>
             </li>
             @if(isset($user) && $user->getAdmin())
                 <li class="nav-item">
-                    <a class="nav-link" href="admin">Administrator</a>
+                    <a class="nav-link" href="/CLC/admin">Administrator</a>
                 </li>
             @endif
         </ul>
@@ -62,12 +62,12 @@ use \App\Services\Business\SuspendUserBusinessService;
                     <td>@php echo $user->getId(); @endphp</td>
                     <td>@php echo $user->getEmail(); @endphp</td>
                     <td>
-                        @if($susService->suspensionStatus($user)) {
-                        <a href="admin/reactivate/<?php echo $user->getId(); ?>">Suspend User</a>
-                        }
-                        @else {
-                        <a href="admin/suspend/<?php echo $user->getId(); ?>">Suspend User</a>
-                        }
+                        @if($user->getAdmin())
+                            <p>[ADMIN]</p>
+                        @elseif($susService->suspensionStatus($user))
+                            <a href="/CLC/admin/reactivate/<?php echo $user->getId(); ?>">Reactivate User</a>
+                        @else
+                            <a href="/CLC/admin/suspend/<?php echo $user->getId(); ?>">Suspend User</a>
                         @endif
                     </td>
                 </tr>

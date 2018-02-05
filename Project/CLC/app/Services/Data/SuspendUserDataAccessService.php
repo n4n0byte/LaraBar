@@ -1,4 +1,13 @@
 <?php
+/*
+version 1.1
+
+Connor, Ali
+CST-256
+February 4, 2018
+This assignment was completed in collaboration with Connor Low, Ali Cooper.
+We used source code from the following websites to complete this assignment: N/A
+*/
 
 namespace App\Services\Data;
 
@@ -30,16 +39,18 @@ class SuspendUserDataAccessService
 
         // make sure user is not an admin
         $userDAS = new UserDataAccessService($this->conn);
-        $result = $userDAS->read($user);
-        if ($result->getAdmin())
+        $result = $userDAS->selectUserById($user);
+
+        if ($result["ADMIN"] == 1)
             return FALSE;
 
         // suspend user
         $id = $user->getId();
-        $query = $this->ini["Suspended_users"]["insert"];
+        $query = $this->ini["Suspended_users"]["create"];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $id);
         try {
+
             return $statement->execute();
         } catch (PDOException $e) {
             throw new PDOException("Exception in SuspendDAO::suspend\n" . $e->getMessage());
@@ -63,7 +74,13 @@ class SuspendUserDataAccessService
         }
     }
 
-    public function checkSuspended(UserModel $user) {
+    /**
+     * Returns TRUE if suspended
+     * @param UserModel $user
+     * @return bool
+     */
+    public function checkSuspended(UserModel $user)
+    {
         $id = $user->getId();
         $query = $this->ini["Suspended_users"]["select.id"];
         $statement = $this->conn->prepare($query);

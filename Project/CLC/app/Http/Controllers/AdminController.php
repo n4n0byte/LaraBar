@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     //
-    public function index($message)
+    public function index($message = "")
     {
         // TODO add page for insufficient role-access
         if (!$this->isAdmin())
@@ -35,7 +35,7 @@ class AdminController extends Controller
         $service->suspend($user);
 
         // run index to generate updated user list
-        $this->index("User [$userId] suspended.");
+        return $this->index("User [$userId] suspended.");
     }
 
     public  function reactivate($userId) {
@@ -47,7 +47,7 @@ class AdminController extends Controller
         $service->reactivate($user);
 
         // run index to generate updated user list
-        $this->index("User [$userId] suspended.");
+        return $this->index("User [$userId] suspended.");
     }
 
     private function isAdmin()

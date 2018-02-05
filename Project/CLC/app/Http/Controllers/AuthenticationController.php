@@ -1,10 +1,10 @@
 <?php
 /*
-version 1.1
+version 2.1
 
 Ali, Connor
 CST-256
-January 31, 2018
+February 4, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
@@ -12,6 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Http\Request;
 
@@ -83,7 +84,9 @@ class AuthenticationController extends Controller
 
         // attempt login
         if ($status = $service->login()) {
-            return view("home")->with(['user' => $user]);
+            $susService = new SuspendUserBusinessService();
+
+            return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
         } else {
             return view("login")->with(['user' => $user, 'status' => $status]);
         }

@@ -31,6 +31,26 @@ class UserDataAccessService
     }
 
     /**
+     * @param $user
+     * @return mixed
+     */
+    public function selectUserById(UserModel $user)
+    {
+        $query = $this->ini["User"]["select.id"];
+        $statement = $this->conn->prepare($query);
+        $id = $user->getId();
+        $statement->bindParam(":id", $id);
+        try {
+            $statement->execute();
+            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
+            return $assoc_array;
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+        }
+    }
+
+    /**
      * @param UserModel $user
      * @return UserModel|bool|int
      */
@@ -71,9 +91,6 @@ class UserDataAccessService
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function readAll()
     {
         $query = $this->ini["User"]["select.all"];

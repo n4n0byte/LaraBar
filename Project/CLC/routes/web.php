@@ -1,11 +1,11 @@
 <?php
 
 /*
-version 1.1
+version 2.3
 
 Connor / Ali
 CST-256
-January 24, 2018
+February 4, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
