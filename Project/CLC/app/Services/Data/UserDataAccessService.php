@@ -103,7 +103,7 @@ class UserDataAccessService
             $statement->execute();
             return true;
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
+            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
         }
     }
 }

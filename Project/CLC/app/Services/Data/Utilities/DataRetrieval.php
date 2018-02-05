@@ -16,44 +16,15 @@ class DataRetrieval {
 
     private static $iniPath = "app/Services/Data/db.ini";
 
-    static function getParsedIni(){
+    public static function getParsedIni(){
         return  parse_ini_file(self::$iniPath, true);
     }
 
-    static function getModelByUID($id){
-        $conn = DatabaseAccess::connect();
-
-        // build query
-        $query = self::getParsedIni()['User']['select'] . " ID = :id;";
-        $statement = $conn->prepare($query);
-        $statement->bindParam(":id", $id);
-        $user = new UserModel(0, "", "");
-
-        try {
-            $statement->execute();
-            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
-
-            // make sure values were returned
-            if ($assoc_array) {
-                $user->setId($assoc_array["ID"]);
-                $user->setEmail($assoc_array["EMAIL"]);
-                $user->setPassword($assoc_array["PASSWORD"]);
-                $user->setFirstName($assoc_array["FIRSTNAME"]);
-                $user->setLastName($assoc_array["LASTNAME"]);
-                $user->setAvatar($assoc_array["AVATAR"]);
-                return $user;
-            } else {
-                exit("Error");
-            }
-            return FALSE;
-        } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
-        }
+    public static function getModelByUID($id){
+       return self::getUserModelByAttr("ID",$id);
     }
 
-
-
-    static function getUserModelByAttr($colName, $varName){
+    public static function getUserModelByAttr($colName, $varName){
 
         $conn = DatabaseAccess::connect();
 
@@ -84,5 +55,11 @@ class DataRetrieval {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
     }
+
+    public static function getUser(){
+
+    }
+
+
 
 }
