@@ -95,6 +95,7 @@ $userProfile = $data['userProfile']
         <div class="card-body">
 
             <div class="container">
+                <?=$userProfile->getBio();?>
             </div>
 
         </div>
