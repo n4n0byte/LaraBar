@@ -12,8 +12,15 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+.particles-js{
+  height: 100%;
+  z-index: auto;
+}
+
 body {
   margin: 0;
+  padding: 0;
+  height: 100vh;
 }
 
 article,

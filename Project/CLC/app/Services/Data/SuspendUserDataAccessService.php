@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Services\Data;
+
+use App\Model\UserModel;
+use PDO;
+use PDOException;
+
+class SuspendUserDataAccessService
+{
+    private $ini, $conn;
+
+    /**
+     * SuspendUserDataAccessService constructor.
+     * @param $conn
+     */
+    public function __construct(PDO $conn)
+    {
+        $this->conn = $conn;
+        $this->ini = parse_ini_file("db.ini", true);
+    }
+
+    /**
+     * @param UserModel $user
+     * @return bool
+     */
+    public function suspend(UserModel $user)
+    {
+        // TODO check for existing suspended record
+
+        // make sure user is not an admin
+        $userDAS = new UserDataAccessService($this->conn);
+        $result = $userDAS->read($user);
+        if ($result->getAdmin())
+            return FALSE;
+
+        // suspend user
+        $id = $user->getId();
+        $query = $this->ini["Suspended_users"]["insert"];
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(":id", $id);
+        try {
+            return $statement->execute();
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SuspendDAO::suspend\n" . $e->getMessage());
+        }
+    }
+
+    /**
+     * @param UserModel $user
+     * @return bool
+     */
+    public function reactivate(UserModel $user)
+    {
+        $id = $user->getId();
+        $query = $this->ini["Suspended_users"]["delete"];
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(":id", $id);
+        try {
+            return $statement->execute();
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SuspendDAO::reactivate\n" . $e->getMessage());
+        }
+    }
+
+    public function checkSuspended(UserModel $user) {
+        $id = $user->getId();
+        $query = $this->ini["Suspended_users"]["select.id"];
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(":id", $id);
+        try {
+            $statement->execute();
+            return $statement->rowCount() > 0;
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SuspendDAO::reactivate\n" . $e->getMessage());
+        }
+    }
+}
