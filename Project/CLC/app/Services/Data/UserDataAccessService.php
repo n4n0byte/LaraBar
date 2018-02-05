@@ -32,16 +32,15 @@ class UserDataAccessService
 
     /**
      * @param UserModel $user
-     * @param bool $login
      * @return UserModel|bool|int
      */
-    public function read(UserModel $user, $login = TRUE)
+    public function read(UserModel $user)
     { // $login should control if one or all users are selected
         $email = $user->getEmail();
         $password = $user->getPassword();
 
         // build query
-        $query = $login ? $this->ini['User']['select.login'] : $this->ini['User']['select.all'];
+        $query = $this->ini['User']['select.login'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
@@ -69,6 +68,22 @@ class UserDataAccessService
             return FALSE;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function readAll()
+    {
+        $query = $this->ini["User"]["select.all"];
+        $statement = $this->conn->prepare($query);
+        try {
+            $statement->execute();
+            $assoc_array = $statement->fetchAll();
+            return $assoc_array;
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
         }
     }
 

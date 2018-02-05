@@ -14,6 +14,7 @@ namespace App\Services\Business;
 use App\Model\UserModel;
 use App\Services\Data\UserDataAccessService;
 use App\Services\DatabaseAccess;
+use App\User;
 use PDOException;
 
 /**
@@ -107,6 +108,17 @@ class UserBusinessService
         return TRUE;
     }
 
-    
+    public function listUsers() {
+        $conn = DatabaseAccess::connect();
+        $das = new UserDataAccessService($conn);
+        $list = $das->readAll();
+        $users = array();
+        $i = 0;
+        foreach($list as $item) {
+            $users[$i++] = new UserModel($item["ID"], $item["EMAIL"]);
+        }
+        return $users;
+    }
+
 }
 
