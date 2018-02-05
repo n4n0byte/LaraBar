@@ -12,6 +12,7 @@
 namespace App\Services\Data;
 
 use App\Model\UserModel;
+use App\Services\Data\Utilities\DataEdit;
 use App\Services\Data\Utilities\DataRetrieval;
 use App\Services\DatabaseAccess;
 use PDO;
@@ -39,6 +40,10 @@ class UserProfileDataAccessService
     public function read()
     {
         return DataRetrieval::getUserProfileById(session('id'));
+    }
+
+    public function update($employmentHistory, $location, $education, $bio){
+        DataEdit::updateProfile($employmentHistory, $location, $education, $bio);
     }
 
     /**

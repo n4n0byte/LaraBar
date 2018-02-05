@@ -45,25 +45,30 @@ $userProfile = $data['userProfile'];
 <div class="container mx-lg-auto mt-5">
 
     <form method="post" action="edit">
-        <input type="hidden" <?=csrf_token()?>>
+        <input type="hidden" name="_token" value="@php echo csrf_token() @endphp">
+
+        <div class="form-group">
+            <label class="label">Biography</label>
+            <textarea class="form-control" name="bio" cols="40" rows="5" ><?php echo $userProfile->getBio()?></textarea>
+        </div>
+
 
         <div class="form-group">
             <label class="label">Employment History</label>
-            <textarea class="form-control" name="employmentHistory" cols="40" rows="5"></textarea>
+            <textarea class="form-control" name="employmentHistory" cols="40" rows="5"><?= $userProfile->getEmploymentHistory()?></textarea>
         </div>
 
         <div class="form-group">
             <label class="label">Education</label>
-            <textarea class="form-control" name="education" ></textarea>
+            <textarea class="form-control" name="education" ><?= $userProfile->getEducation()?></textarea>
         </div>
 
         <div class="form-group">
-            <label for="exampleInputPassword1">Location</label>
-            <input type="text" class="form-control">
+            <label class="label">Location</label>
+            <input name="location" type="text" class="form-control" value="<?= $userProfile->getLocation()?>">
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        <button type="submit" class="btn btn-outline-primary btn-block">Done</button>
     </form>
-
 </div>
 
 

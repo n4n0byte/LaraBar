@@ -91,6 +91,21 @@ $userProfile = $data['userProfile'];
         </div>
     </div>
 
+    <div class="card mt-5">
+
+        <div class="card-header">
+            <h3 class="p-2">Location</h3>
+        </div>
+        <div class="card-body">
+
+            <div class="container">
+                <p>
+                    <?=$userProfile->getLocation()?>
+                </p>
+            </div>
+
+        </div>
+    </div>
 
 </div>
 
