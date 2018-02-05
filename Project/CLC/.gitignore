@@ -2,3 +2,4 @@
 build.properties
 /vendor/
 vendor.old/
+/node_modules
