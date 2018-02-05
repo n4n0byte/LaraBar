@@ -61,7 +61,7 @@ We used source code from the following websites to complete this assignment: N/A
                     <td>@php echo $user->getId(); @endphp</td>
                     <td>@php echo $user->getEmail(); @endphp</td>
                     <td>
-                        <a href="admin/suspend/<?php echo $user->getId(); ?>"></a>
+                        <a href="admin/suspend/<?php echo $user->getId(); ?>">Suspend User</a>
                     </td>
                 </tr>
                 <?php } ?>
