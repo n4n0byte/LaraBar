@@ -48,15 +48,21 @@ class UserDataAccessService
         try {
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
-
             // make sure values were returned
             if ($assoc_array) {
                 $user->setId($assoc_array["ID"]);
                 $user->setEmail($assoc_array["EMAIL"]);
                 $user->setPassword($assoc_array["PASSWORD"]);
-                $user->setFirstName($assoc_array["FIRSTNAME"]);
-                $user->setLastName($assoc_array["LASTNAME"]);
-                $user->setAvatar($assoc_array["AVATAR"]);
+                if (!is_null($assoc_array["FIRSTNAME"]))
+                    $user->setFirstName($assoc_array["FIRSTNAME"]);
+                if (!is_null($assoc_array["LASTNAME"]))
+                    $user->setLastName($assoc_array["LASTNAME"]);
+                if (!is_null($assoc_array["AVATAR"]))
+                    $user->setAvatar($assoc_array["AVATAR"]);
+                if (!is_null($assoc_array["ADMIN"]))
+                    $user->setAdmin($assoc_array["ADMIN"]);
+                // TODO return warning if information is missing
+
                 return $user;
 
             }
@@ -103,7 +109,7 @@ class UserDataAccessService
             $statement->execute();
             return true;
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+            throw new PDOException("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
         }
     }
 }
