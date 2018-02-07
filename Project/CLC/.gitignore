@@ -1,5 +1,5 @@
 .idea
 build.properties
-/vendor/
+/vendor
 vendor.old/
 /node_modules
