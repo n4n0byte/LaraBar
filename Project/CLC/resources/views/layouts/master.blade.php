@@ -33,7 +33,7 @@ We used source code from the following websites to complete this assignment:
 <div id="overlay">
     @yield('navbar')
 
-    <div class="container">
+    <div class="container" style="margin: 150px auto;">
         @yield('content')
     </div>
 

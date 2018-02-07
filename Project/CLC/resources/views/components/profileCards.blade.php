@@ -1,4 +1,4 @@
-<div class="card mt-5 card-outline-secondary">
+<div class="card mt-2 card-outline-secondary">
 
         <div class="card-header">
             <h3 class="p-2">{{$title}}:</h3>
