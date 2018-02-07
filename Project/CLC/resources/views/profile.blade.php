@@ -12,91 +12,36 @@ $userProfile = $data['userProfile'];
 ?>
 
 @extends('layouts.master')
+
 @section('title','Profile')
 
 @section('navbar')
-<ul class="nav nav-tabs justify-content-end ">
-    <li class="nav-item">
-        <a class="nav-link" href="home">Home</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="edit">Edit</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="logout">Log Out</a>
-    </li>
-
-</ul>
+    @component('components.navbar')
+        @component('components.navItem', ['title' => 'Home', 'uri' => '/home'])@endcomponent
+        @component('components.navItem', ['title' => 'Edit', 'uri' => '/edit'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/logout'])@endcomponent
+    @endcomponent
 @endsection
 
-@section('body')
-<div class="container mx-lg-auto mt-5">
 
-    <div class="card-deck">
+@section('content')
 
-        <div class="card">
+    @component('components.personalInfoCard',['firstName' => $user->getFirstName(),
+                                              'lastName' => $user->getLastName(),
+                                              'email' => $user->getEmail() ])
+    @endcomponent
 
-            <div class="card-header">
-                <h3>Personal Details</h3>
-            </div>
+    @component('components.profileCards',['title' => 'Biography','info' => $userProfile->getBio()])
+    @endcomponent
 
-            <div class="card-body">
-                Name: <?=$user->getFirstName() . " ". $user->getLastName()?> <br>
-                Email: <?=$user->getEmail()?><br>
-                Employment History:<?=$userProfile->getEmploymentHistory()?>
+    @component('components.profileCards',['title' => 'Education','info' => $userProfile->getEducation()])
+    @endcomponent
 
-            </div>
-        </div>
-    </div>
+    @component('components.profileCards',['title' => 'Location','info' => $userProfile->getlocation()])
+    @endcomponent
 
-    <div class="card mt-5">
+    @component('components.profileCards',['title' => 'Employment History','info' =>
+                                            $userProfile->getEmploymentHistory()])
+    @endcomponent
 
-        <div class="card-header">
-            <h3 class="p-2">Biography</h3>
-        </div>
-
-        <div class="card-body">
-
-            <div class="container">
-                <?=$userProfile->getBio();?>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="card mt-5">
-
-        <div class="card-header">
-            <h3 class="p-2">Education</h3>
-        </div>
-        <div class="card-body">
-
-            <div class="container">
-                <p>
-                   <?=$userProfile->getEducation()?>
-                </p>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="card mt-5">
-
-        <div class="card-header">
-            <h3 class="p-2">Location</h3>
-        </div>
-        <div class="card-body">
-
-            <div class="container">
-                <p>
-                    <?=$userProfile->getLocation()?>
-                </p>
-            </div>
-
-        </div>
-    </div>
-
-</div>
 @endsection

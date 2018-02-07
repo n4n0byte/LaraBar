@@ -52,7 +52,6 @@ class AuthenticationController extends Controller
 
         // create a business service
         $service = new UserBusinessService($user);
-
         // attempt registration
         if ($status = $service->register()) {
             session()->put(['UID' => $user->getId()]);

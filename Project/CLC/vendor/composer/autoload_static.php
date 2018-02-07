@@ -12,10 +12,10 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -102,6 +102,8 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
         ),
         'A' => 
         array (
+            'Appstract\\BootstrapComponents\\' => 30,
+            'Appstract\\BladeDirectives\\' => 26,
             'App\\' => 4,
         ),
     );
@@ -110,8 +112,8 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -265,6 +267,14 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
         ),
+        'Appstract\\BootstrapComponents\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/appstract/laravel-bootstrap-components/src',
+        ),
+        'Appstract\\BladeDirectives\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/appstract/laravel-blade-directives/src',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -313,6 +323,7 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -320,7 +331,8 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
         'App\\Http\\Controllers\\AuthenticationController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthenticationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
-        'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
+        'App\\Http\\Controllers\\UserProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserProfileController.php',
+        'App\\Http\\Controllers\\UserProfileEditController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserProfileEditController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
@@ -328,7 +340,6 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Resources\\a' => __DIR__ . '/../..' . '/app/Http/Resources/a.php',
-        'App\\Model\\JobHistoryModel' => __DIR__ . '/../..' . '/app/Model/JobHistoryModel.php',
         'App\\Model\\UserModel' => __DIR__ . '/../..' . '/app/Model/UserModel.php',
         'App\\Model\\UserProfileModel' => __DIR__ . '/../..' . '/app/Model/UserProfileModel.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -336,11 +347,22 @@ class ComposerStaticInit9af9d17337e8446e64e48181188ab5bc
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Services\\Business\\SuspendUserBusinessService' => __DIR__ . '/../..' . '/app/Services/Business/SuspendUserBusinessService.php',
         'App\\Services\\Business\\UserBusinessService' => __DIR__ . '/../..' . '/app/Services/Business/UserBusinessService.php',
+        'App\\Services\\Business\\UserProfileBusinessService' => __DIR__ . '/../..' . '/app/Services/Business/UserProfileBusinessService.php',
+        'App\\Services\\Data\\SuspendUserDataAccessService' => __DIR__ . '/../..' . '/app/Services/Data/SuspendUserDataAccessService.php',
         'App\\Services\\Data\\UserDataAccessService' => __DIR__ . '/../..' . '/app/Services/Data/UserDataAccessService.php',
-        'App\\Services\\Data\\UserProfileService' => __DIR__ . '/../..' . '/app/Services/Data/UserProfileDataAccessService.php',
+        'App\\Services\\Data\\UserEmploymentHistoryDataAccessService' => __DIR__ . '/../..' . '/app/Services/Data/UserEmploymentHistoryDataAccessService.php',
+        'App\\Services\\Data\\UserProfileDataAccessService' => __DIR__ . '/../..' . '/app/Services/Data/UserProfileDataAccessService.php',
+        'App\\Services\\Data\\Utilities\\DataEdit' => __DIR__ . '/../..' . '/app/Services/Data/Utilities/DataEdit.php',
         'App\\Services\\Data\\Utilities\\DataRetrieval' => __DIR__ . '/../..' . '/app/Services/Data/Utilities/DataRetrieval.php',
         'App\\Services\\DatabaseAccess' => __DIR__ . '/../..' . '/app/Services/DatabaseAccess.php',
+        'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'Appstract\\BladeDirectives\\BladeDirectivesServiceProvider' => __DIR__ . '/..' . '/appstract/laravel-blade-directives/src/BladeDirectivesServiceProvider.php',
+        'Appstract\\BladeDirectives\\DirectivesRepository' => __DIR__ . '/..' . '/appstract/laravel-blade-directives/src/DirectivesRepository.php',
+        'Appstract\\BootstrapComponents\\BootstrapComponentsClass' => __DIR__ . '/..' . '/appstract/laravel-bootstrap-components/src/BootstrapComponentsClass.php',
+        'Appstract\\BootstrapComponents\\BootstrapComponentsFacade' => __DIR__ . '/..' . '/appstract/laravel-bootstrap-components/src/BootstrapComponentsFacade.php',
+        'Appstract\\BootstrapComponents\\BootstrapComponentsServiceProvider' => __DIR__ . '/..' . '/appstract/laravel-bootstrap-components/src/BootstrapComponentsServiceProvider.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',

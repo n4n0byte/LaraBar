@@ -11,68 +11,33 @@ $user = $data['user'];
 $userProfile = $data['userProfile'];
 ?>
 
-<html>
+@extends('layouts.master')
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/resources/assets/css/bootstrap.css">
-    <script src="/resources/assets/js/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="/resources/assets/js/bootstrap.js"></script>
-    <script src="/resources/assets/js/bootstrap.bundle.js"></script>
-    <title>Create Account</title>
-</head>
+@section('title','Profile')
 
-<body>
+@section('navbar')
+    @component('components.navbar')
+        @component('components.navItem', ['title' => 'Home', 'uri' => '/home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => '/profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/logout'])@endcomponent
+    @endcomponent
+@endsection
 
-<ul class="nav nav-tabs justify-content-end ">
-    <li class="nav-item">
-        <a class="nav-link" href="home">Home</a>
-    </li>
+@section('content')
 
-    <li class="nav-item">
-        <a class="nav-link" href="profile">Profile</a>
-    </li>
+    @component('components.form',['method' => 'POST', 'action' => '/register'])
+        @component('components.editTextArea',['label' => 'Biography', 'data' => $userProfile->getBio(),
+                                                  'name' => 'bio'])@endcomponent
+        @component('components.editTextArea',['label' => 'Employment History', 'data' => $userProfile->getEmploymentHistory(),
+                                                 'name' => 'employmentHistory'])@endcomponent
 
-    <li class="nav-item">
-        <a class="nav-link" href="logout">Log Out</a>
-    </li>
+        @component('components.editTextArea',['label' => 'Education', 'data' => $userProfile->getEducation(),
+                                                 'name' => 'education'])@endcomponent
 
-</ul>
+        @component('components.editTextInput',['label' => 'Location', 'data' => $userProfile->getLocation(),
+                                                 'name' => 'location'])@endcomponent
 
+        @component('components.submitButton')@endcomponent
+    @endcomponent
 
-
-<div class="container mx-lg-auto mt-5">
-
-    <form method="post" action="edit">
-        <input type="hidden" name="_token" value="@php echo csrf_token() @endphp">
-
-        <div class="form-group">
-            <label class="label">Biography</label>
-            <textarea class="form-control" name="bio" cols="40" rows="5" ><?php echo $userProfile->getBio()?></textarea>
-        </div>
-
-
-        <div class="form-group">
-            <label class="label">Employment History</label>
-            <textarea class="form-control" name="employmentHistory" cols="40" rows="5"><?= $userProfile->getEmploymentHistory()?></textarea>
-        </div>
-
-        <div class="form-group">
-            <label class="label">Education</label>
-            <textarea class="form-control" name="education" ><?= $userProfile->getEducation()?></textarea>
-        </div>
-
-        <div class="form-group">
-            <label class="label">Location</label>
-            <input name="location" type="text" class="form-control" value="<?= $userProfile->getLocation()?>">
-        </div>
-        <button type="submit" class="btn btn-outline-primary btn-block">Done</button>
-    </form>
-</div>
-
-
-
-</body>
-
-</html>
+@endsection

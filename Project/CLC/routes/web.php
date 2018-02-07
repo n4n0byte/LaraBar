@@ -34,7 +34,9 @@ Route::get('/logout', function () {
 });
 Route::post('/login', 'AuthenticationController@login');
 
-Route::get('/home', 'HomeController@index'); //TODO change to ask when implemented
+Route::get('/home', function(){
+    return view('home');
+}); //TODO change to ask when implemented
 
 
 Route::get('/profile', 'UserProfileController@show');

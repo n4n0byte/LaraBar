@@ -10,71 +10,39 @@ We used source code from the following websites to complete this assignment: N/A
 */
 use \App\Services\Business\SuspendUserBusinessService;
 ?>
-<html>
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/public/css/bootstrap.css">
-    <script src="css/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/particles.js"></script>
-    <title>Home</title>
-</head>
+@extends('layouts.master')
+@section('title','Admin')
 
-<body>
-<div class="container">
-    <nav class="nav-pills">
-        <ul class="nav nav-tabs justify-content-end  ">
-            <li class="nav-item">
-                <a class="nav-link" href="/CLC/home">Home</a>
-            </li>
+@section('navbar')
 
-            <li class="nav-item">
-                <a class="nav-link" href="/CLC/profile">Profile</a>
-            </li>
+    @component('components.navbar')
+        @component('components.navItem', ['title' => 'Home', 'uri' => '/home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => '/profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => '/home'])@endcomponent
+        @if(isset($user) && $user->getAdmin())
+            @component('components.navItem', ['title' => 'Administrator', 'uri' => '/admin'])@endcomponent
+        @endif
 
-            <li class="nav-item">
-                <a class="nav-link" href="/CLC/logout">Log Out</a>
-            </li>
-            @if(isset($user) && $user->getAdmin())
-                <li class="nav-item">
-                    <a class="nav-link" href="/CLC/admin">Administrator</a>
-                </li>
-            @endif
-        </ul>
-    </nav>
-    <div class="admin-tool">
-        <div class="list">
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>EMAIL</th>
-                    <th>Suspend</th>
-                </tr>
-                <?php
-                /* @var $user \App\Model\UserModel */
-                if (isset($userList))
-                foreach ($userList as $user) {
-                $susService = new SuspendUserBusinessService();
-                ?>
-                <tr>
-                    <td>@php echo $user->getId(); @endphp</td>
-                    <td>@php echo $user->getEmail(); @endphp</td>
-                    <td>
-                        @if($user->getAdmin())
-                            <p>[ADMIN]</p>
-                        @elseif($susService->suspensionStatus($user))
-                            <a href="/CLC/admin/reactivate/<?php echo $user->getId(); ?>">Reactivate User</a>
-                        @else
-                            <a href="/CLC/admin/suspend/<?php echo $user->getId(); ?>">Suspend User</a>
-                        @endif
-                    </td>
-                </tr>
-                <?php } ?>
-            </table>
-        </div>
-    </div>
-</div>
-</body>
-</html>
+    @endcomponent
+
+@endsection
+
+@section('content')
+    @component('components.adminTable')
+
+        @if(isset($userList))
+            @foreach ($userList as $user)
+                {{--Injects instance of a suspended user service--}}
+                @inject('susService','\App\Services\Business\SuspendUserBusinessService')
+                @component('components.adminTableRow',['id' => $user->getId(),
+                                                        'email' => $user->getEmail(),
+                                                        'isAdmin' => $user->getAdmin(),
+                                                         'isSuspended' => $susService->suspensionStatus($user)])
+                @endcomponent
+            @endforeach
+        @endif
+
+    @endcomponent
+@endsection
