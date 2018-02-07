@@ -15,7 +15,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Log In', 'uri' => '/login'])@endcomponent
+        @component('components.navItem', ['title' => 'Log In', 'uri' => '/CLC/login'])@endcomponent
     @endcomponent
 @endsection
 
@@ -42,7 +42,7 @@ We used source code from the following websites to complete this assignment: N/A
             </p>
         @endif
 
-        @component('components.form',['method' => 'POST', 'action' => '/register', 'status' => isset($status) ? $status : null])
+        @component('components.form',['method' => 'POST', 'action' => '/CLC/register', 'status' => isset($status) ? $status : null])
 
 
             @component('components.emailTextInput')@endcomponent

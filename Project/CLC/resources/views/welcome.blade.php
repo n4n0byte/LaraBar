@@ -23,8 +23,8 @@ $title = "Larabar - Welcome";
         <h3 class="subTitle">A Business Casual Network</h3>
     </div>
     <div class="startActions">
-        <a href="./register">create account</a>
-        <a href="./login">sign in</a>
+        <a href="/CLC/register">create account</a>
+        <a href="/CLC/login">sign in</a>
     </div>
 </div>
 </body>

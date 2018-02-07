@@ -20,6 +20,6 @@ We used source code from the following websites to complete this assignment: N/A
     <div class="message">
         <h1>You've been banned!</h1>
         <p>Maybe you were <i>too</i> casual. Try better.</p>
-        <a href="/logout">Go back.</a>
+        <a href="/CLC/logout">Go back.</a>
     </div>
 @endsection

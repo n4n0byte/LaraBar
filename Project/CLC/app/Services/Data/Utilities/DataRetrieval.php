@@ -30,7 +30,7 @@ class DataRetrieval {
         $conn = DatabaseAccess::connect();
 
         // build query
-        $query = self::getParsedIni()['User']['select'] . " ID = :id;";
+        $query = self::getParsedIni()['Users']['select'] . " ID = :id;";
         $statement = $conn->prepare($query);
         $statement->bindParam(":id", $id);
         $user = new UserModel(0, "", "");
@@ -40,7 +40,7 @@ class DataRetrieval {
         $conn = DatabaseAccess::connect();
 
         // build query
-        $query = self::getParsedIni()['User']['select'] . " ID = :id;";
+        $query = self::getParsedIni()['Users']['select'] . " ID = :id;";
         $statement = $conn->prepare($query);
         $statement->bindParam(":id", $id);
         $user = new UserModel(0, "", "");
@@ -74,7 +74,7 @@ class DataRetrieval {
         $conn = DatabaseAccess::connect();
 
         // build query
-        $query = self::getParsedIni()['User']['select'] . " $colName = :var;";
+        $query = self::getParsedIni()['Users']['select'] . " $colName = :var;";
         $statement = $conn->prepare($query);
         $statement->bindParam(":var", $varName);
         $user = new UserModel(0, "", "");

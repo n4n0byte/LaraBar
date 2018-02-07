@@ -107,18 +107,25 @@ class UserBusinessService
         return TRUE;
     }
 
-    public function listUsers() {
+    public function listUsers()
+    {
         $conn = DatabaseAccess::connect();
         $das = new UserDataAccessService($conn);
         $list = $das->readAll();
         $users = array();
         $i = 0;
-        foreach($list as $item) {
+        foreach ($list as $item) {
             $users[$i] = new UserModel($item["ID"], $item["EMAIL"]);
             $users[$i++]->setAdmin($item["ADMIN"]);
         }
         return $users;
     }
 
+    public function deleteUser()
+    {
+        $conn = DatabaseAccess::connect();
+        $das = new UserDataAccessService($conn);
+        return $das->delete($this->user);
+    }
 }
 

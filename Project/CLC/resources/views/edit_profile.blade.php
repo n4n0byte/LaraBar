@@ -17,15 +17,15 @@ $userProfile = $data['userProfile'];
 
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => '/home'])@endcomponent
-        @component('components.navItem', ['title' => 'Profile', 'uri' => '/profile'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => '/CLC/home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => '/CLC/profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
     @endcomponent
 @endsection
 
 @section('content')
 
-    @component('components.form',['method' => 'POST', 'action' => '/register'])
+    @component('components.form',['method' => 'POST', 'action' => '/CLC/edit'])
         @component('components.editTextArea',['label' => 'Biography', 'data' => $userProfile->getBio(),
                                                   'name' => 'bio'])@endcomponent
         @component('components.editTextArea',['label' => 'Employment History', 'data' => $userProfile->getEmploymentHistory(),
