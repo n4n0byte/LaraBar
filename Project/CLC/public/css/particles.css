@@ -1,0 +1,13 @@
+#particles {
+    background-color: #03B27F;
+    position:fixed;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    left:0 !important;
+    z-index:0;
+}
+
+#overlay {
+    position:relative;
+}

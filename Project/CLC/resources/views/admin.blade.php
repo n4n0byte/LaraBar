@@ -16,6 +16,7 @@ use \App\Services\Business\SuspendUserBusinessService;
 
 @section('navbar')
 
+    {{--inserts navbar component with links--}}
     @component('components.navbar')
         @component('components.navItem', ['title' => 'Home', 'uri' => '/home'])@endcomponent
         @component('components.navItem', ['title' => 'Profile', 'uri' => '/profile'])@endcomponent
@@ -29,6 +30,7 @@ use \App\Services\Business\SuspendUserBusinessService;
 
 @endsection
 
+{{--inserts admin body--}}
 @section('content')
     @component('components.adminTable')
 

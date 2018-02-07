@@ -1,4 +1,4 @@
-<div class="card mt-5">
+<div class="card mt-5 card-outline-secondary">
 
         <div class="card-header">
             <h3 class="p-2">{{$title}}:</h3>
@@ -6,9 +6,9 @@
 
         <div class="card-body">
 
-            <div class="container">
-               {{$info}}
-            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{$info}}</li>
+            </ul>
 
         </div>
 </div>

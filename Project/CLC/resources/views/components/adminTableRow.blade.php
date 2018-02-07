@@ -7,7 +7,8 @@
         @elseif($isSuspended)
         <a href="/admin/reactivate/{{$id}}">Reactivate User</a>
         @else
-        <a href="/admin/suspend/{{$id}}">Suspend User</a>
+            <a href="/admin/suspend/{{$id}}">Suspend User</a>
         @endif
     </td>
+
 </tr>
