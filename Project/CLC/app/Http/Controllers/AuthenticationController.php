@@ -56,7 +56,7 @@ class AuthenticationController extends Controller
         if ($status = $service->register()) {
             session()->put(['UID' => $user->getId()]);
             session()->save();
-            return view("welcome");
+            return view("home")->with(['user']);
         } else {
             return view("register")->with(['user' => $user, 'status' => $status]);
         }

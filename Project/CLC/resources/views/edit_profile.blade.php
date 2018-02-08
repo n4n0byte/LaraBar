@@ -25,7 +25,7 @@ $userProfile = $data['userProfile'];
 
 @section('content')
 
-    @component('components.form',['method' => 'POST', 'action' => '/register'])
+        @component('components.form',['method' => 'POST', 'action' => '/register'])
         @component('components.editTextArea',['label' => 'Biography', 'data' => $userProfile->getBio(),
                                                   'name' => 'bio'])@endcomponent
         @component('components.editTextArea',['label' => 'Employment History', 'data' => $userProfile->getEmploymentHistory(),
