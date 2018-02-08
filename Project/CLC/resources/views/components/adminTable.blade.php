@@ -3,6 +3,7 @@
             <th>ID</th>
             <th>EMAIL</th>
             <th>Suspend</th>
+            <th>Delete</th>
         </tr>
         {{$slot}}
 </table>
