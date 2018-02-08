@@ -1,5 +1,8 @@
 .idea
+/.idea
+/.vagrant
 build.properties
 /vendor
+/storage
 vendor.old/
 /node_modules
