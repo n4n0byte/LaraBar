@@ -13,13 +13,11 @@ We used source code from the following websites to complete this assignment: N/A
 @section('title','Banned')
 
 @section('navbar')
+    @component('components.navbar')
+        @component('components.navItem',['title' => 'Go Back','uri' => '/CLC/logout'])@endcomponent
+    @endcomponent
 @endsection
 
 @section('body')
-    <div class="container">
-    <div class="message">
-        <h1>You've been banned!</h1>
-        <p>Maybe you were <i>too</i> casual. Try better.</p>
-        <a href="/CLC/logout">Go back.</a>
-    </div>
+    @component('components.errorMessage',['message','message'])@endcomponent
 @endsection
