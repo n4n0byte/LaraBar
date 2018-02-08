@@ -17,9 +17,9 @@ $userProfile = $data['userProfile'];
 
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => '/home'])@endcomponent
-        @component('components.navItem', ['title' => 'Edit', 'uri' => '/edit'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => $root . "/home"])@endcomponent
+        @component('components.navItem', ['title' => 'Edit', 'uri' => '/CLC/edit'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
     @endcomponent
 @endsection
 

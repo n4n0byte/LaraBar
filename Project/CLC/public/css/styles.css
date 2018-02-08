@@ -81,6 +81,21 @@ aside {
   font-size: 20px;
   border-radius: 8px;
 }
+.center-message-small {
+  width: 40%;
+  max-width: 500px;
+  min-width: 200px;
+  text-align: center;
+  margin: 10px auto;
+}
+.center-message-small .content,
+.center-message-small .title {
+  position: relative;
+  padding: 10px 20px;
+}
+.center-message-small .title {
+  font-weight: 700;
+}
 .buffer {
   visibility: hidden;
 }

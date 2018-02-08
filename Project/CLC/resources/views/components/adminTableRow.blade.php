@@ -3,12 +3,18 @@
     <td>{{$email}}</td>
     <td>
         @if($isAdmin)
-        <p>[ADMIN]</p>
+            <p>[ADMIN]</p>
         @elseif($isSuspended)
-        <a href="/admin/reactivate/{{$id}}">Reactivate User</a>
+            <a href="/CLC/admin/reactivate/{{$id}}">Reactivate User</a>
         @else
-            <a href="/admin/suspend/{{$id}}">Suspend User</a>
+            <a href="/CLC/admin/suspend/{{$id}}">Suspend User</a>
         @endif
     </td>
-
+    <td>
+        @if($isAdmin)
+            <p> --- </p>
+        @else
+            <a href="/CLC/admin/delete/{{$id}}">DELETE</a>
+        @endif
+    </td>
 </tr>

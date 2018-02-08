@@ -25,4 +25,21 @@ class UserProfileController extends Controller {
         return view('profile')->with(['data' => $profile->read()]);
     }
 
+    function showEditor(){
+        $profile = new UserProfileDataAccessService();
+        return view('edit_profile')->with(['data' => $profile->read()]);
+    }
+
+    function update(Request $request){
+        $profileSvc = new UserProfileDataAccessService();
+
+        $inputEmploymentHistory= $request->input('employmentHistory');
+        $inputLocation = $request->input('location');
+        $inputEducation = $request->input('education');
+        $inputBio = $request->input('bio');
+        $profileSvc->update($inputEmploymentHistory,$inputLocation,$inputEducation,$inputBio);
+        return view('profile')->with(['data' => $profileSvc->read()]);
+
+    }
+
 }

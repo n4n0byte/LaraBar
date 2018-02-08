@@ -17,31 +17,32 @@ Route::get('/', function () {
 });
 
 // Sign-in/login page
-Route::get('/register', function () {
+Route::get('register', function () {
     return view('register');
 });
 
-Route::post('/register', 'AuthenticationController@Register');
+Route::post('register', 'AuthenticationController@Register');
 
 
-Route::get('/login', function () {
+Route::get('login', function () {
     return view('login');
 });
 
-Route::get('/logout', function () {
+Route::get('logout', function () {
     session()->forget('UID');
     return view('welcome');
 });
-Route::post('/login', 'AuthenticationController@login');
+Route::post('login', 'AuthenticationController@login');
 
-Route::get('/home', function(){
+Route::get('home', function () {
     return view('home');
 }); //TODO change to ask when implemented
 
 
-Route::get('/profile', 'UserProfileController@show');
-Route::get('/edit', 'UserProfileEditController@showEditor');
-Route::post('/edit', 'UserProfileEditController@update');
+Route::get('profile', 'UserProfileController@show');
+Route::get('edit', 'UserProfileController@showEditor');
+Route::post('edit', 'UserProfileController@update');
 Route::get('admin', 'AdminController@index');
 Route::get('admin/suspend/{id}', 'AdminController@suspend');
 Route::get('admin/reactivate/{id}', 'AdminController@reactivate');
+Route::get('admin/delete/{id}', 'AdminController@deleteUser');

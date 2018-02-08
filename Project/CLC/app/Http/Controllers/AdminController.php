@@ -50,6 +50,19 @@ class AdminController extends Controller
         return $this->index("User [$userId] suspended.");
     }
 
+    public function deleteUser($userId) {
+        // create a user business service
+        $user = new UserModel($userId);
+        $service = new UserBusinessService($user);
+
+        // call reactive user method
+        $service->deleteUser();
+
+        // run index to generate updated user list
+        $message = "User $userId deleted";
+        return $this->index("User [$userId] suspended.")->with("message", $message);
+    }
+
     private function isAdmin()
     {
         // TODO check if user has admin access using session

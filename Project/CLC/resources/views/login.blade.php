@@ -17,7 +17,7 @@
 @section('navbar')
 
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Register', 'uri' => '/register'])@endcomponent
+        @component('components.navItem', ['title' => 'Register', 'uri' => 'register'])@endcomponent
     @endcomponent
 @endsection
 
@@ -34,7 +34,7 @@
         ?>
     @endif
 @section('content')
-    @component('components.form',['method' => 'POST', 'action' => '/login', 'status' => isset($status) ? $status : null])
+    @component('components.form',['method' => 'POST', 'action' => 'login', 'status' => isset($status) ? $status : null])
             @component('components.emailTextInput')@endcomponent
             @component('components.editPasswordInput')@endcomponent
             @component('components.submitButton', ['title'])@endcomponent

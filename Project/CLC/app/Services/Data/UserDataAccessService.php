@@ -36,7 +36,7 @@ class UserDataAccessService
      */
     public function selectUserById(UserModel $user)
     {
-        $query = $this->ini["User"]["select.id"];
+        $query = $this->ini["Users"]["select.id"];
         $statement = $this->conn->prepare($query);
         $id = $user->getId();
         $statement->bindParam(":id", $id);
@@ -60,7 +60,7 @@ class UserDataAccessService
         $password = $user->getPassword();
 
         // build query
-        $query = $this->ini['User']['select.login'];
+        $query = $this->ini['Users']['select.login'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
@@ -70,7 +70,7 @@ class UserDataAccessService
             // make sure values were returned
             if ($assoc_array) {
                 $user->setId($assoc_array["ID"]);
-                session()->put(['UID'=>$user->getId()]);
+                session()->put(['UID' => $user->getId()]);
                 session()->save();
                 $user->setEmail($assoc_array["EMAIL"]);
                 $user->setPassword($assoc_array["PASSWORD"]);
@@ -85,7 +85,6 @@ class UserDataAccessService
                 // TODO return warning if information is missing
 
                 return $user;
-
             }
             return FALSE;
         } catch (PDOException $e) {
@@ -95,7 +94,7 @@ class UserDataAccessService
 
     public function readAll()
     {
-        $query = $this->ini["User"]["select.all"];
+        $query = $this->ini["Users"]["select.all"];
         $statement = $this->conn->prepare($query);
         try {
             $statement->execute();
@@ -120,7 +119,7 @@ class UserDataAccessService
         $avatar = $user->getAvatar();
 
         // Check for unique email
-        $query = $this->ini['User']['select'] . " EMAIL = :email ;";
+        $query = $this->ini['Users']['select'] . " EMAIL = :email ;";
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         try {
@@ -132,7 +131,7 @@ class UserDataAccessService
         }
 
         // build query
-        $query = $this->ini['User']['create'];
+        $query = $this->ini['Users']['create'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
@@ -144,6 +143,19 @@ class UserDataAccessService
             return true;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
+        }
+    }
+
+    public function delete(UserModel $user)
+    {
+        $query = $this->ini["Users"]["delete.id"];
+        $statement = $this->conn->prepare($query);
+        $id = $user->getId();
+        $statement->bindParam(":id", $id);
+        try {
+            return $statement->execute();
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::delete\n" . $e->getMessage());
         }
     }
 }
