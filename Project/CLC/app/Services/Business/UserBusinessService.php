@@ -28,7 +28,7 @@ use PDOException;
 class UserBusinessService
 {
 
-    private $user;
+    private $user, $status;
 
     /**
      * UserBusinessService constructor.
@@ -75,16 +75,17 @@ class UserBusinessService
      */
     public function register()
     {
-        if (!$this->inputIsValid())
+        if (!$this->inputIsValid()) {
             return false;
+        }
         try {
 
             // Data Access Service
             $das = new UserDataAccessService(DatabaseAccess::connect());
 
-            // return success
-            $status = $das->create($this->user);
-            return $status;
+            // update user with defaults (ID, ADMIN)
+            $das->create($this->user);
+            return $das->read($this->user);
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .
                 $e->getMessage() . "\n}");
@@ -102,8 +103,10 @@ class UserBusinessService
         // run character checks
         foreach ((array)$this->user as $param)
             foreach ($invalidChars as $c)
-                if (strpos($param, $c))
+                if (strpos($param, $c)) {
+                    $this->status = "password";
                     return -1;
+                }
         return TRUE;
     }
 
@@ -125,7 +128,27 @@ class UserBusinessService
     {
         $conn = DatabaseAccess::connect();
         $das = new UserDataAccessService($conn);
-        return $das->delete($this->user);
+        $result = $das->delete($this->user);
+        $this->status = $result ? "Successfully deleted " : "Failed to delete ";
+        return $result;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+
 }
 

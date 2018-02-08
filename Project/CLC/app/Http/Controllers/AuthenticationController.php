@@ -47,18 +47,18 @@ class AuthenticationController extends Controller
 
         // create UserModel
         if ($inputPassword == "" || $inputEmail == "")
-            return view("register")->with(['status' => -1]);
+            return view("register")->with(['user' => -1]);
         $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
 
         // create a business service
         $service = new UserBusinessService($user);
         // attempt registration
-        if ($status = $service->register()) {
+        if ($user = $service->register()) {
             session()->put(['UID' => $user->getId()]);
             session()->save();
             return view("welcome");
         } else {
-            return view("register")->with(['user' => $user, 'status' => $status]);
+            return view("register")->with(['user' => $user]);
         }
 
     }

@@ -11,5 +11,5 @@ We used source code from the following websites to complete this assignment: N/A
 
 ?>
 <h1>Error in form</h1>
-<a href="/CLC/login">login</a>
-<a href="/CLC/register">register</a>
+<a href="./login">login</a>
+<a href="./register">register</a>
