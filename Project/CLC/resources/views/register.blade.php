@@ -23,20 +23,22 @@ We used source code from the following websites to complete this assignment: N/A
 
     @if(isset($status) && !is_null($status))
 
-            @switch ($status)
-                @case (-1):
+            <?php
+            switch ($status) {
+                case -1:
                     $status = "Invalid email/password. Must not contain: <pre>\" ' * \ / =</pre>.";
-                    @breakswitch;
-                @case (-2):
+                    break;
+                case -2:
                     $status = "Please fill out all forms.";
-                    @break;
-                @case (-11):
+                    break;
+                case -11:
                     $status = "Username has already been taken.";
-                    @break;
-                @default:
+                    break;
+                default:
                     $status = "Error: failed to register. $status";
-                    @break;
-            @endswitch
+                    break;
+            }
+            ?>
     @endif
 
         @component('components.form',['method' => 'POST', 'action' => '/register', 'status' => isset($status) ? $status : null])

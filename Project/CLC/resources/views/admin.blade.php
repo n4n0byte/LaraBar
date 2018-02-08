@@ -10,7 +10,6 @@ We used source code from the following websites to complete this assignment: N/A
 */
 use \App\Services\Business\SuspendUserBusinessService;
 ?>
-
 @extends('layouts.master')
 @section('title','Admin')
 
