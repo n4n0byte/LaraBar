@@ -125,7 +125,7 @@ class UserDataAccessService
         try {
             $statement->execute();
             if ($statement->rowCount() > 0) {
-                return -11;
+                return FALSE;
             }
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());

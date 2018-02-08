@@ -21,35 +21,29 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('content')
 
-    @if(isset($status) && !is_null($status))
-
-            <?php
-            switch ($status) {
-                case -1:
-                    $status = "Invalid email/password. Must not contain: <pre>\" ' * \ / =</pre>.";
-                    break;
-                case -2:
-                    $status = "Please fill out all forms.";
-                    break;
-                case -11:
-                    $status = "Username has already been taken.";
-                    break;
-                default:
-                    $status = "Error: failed to register. $status";
-                    break;
-            }
-            ?>
+    @if(isset($message) && !is_null($message))
+        @if($message == "")
+        @else
+            <div class="badge-warning center-message-small">
+                <div class="title">
+                    <h5>Registration Failed</h5>
+                </div>
+                <div class="content">
+                    <p>{{$message}}</p>
+                </div>
+            </div>
+        @endif
     @endif
 
-        @component('components.form',['method' => 'POST', 'action' => '/CLC/register', 'status' => isset($status) ? $status : null])
+    @component('components.form',['method' => 'POST', 'action' => '/CLC/register', 'status' => isset($status) ? $status : null])
 
 
-            @component('components.emailTextInput')@endcomponent
-            @component('components.editTextInput',['label' => 'First Name', 'name' => 'firstName'])@endcomponent
-            @component('components.editTextInput',['label' => 'Last Name', 'name' => 'lastName'])@endcomponent
-            @component('components.editPasswordInput',['label' => 'Last Name', 'name' => 'password'])@endcomponent
-            @component('components.submitButton',['title' => 'Done'])@endcomponent
+        @component('components.emailTextInput')@endcomponent
+        @component('components.editTextInput',['label' => 'First Name', 'name' => 'firstName'])@endcomponent
+        @component('components.editTextInput',['label' => 'Last Name', 'name' => 'lastName'])@endcomponent
+        @component('components.editPasswordInput',['label' => 'Last Name', 'name' => 'password'])@endcomponent
+        @component('components.submitButton',['title' => 'Done'])@endcomponent
 
-        @endcomponent
+    @endcomponent
 
 @endsection
