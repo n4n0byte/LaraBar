@@ -84,7 +84,11 @@ class UserBusinessService
             $das = new UserDataAccessService(DatabaseAccess::connect());
 
             // update user with defaults (ID, ADMIN)
-            $das->create($this->user);
+            $result = $das->create($this->user);
+            if($result == -11) {
+                $this->status = "Username taken";
+                return FALSE;
+            }
             return $das->read($this->user);
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .

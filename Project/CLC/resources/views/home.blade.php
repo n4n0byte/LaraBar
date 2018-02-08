@@ -9,6 +9,7 @@ This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
 ?>
+@component('components.security')@endcomponent
 @extends('layouts.master')
 @section('title','Home')
 @section('navbar')
@@ -24,9 +25,9 @@ We used source code from the following websites to complete this assignment: N/A
 @endsection
 
 @section('content')
-<div class="pageTitle">
+    <div class="pageTitle">
 
-    <h1>Home</h1>
+        <h1>Home</h1>
 
-</div>
+    </div>
 @endsection

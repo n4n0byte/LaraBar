@@ -124,8 +124,9 @@ class UserDataAccessService
         $statement->bindParam(":email", $email);
         try {
             $statement->execute();
-            if ($statement->rowCount() > 0)
+            if ($statement->rowCount() > 0) {
                 return -11;
+            }
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
         }

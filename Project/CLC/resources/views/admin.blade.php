@@ -14,7 +14,7 @@ use \App\Services\Business\SuspendUserBusinessService;
 ?>
 @extends('layouts.master')
 @section('title','Admin')
-
+@component('components.security')@endcomponent
 @section('navbar')
 
     {{--inserts navbar component with links--}}

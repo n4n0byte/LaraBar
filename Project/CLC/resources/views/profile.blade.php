@@ -10,11 +10,9 @@ We used source code from the following websites to complete this assignment: N/A
 $user = $data['user'];
 $userProfile = $data['userProfile'];
 ?>
-
 @extends('layouts.master')
-
 @section('title','Profile')
-
+@component('components.security')@endcomponent
 @section('navbar')
     @component('components.navbar')
         @component('components.navItem', ['title' => 'Home', 'uri' => "/CLC/home"])@endcomponent
