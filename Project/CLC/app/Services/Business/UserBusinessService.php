@@ -63,7 +63,12 @@ class UserBusinessService
     {
         try {
             $das = new UserDataAccessService(DatabaseAccess::connect());
-            return $das->read($this->user);
+            $user = $das->read($this->user);
+            if($user) {
+                return $user;
+            }
+            $this->status = "Invalid credentials. Please try again";
+            return FALSE;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .
                 $e->getMessage() . "\n}");

@@ -10,6 +10,7 @@ We used source code from the following websites to complete this assignment: N/A
 */
 
 namespace App\Services\Data\Utilities;
+
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
 use App\Services\Data\UserProfileDataAccessService;
@@ -17,15 +18,18 @@ use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
 
-class DataRetrieval {
+class DataRetrieval
+{
 
     private static $iniPath = "app/Services/Data/db.ini";
 
-    static function getParsedIni(){
-        return  parse_ini_file(self::$iniPath, true);
+    static function getParsedIni()
+    {
+        return parse_ini_file(self::$iniPath, true);
     }
 
-    static function hasProfile(){
+    static function hasProfile()
+    {
         $id = session('uid');
         $conn = DatabaseAccess::connect();
 
@@ -36,7 +40,8 @@ class DataRetrieval {
         $user = new UserModel(0, "", "");
     }
 
-    static function getModelByUID($id){
+    static function getModelByUID($id)
+    {
         $conn = DatabaseAccess::connect();
 
         // build query
@@ -68,8 +73,8 @@ class DataRetrieval {
     }
 
 
-
-    static function getUserModelByAttr($colName, $varName){
+    static function getUserModelByAttr($colName, $varName)
+    {
 
         $conn = DatabaseAccess::connect();
 
@@ -102,9 +107,11 @@ class DataRetrieval {
     }
 
 
-    public static function getUserProfileById(){
-        $id = session('UID');
-
+    public static function getUserProfileById()
+    {
+        $ask = session()->get("user");
+        $id = $ask->getId();
+        session()->save();
         $conn = DatabaseAccess::connect();
 
         // build query
@@ -117,7 +124,7 @@ class DataRetrieval {
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
-            $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"],$assoc_array["LOCATION"], $assoc_array["EDUCATION"], $assoc_array["EMPLOYMENT_HISTORY"]);
+            $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"], $assoc_array["LOCATION"], $assoc_array["EDUCATION"], $assoc_array["EMPLOYMENT_HISTORY"]);
             $user = self::getModelByUID($id);
             return array('user' => $user, 'userProfile' => $userProfile);
 

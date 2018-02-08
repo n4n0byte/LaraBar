@@ -18,7 +18,7 @@ We used source code from the following websites to complete this assignment: N/A
         @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
         @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
 
-        @if(isset($user) && $user->getAdmin())
+        @if(session()->get('user') && session()->get('user')->getAdmin())
             @component('components.navItem', ['title' => 'Administrator', 'uri' => 'admin'])@endcomponent
         @endif
     @endcomponent
