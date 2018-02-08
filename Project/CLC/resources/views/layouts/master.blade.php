@@ -40,10 +40,10 @@ We used source code from the following websites to complete this assignment:
 
 </div>
 
-
 <script type="text/javascript">
-    particlesJS.load('particles','/public/particles.json');
+    particlesJS.load('particles','/CLC/public/js/particles.json');
 </script>
+
 </body>
 
 
