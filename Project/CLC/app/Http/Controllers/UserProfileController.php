@@ -22,7 +22,8 @@ class UserProfileController extends Controller {
 
     function show(){
         $profile = new UserProfileDataAccessService();
-        return view('profile')->with(['data' => $profile->read()]);
+        $result = view('profile')->with(['data' => $profile->read()]);
+        return $result;
     }
 
     function showEditor(){

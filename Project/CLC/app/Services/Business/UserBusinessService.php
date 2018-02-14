@@ -28,7 +28,7 @@ use PDOException;
 class UserBusinessService
 {
 
-    private $user, $status;
+    private $user, $status = "";
 
     /**
      * UserBusinessService constructor.
@@ -63,7 +63,12 @@ class UserBusinessService
     {
         try {
             $das = new UserDataAccessService(DatabaseAccess::connect());
-            return $das->read($this->user);
+            $user = $das->read($this->user);
+            if($user) {
+                return $user;
+            }
+            $this->status = "Invalid credentials. Please try again";
+            return FALSE;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityBSO::login {\n" .
                 $e->getMessage() . "\n}");
@@ -76,7 +81,7 @@ class UserBusinessService
     public function register()
     {
         if (!$this->inputIsValid()) {
-            return false;
+            return FALSE;
         }
         try {
 
@@ -85,7 +90,7 @@ class UserBusinessService
 
             // update user with defaults (ID, ADMIN)
             $result = $das->create($this->user);
-            if($result == -11) {
+            if (!$result) {
                 $this->status = "Username taken";
                 return FALSE;
             }
@@ -106,11 +111,14 @@ class UserBusinessService
 
         // run character checks
         foreach ((array)$this->user as $param)
-            foreach ($invalidChars as $c)
-                if (strpos($param, $c)) {
-                    $this->status = "password";
+            foreach ($invalidChars as $c) {
+                if (str_contains($param, $c)) {
+                    $this->status = "Invalid characters: <pre>\" ' \\ * / =</pre>. " .
+                        "Please make sure you do not use these in your password, email, or name.";
                     return -1;
+
                 }
+            }
         return TRUE;
     }
 

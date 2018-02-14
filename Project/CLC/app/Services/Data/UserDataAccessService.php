@@ -66,27 +66,26 @@ class UserDataAccessService
         $statement->bindParam(":password", $password);
         try {
             $statement->execute();
+            if ($statement->rowCount() != 1)
+                return false;
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
             // make sure values were returned
-            if ($assoc_array) {
-                $user->setId($assoc_array["ID"]);
-                session()->put(['UID' => $user->getId()]);
-                session()->save();
-                $user->setEmail($assoc_array["EMAIL"]);
-                $user->setPassword($assoc_array["PASSWORD"]);
-                if (!is_null($assoc_array["FIRSTNAME"]))
-                    $user->setFirstName($assoc_array["FIRSTNAME"]);
-                if (!is_null($assoc_array["LASTNAME"]))
-                    $user->setLastName($assoc_array["LASTNAME"]);
-                if (!is_null($assoc_array["AVATAR"]))
-                    $user->setAvatar($assoc_array["AVATAR"]);
-                if (!is_null($assoc_array["ADMIN"]))
-                    $user->setAdmin($assoc_array["ADMIN"]);
-                // TODO return warning if information is missing
+            $user->setId($assoc_array["ID"]);
+            session()->put(['UID' => $user->getId()]);
+            session()->save();
+            $user->setEmail($assoc_array["EMAIL"]);
+            $user->setPassword($assoc_array["PASSWORD"]);
+            if (!is_null($assoc_array["FIRSTNAME"]))
+                $user->setFirstName($assoc_array["FIRSTNAME"]);
+            if (!is_null($assoc_array["LASTNAME"]))
+                $user->setLastName($assoc_array["LASTNAME"]);
+            if (!is_null($assoc_array["AVATAR"]))
+                $user->setAvatar($assoc_array["AVATAR"]);
+            if (!is_null($assoc_array["ADMIN"]))
+                $user->setAdmin($assoc_array["ADMIN"]);
+            // TODO return warning if information is missing
 
-                return $user;
-            }
-            return FALSE;
+            return $user;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
@@ -125,7 +124,7 @@ class UserDataAccessService
         try {
             $statement->execute();
             if ($statement->rowCount() > 0) {
-                return -11;
+                return FALSE;
             }
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());

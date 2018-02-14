@@ -21,22 +21,23 @@
     @endcomponent
 @endsection
 
-    @if(isset($status) && !is_null($status))
-        <?php
-            switch ($status) {
-            case -2:
-                $status = "Please fill out all forms.";
-                break;
-            default:
-                $status = "Username and password does not match.";
-                break;
-         }
-        ?>
-    @endif
 @section('content')
+    @if(isset($message) && !is_null($message))
+        @if($message == "")
+        @else
+            <div class="badge-warning center-message-small">
+                <div class="title">
+                    <h5>Login Failed</h5>
+                </div>
+                <div class="content">
+                    <p>{{$message}}</p>
+                </div>
+            </div>
+        @endif
+    @endif
     @component('components.form',['method' => 'POST', 'action' => 'login', 'status' => isset($status) ? $status : null])
-            @component('components.emailTextInput')@endcomponent
-            @component('components.editPasswordInput')@endcomponent
-            @component('components.submitButton', ['title'])@endcomponent
+        @component('components.emailTextInput')@endcomponent
+        @component('components.editPasswordInput')@endcomponent
+        @component('components.submitButton', ['title'])@endcomponent
     @endcomponent
 @endsection

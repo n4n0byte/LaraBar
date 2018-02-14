@@ -56,7 +56,7 @@ class AuthenticationController extends Controller
         if ($user = $service->register()) {
             session()->put(['UID' => $user->getId()]);
             session()->save();
-            return view("home")->with(['user']);
+            return view("home")->with(['user' => $user]);
         } else {
             $data = [
                 'user' => $user,
@@ -81,7 +81,7 @@ class AuthenticationController extends Controller
 
         // create UserModel
         if ($inputPassword == "" || $inputEmail == "")
-            return view("login")->with(['status' => 1]);
+            return view("login")->with(['message' => "Please fill out all forms."]);
         $user = new UserModel(0, $inputEmail, $inputPassword);
 
         // create a business service
@@ -94,7 +94,7 @@ class AuthenticationController extends Controller
             session()->save();
             return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
         } else {
-            return view("login")->with(['user' => $user, 'status' => $status]);
+            return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
         }
 
     }
