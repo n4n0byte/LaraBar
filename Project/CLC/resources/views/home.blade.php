@@ -13,7 +13,7 @@ We used source code from the following websites to complete this assignment: N/A
 @extends('layouts.master')
 @section('title','Home')
 @section('navbar')
-s
+
     @component('components.navbar')
         @component('components.navItem', ['title' => 'Home', 'uri' => 'home'])@endcomponent
         @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
