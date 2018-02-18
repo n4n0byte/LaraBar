@@ -1,11 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: George
- * Date: 2/18/2018
- * Time: 9:12 AM
- */
+/*
+version 1.0
 
+Ali
+CST-256
+January 31, 2018
+This assignment was completed in collaboration with Connor Low, Ali Cooper.
+We used source code from the following websites to complete this assignment: N/A
+*/
 namespace App\Services\Business;
 
 
@@ -24,30 +26,29 @@ class EmploymentHistoryBusinessService {
         $this->employmentHistorySvc = new EmploymentHistoryDataAccessService();
     }
 
-    public function addEmploymentHistory($employer, $position, $duration){
+    public function addEmploymentHistory($employer, $position, $duration) {
 
         $user = session()->get("user");
-        $employmentHistoryModel = new EmploymentHistoryModel(-1,$user->getID(),$employer,$position,$duration);
+        $employmentHistoryModel = new EmploymentHistoryModel(-1, $user->getID(), $employer, $position, $duration);
         $this->employmentHistorySvc->createEmploymentHistoryRow($employmentHistoryModel);
 
     }
 
-    public function removeEmploymentHistory(int $id){
+    public function removeEmploymentHistory(int $id) {
         $this->employmentHistorySvc->deleteEducationRow($id);
     }
 
-    public function getEmploymentHistory($id = -1){
+    public function getEmploymentHistory($id = -1) {
         return $this->employmentHistorySvc->getEmploymentHistoryRows($id);
     }
 
-    public function updateEmploymentHistory($id,$employer,$position,$duration){
+    public function updateEmploymentHistory($id, $employer, $position, $duration) {
 
         $user = session()->get("user");
-        $employmentHistoryModel = new EmploymentHistoryModel($id,$user->getID(),$employer,$position,$duration);
+        $employmentHistoryModel = new EmploymentHistoryModel($id, $user->getID(), $employer, $position, $duration);
         $this->employmentHistorySvc->updateEmploymentHistoryRow($employmentHistoryModel);
 
     }
-
 
 
 }

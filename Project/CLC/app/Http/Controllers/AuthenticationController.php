@@ -12,26 +12,20 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
-use App\Services\Business\EducationBusinessService;
-use App\Services\Business\EmploymentHistoryBusinessService;
-use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Http\Request;
 
-class AuthenticationController extends Controller
-{
+class AuthenticationController extends Controller {
 
-    public function ask()
-    {
+    public function ask() {
         // if user is logged in, return home
 
         // else, send to login form
         return view('Login');
     }
 
-    public function login_error()
-    {
+    public function login_error() {
         return view('login_error');
     }
 
@@ -40,8 +34,7 @@ class AuthenticationController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
         // get inputs
         $inputEmail = $request->input('email');
         $inputPassword = $request->input('password');
@@ -76,29 +69,28 @@ class AuthenticationController extends Controller
      * @param Request $request
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function login(Request $request)
-        {
-            // get inputs
-            $inputEmail = $request->input('email');
-            $inputPassword = $request->input('password');
+    public function login(Request $request) {
+        // get inputs
+        $inputEmail = $request->input('email');
+        $inputPassword = $request->input('password');
 
-            // create UserModel
-            if ($inputPassword == "" || $inputEmail == "")
-                return view("login")->with(['message' => "Please fill out all forms."]);
-            $user = new UserModel(0, $inputEmail, $inputPassword);
+        // create UserModel
+        if ($inputPassword == "" || $inputEmail == "")
+            return view("login")->with(['message' => "Please fill out all forms."]);
+        $user = new UserModel(0, $inputEmail, $inputPassword);
 
-            // create a business service
-            $service = new UserBusinessService($user);
+        // create a business service
+        $service = new UserBusinessService($user);
 
-            // attempt login
-            if ($status = $service->login()) {
-                $susService = new SuspendUserBusinessService();
-                session()->put(['user' => $user]);
-                session()->save();
-                return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
-            } else {
-                return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
-            }
-
+        // attempt login
+        if ($status = $service->login()) {
+            $susService = new SuspendUserBusinessService();
+            session()->put(['user' => $user]);
+            session()->save();
+            return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
+        } else {
+            return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
         }
+
+    }
 }
