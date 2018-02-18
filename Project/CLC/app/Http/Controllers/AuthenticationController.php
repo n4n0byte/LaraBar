@@ -12,6 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Http\Request;
