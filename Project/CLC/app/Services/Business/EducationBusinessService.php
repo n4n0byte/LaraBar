@@ -37,4 +37,8 @@ class EducationBusinessService{
 
     }
 
+    public function deleteEducation(int $id){
+        $this->educationSvc->deleteEducationRow($id);
+    }
+
 }

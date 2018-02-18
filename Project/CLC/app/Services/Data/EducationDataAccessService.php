@@ -48,13 +48,13 @@ class EducationDataAccessService
             $result = $statement->execute();
 
         } catch (PDOException $e) {
-            throw new PDOException("Exception in JobPostDAO::create\n" . $e->getMessage());
+            throw new PDOException("Exception in EducationDAO::create\n" . $e->getMessage());
         }
 
     }
 
-    public function deleteJobPost(int $id){
-        $query = $this->ini['Job']['delete'];
+    public function deleteEducationRow(int $id){
+        $query = $this->ini['Education']['delete'];
         $statement = $this->conn->prepare($query);
 
         $statement->bindParam("id",$id);
@@ -64,7 +64,7 @@ class EducationDataAccessService
             $result = $statement->execute();
 
         } catch (PDOException $e) {
-            throw new PDOException("Exception in JobPostDAO::delete\n" . $e->getMessage());
+            throw new PDOException("Exception in EducationPostDAO::delete\n" . $e->getMessage());
         }
 
     }
