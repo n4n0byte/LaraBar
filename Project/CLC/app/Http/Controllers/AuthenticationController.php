@@ -12,6 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\Services\Business\EducationBusinessService;
 use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
@@ -87,6 +88,7 @@ class AuthenticationController extends Controller
 
         // create a business service
         $service = new UserBusinessService($user);
+        $e = new EducationBusinessService();
 
         // attempt login
         if ($status = $service->login()) {

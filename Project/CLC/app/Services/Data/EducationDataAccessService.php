@@ -9,6 +9,10 @@ This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
 namespace App\Services\Data;
+use App\Model\EducationModel;
+use App\Services\DatabaseAccess;
+use PDO;
+use PDOException;
 
 class EducationDataAccessService
 {
@@ -18,138 +22,107 @@ class EducationDataAccessService
      * UserDataAccessService constructor.
      * @param $conn
      */
-    public function __construct(PDO $conn)
+    public function __construct()
     {
-        $this->conn = $conn;
+        $this->conn = DatabaseAccess::connect();
         $this->ini = parse_ini_file("db.ini", true);
     }
 
-    /**
-     * @param $user
-     * @return mixed
-     */
-    public function selectUserById(UserModel $user)
-    {
-        $query = $this->ini["Education"]["select"];
+    public function createEducationRow(EducationModel $model){
+        $user = session()->get('user');
+        $uid = $user->getID();
+        $institution = $model->getInstitution();
+        $level = $model->getLevel();
+        $degree = $model->getDegree();
+
+        $query = $this->ini['Education']['insert'];
         $statement = $this->conn->prepare($query);
-        $id = $user->getId();
-        $statement->bindParam(":id", $id);
+
+        $statement->bindParam(":uid", $uid);
+        $statement->bindParam(":institution", $institution);
+        $statement->bindParam(":level", $level);
+        $statement->bindParam(":degree", $degree);
+
         try {
-            $statement->execute();
-            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
-            return $assoc_array;
+
+            $result = $statement->execute();
 
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+            throw new PDOException("Exception in JobPostDAO::create\n" . $e->getMessage());
         }
+
     }
 
-    /**
-     * @param UserModel $user
-     * @return UserModel|bool|int
-     */
-    public function read(UserModel $user)
-    { // $login should control if one or all users are selected
-        $email = $user->getEmail();
-        $password = $user->getPassword();
-
-        // build query
-        $query = $this->ini['Users']['select.login'];
+    public function deleteJobPost(int $id){
+        $query = $this->ini['Job']['delete'];
         $statement = $this->conn->prepare($query);
-        $statement->bindParam(":email", $email);
-        $statement->bindParam(":password", $password);
-        try {
-            $statement->execute();
-            if ($statement->rowCount() != 1)
-                return false;
-            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
-            // make sure values were returned
-            $user->setId($assoc_array["ID"]);
-            session()->put(['UID' => $user->getId()]);
-            session()->save();
-            $user->setEmail($assoc_array["EMAIL"]);
-            $user->setPassword($assoc_array["PASSWORD"]);
-            if (!is_null($assoc_array["FIRSTNAME"]))
-                $user->setFirstName($assoc_array["FIRSTNAME"]);
-            if (!is_null($assoc_array["LASTNAME"]))
-                $user->setLastName($assoc_array["LASTNAME"]);
-            if (!is_null($assoc_array["AVATAR"]))
-                $user->setAvatar($assoc_array["AVATAR"]);
-            if (!is_null($assoc_array["ADMIN"]))
-                $user->setAdmin($assoc_array["ADMIN"]);
-            // TODO return warning if information is missing
 
-            return $user;
+        $statement->bindParam("id",$id);
+
+        try {
+
+            $result = $statement->execute();
+
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
+            throw new PDOException("Exception in JobPostDAO::delete\n" . $e->getMessage());
         }
+
     }
 
-    public function readAll()
-    {
-        $query = $this->ini["Users"]["select.all"];
+    public function updateJobPost(JobModel $model){
+
+        $modelArr = array($model->getId(),$model->getUid(),$model->getTitle(),
+            $model->getAuthor(),$model->getLocation(),$model->getDescription(),
+            $model->getRequirements(),(int)$model->getSalary());
+        $query = $this->ini['Job']['update'];
         $statement = $this->conn->prepare($query);
+        $statement->bindParam(":id", $modelArr[0]);
+        $statement->bindParam(":title",$modelArr[2]);
+        $statement->bindParam(":author",$modelArr[3]);
+        $statement->bindParam(":location",$modelArr[4]);
+        $statement->bindParam(":description",$modelArr[5]);
+        $statement->bindParam(":requirements",$modelArr[6]);
+        $statement->bindParam(":salary",$modelArr[7]);
+
         try {
-            $statement->execute();
-            $assoc_array = $statement->fetchAll();
-            return $assoc_array;
+
+            $result = $statement->execute();
+
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+            throw new PDOException("Exception in JobPostDAO::update\n" . $e->getMessage());
         }
+
     }
 
-    /**
-     * @param UserModel $user
-     * @return bool
-     */
-    public function create(UserModel $user)
-    {
-        // define params
-        $email = $user->getEmail();
-        $password = $user->getPassword();
-        $firstName = $user->getFirstName();
-        $lastName = $user->getLastName();
-        $avatar = $user->getAvatar();
 
-        // Check for unique email
-        $query = $this->ini['Users']['select'] . " EMAIL = :email ;";
+    public function getJobs($uid = -1){
+
+        $jobs = array();
+        $query = $uid === -1 ? $this->ini['Job']['select.all'] : $this->ini['Job']['select.id'];
         $statement = $this->conn->prepare($query);
-        $statement->bindParam(":email", $email);
+
+        if ($uid !== -1){
+            $statement->bindParam(":uid", $uid);
+        }
+
         try {
+
             $statement->execute();
-            if ($statement->rowCount() > 0) {
-                return FALSE;
+
+            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                //$id, $uid, $title, $author, $location, $description, $requirements, $salary
+                $job = new JobModel($row["ID"],$row["UID"],$row["TITLE"],$row["AUTHOR"],
+                    $row["LOCATION"],$row["DESCRIPTION"], $row["REQUIREMENTS"],$row["SALARY"]);
+                array_push($jobs,$job);
             }
+
+
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+            throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
         }
 
-        // build query
-        $query = $this->ini['Users']['create'];
-        $statement = $this->conn->prepare($query);
-        $statement->bindParam(":email", $email);
-        $statement->bindParam(":password", $password);
-        $statement->bindParam(":firstname", $firstName);
-        $statement->bindParam(":lastname", $lastName);
-        $statement->bindParam(":avatar", $avatar);
-        try {
-            $statement->execute();
-            return true;
-        } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
-        }
+        return $jobs;
+
     }
 
-    public function delete(UserModel $user)
-    {
-        $query = $this->ini["Users"]["delete.id"];
-        $statement = $this->conn->prepare($query);
-        $id = $user->getId();
-        $statement->bindParam(":id", $id);
-        try {
-            return $statement->execute();
-        } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::delete\n" . $e->getMessage());
-        }
-    }
 }
