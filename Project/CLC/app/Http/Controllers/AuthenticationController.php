@@ -88,8 +88,6 @@ class AuthenticationController extends Controller
 
             // create a business service
             $service = new UserBusinessService($user);
-            $e = new EducationBusinessService();
-            $e->getEducation();
 
             // attempt login
             if ($status = $service->login()) {
