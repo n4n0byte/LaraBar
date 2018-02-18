@@ -91,10 +91,10 @@ class EducationDataAccessService
     }
 
 
-    public function getJobs($uid = -1){
+    public function getEducationRows($uid = -1){
 
-        $jobs = array();
-        $query = $uid === -1 ? $this->ini['Job']['select.all'] : $this->ini['Job']['select.id'];
+        $educationArr = array();
+        $query = $uid === -1 ? $this->ini['Education']['select.all'] : $this->ini['Education']['select.id'];
         $statement = $this->conn->prepare($query);
 
         if ($uid !== -1){
@@ -107,9 +107,8 @@ class EducationDataAccessService
 
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
-                $job = new JobModel($row["ID"],$row["UID"],$row["TITLE"],$row["AUTHOR"],
-                    $row["LOCATION"],$row["DESCRIPTION"], $row["REQUIREMENTS"],$row["SALARY"]);
-                array_push($jobs,$job);
+                $educationRow = new EducationModel($row["ID"],$row["UID"],$row["INSTITUTION"],$row["LEVEL"],$row["DEGREE"]);
+                array_push($educationArr,$educationRow);
             }
 
 
@@ -117,8 +116,10 @@ class EducationDataAccessService
             throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
         }
 
-        return $jobs;
+        return $educationArr;
 
     }
+
+
 
 }

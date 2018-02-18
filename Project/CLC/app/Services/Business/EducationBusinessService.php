@@ -41,6 +41,10 @@ class EducationBusinessService{
         $this->educationSvc->deleteEducationRow($id);
     }
 
+    public function getEducation($id = -1){
+        $this->educationSvc->getEducationRows($id);
+    }
+
     public function updateEducation($id,$institution,$level,$degree){
 
         $user = session()->get("user");

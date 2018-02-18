@@ -76,30 +76,30 @@ class AuthenticationController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function login(Request $request)
-    {
-        // get inputs
-        $inputEmail = $request->input('email');
-        $inputPassword = $request->input('password');
+        {
+            // get inputs
+            $inputEmail = $request->input('email');
+            $inputPassword = $request->input('password');
 
-        // create UserModel
-        if ($inputPassword == "" || $inputEmail == "")
-            return view("login")->with(['message' => "Please fill out all forms."]);
-        $user = new UserModel(0, $inputEmail, $inputPassword);
+            // create UserModel
+            if ($inputPassword == "" || $inputEmail == "")
+                return view("login")->with(['message' => "Please fill out all forms."]);
+            $user = new UserModel(0, $inputEmail, $inputPassword);
 
-        // create a business service
-        $service = new UserBusinessService($user);
-        $e = new EducationBusinessService();
-        $e->updateEducation(2,3,"GCUSUCCESS","PHD");
+            // create a business service
+            $service = new UserBusinessService($user);
+            $e = new EducationBusinessService();
+            $e->getEducation();
 
-        // attempt login
-        if ($status = $service->login()) {
-            $susService = new SuspendUserBusinessService();
-            session()->put(['user' => $user]);
-            session()->save();
-            return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
-        } else {
-            return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
+            // attempt login
+            if ($status = $service->login()) {
+                $susService = new SuspendUserBusinessService();
+                session()->put(['user' => $user]);
+                session()->save();
+                return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
+            } else {
+                return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
+            }
+
         }
-
-    }
 }
