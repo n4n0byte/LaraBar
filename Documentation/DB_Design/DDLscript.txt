@@ -1,0 +1,79 @@
+create table education
+(
+	ID int unsigned auto_increment
+		primary key,
+	UID int null,
+	INSTITUTION text null,
+	LEVEL text null,
+	DEGREE text null
+)
+engine=InnoDB
+;
+
+create table employment_history
+(
+	ID int auto_increment
+		primary key,
+	UID int null,
+	EMPLOYER text null,
+	POSITION text null,
+	DURATION text null,
+	constraint ID_UNIQUE
+		unique (ID)
+)
+engine=InnoDB
+;
+
+create table jobs
+(
+	ID int auto_increment
+		primary key,
+	UID int not null,
+	TITLE varchar(255) not null,
+	AUTHOR varchar(255) not null,
+	LOCATION varchar(255) not null,
+	DESCRIPTION text null,
+	REQUIREMENTS text null,
+	SALARY double null
+)
+engine=InnoDB charset=latin1
+;
+
+create table suspended_users
+(
+	ID int auto_increment
+		primary key,
+	UID int null,
+	DURATION date null
+)
+engine=InnoDB
+;
+
+create table user_profiles
+(
+	ID int auto_increment
+		primary key,
+	UID int not null,
+	BIO varchar(10000) null,
+	IMGURL varchar(500) null,
+	LOCATION varchar(100) null,
+	EDUCATION varchar(1000) null,
+	EMPLOYMENT_HISTORY varchar(1000) null
+)
+engine=InnoDB
+;
+
+create table users
+(
+	EMAIL varchar(100) not null,
+	PASSWORD varchar(100) not null,
+	FIRSTNAME varchar(50) not null,
+	LASTNAME varchar(50) not null,
+	ADMIN tinyint null,
+	ID int auto_increment
+		primary key,
+	AVATAR varchar(100) null
+)
+engine=InnoDB
+;
+
