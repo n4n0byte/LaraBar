@@ -42,7 +42,7 @@ class EducationBusinessService{
     }
 
     public function getEducation($id = -1){
-        $this->educationSvc->getEducationRows($id);
+        return $this->educationSvc->getEducationRows($id);
     }
 
     public function updateEducation($id,$institution,$level,$degree){

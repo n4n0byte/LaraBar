@@ -1,0 +1,123 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: George
+ * Date: 2/18/2018
+ * Time: 9:13 AM
+ */
+
+namespace App\Services\Data;
+
+
+use App\Model\EmploymentHistoryModel;
+use PDO;
+use PDOException;
+use \App\Services\DatabaseAccess;
+
+class EmploymentHistoryDataAccessService {
+
+    private $conn, $ini;
+
+    /**
+     * UserDataAccessService constructor.
+     * @param $conn
+     */
+    public function __construct()
+    {
+        $this->conn = DatabaseAccess::connect();
+        $this->ini = parse_ini_file("db.ini", true);
+    }
+
+    public function createEmploymentHistoryRow(EmploymentHistoryModel $model){
+        $user = session()->get('user');
+        $uid = $user->getID();
+        $employer = $model->getEmployer();
+        $position = $model->getPosition();
+        $duration = $model->getDuration();
+
+        $query = $this->ini['EmploymentHistory']['insert'];
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindParam(":uid", $uid);
+        $statement->bindParam(":employer", $employer);
+        $statement->bindParam(":position", $position);
+        $statement->bindParam(":duration", $duration);
+
+        try {
+
+            $result = $statement->execute();
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in EmploymentHistoryDAO::create\n" . $e->getMessage());
+        }
+
+    }
+
+    public function deleteEducationRow(int $id){
+        $query = $this->ini['EmploymentHistory']['delete'];
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindParam("id",$id);
+
+        try {
+
+            $result = $statement->execute();
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in EmploymentHistoryDAO::delete\n" . $e->getMessage());
+        }
+
+    }
+
+    public function updateEmploymentHistoryRow(EmploymentHistoryModel $model){
+
+        $modelArr = array($model->getId(),$model->getUid(),$model->getEmployer(),
+            $model->getPosition(),$model->getDuration());
+        $query = $this->ini['EmploymentHistory']['update'];
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(":id", $modelArr[0]);
+        $statement->bindParam(":employer", $modelArr[2]);
+        $statement->bindParam(":position", $modelArr[3]);
+        $statement->bindParam(":duration", $modelArr[4]);
+
+        try {
+
+            $result = $statement->execute();
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in JobPostDAO::update\n" . $e->getMessage());
+        }
+
+    }
+
+
+    public function getEmploymentHistoryRows($uid = -1){
+
+        $employmentHistoryArr = array();
+        $query = $uid === -1 ? $this->ini['EmploymentHistory']['select.all'] : $this->ini['EmploymentHistory']['select.id'];
+        $statement = $this->conn->prepare($query);
+
+        if ($uid !== -1){
+            $statement->bindParam(":uid", $uid);
+        }
+
+        try {
+
+            $statement->execute();
+
+            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                //$id, $uid, $title, $author, $location, $description, $requirements, $salary
+                $employmentHistoryRow = new EmploymentHistoryModel($row["ID"],$row["UID"],$row["EMPLOYER"],$row["POSITION"],$row["DURATION"]);
+                array_push($employmentHistoryArr,$employmentHistoryRow);
+            }
+
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
+        }
+
+        return $employmentHistoryArr;
+
+    }
+
+}
