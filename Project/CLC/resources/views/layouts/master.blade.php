@@ -27,6 +27,14 @@ We used source code from the following websites to complete this assignment:
     <script src="/CLC/public/js/particles.js"></script>
     <script src="/CLC/public/js/tether.js"></script>
     <title>@yield('title')</title>
+    <style>
+        ::-webkit-scrollbar {
+            z-index: 100;
+        }
+        ::-webkit-scrollbar-track {
+            background: blue;
+        }
+    </style>
 </head>
 
 <body>

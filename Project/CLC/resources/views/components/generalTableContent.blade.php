@@ -1,7 +1,7 @@
-@foreach($list as $item)
+@foreach($list as $row)
     <tr>
-        @foreach($item as $column)
-            <td>{{$column}}</td>
+        @foreach($row as $data)
+            <td>{{$data}}</td>
         @endforeach
     </tr>
 @endforeach

@@ -1,4 +1,4 @@
 <div class="form-group">
-    <label class="label">{{$label}}</label>
-    <input type="text" class="form-control" name="{{$name}}" cols="40" rows="5" value="{{$data or ''}}">
+    <label for="{{$id}}" class="label">{{$label}}</label>
+    <input id="{{$id}}" type="text" class="form-control" name="{{$name}}" value="{{$data or ''}}">
 </div>
