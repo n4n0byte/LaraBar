@@ -69,20 +69,16 @@ class EducationDataAccessService
 
     }
 
-    public function updateJobPost(JobModel $model){
+    public function updateEducationRow(EducationModel $model){
 
-        $modelArr = array($model->getId(),$model->getUid(),$model->getTitle(),
-            $model->getAuthor(),$model->getLocation(),$model->getDescription(),
-            $model->getRequirements(),(int)$model->getSalary());
-        $query = $this->ini['Job']['update'];
+        $modelArr = array($model->getId(),$model->getUid(),$model->getInstitution(),
+            $model->getLevel(),$model->getDegree());
+        $query = $this->ini['Education']['update'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $modelArr[0]);
-        $statement->bindParam(":title",$modelArr[2]);
-        $statement->bindParam(":author",$modelArr[3]);
-        $statement->bindParam(":location",$modelArr[4]);
-        $statement->bindParam(":description",$modelArr[5]);
-        $statement->bindParam(":requirements",$modelArr[6]);
-        $statement->bindParam(":salary",$modelArr[7]);
+        $statement->bindParam(":institution", $modelArr[2]);
+        $statement->bindParam(":level", $modelArr[3]);
+        $statement->bindParam(":degree", $modelArr[4]);
 
         try {
 
