@@ -14,7 +14,9 @@ namespace App\Http\Controllers;
 use App\Model\UserModel;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class AuthenticationController extends Controller {
 
@@ -35,6 +37,9 @@ class AuthenticationController extends Controller {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function register(Request $request) {
+        // validation
+        $this->validateRegistration($request);
+
         // get inputs
         $inputEmail = $request->input('email');
         $inputPassword = $request->input('password');
@@ -70,6 +75,9 @@ class AuthenticationController extends Controller {
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function login(Request $request) {
+        // validation
+        $this->validateLogin($request);
+
         // get inputs
         $inputEmail = $request->input('email');
         $inputPassword = $request->input('password');
@@ -92,5 +100,41 @@ class AuthenticationController extends Controller {
             return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
         }
 
+    }
+
+    public function validateLogin(Request $request)
+    {
+
+        // Define rules
+        $rules = [
+            'email' => 'Required|Between:5,60|E-Mail',
+            'password' => 'Required|Between:4,25'
+        ];
+
+        // Run checks
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        }
+    }
+
+    public function validateRegistration(Request $request)
+    {
+
+        // Define rules
+        $rules = [
+            'email' => 'Required|Between:5,60|E-Mail',
+            'password' => 'Required|Between:4,25',
+            'firstName' => 'Required|Between:2,25',
+            'lastName' => 'Required|Between:2,25',
+        ];
+
+        // Run checks
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        }
     }
 }
