@@ -10,8 +10,6 @@ We used source code from the following websites to complete this assignment: N/A
 /**
  * @var $user \App\Model\UserModel
  */
-$user = $data["user"];
-$userProfile = $data["userProfile"];
 ?>
 @extends('layouts.master')
 @section('title','Profile')
