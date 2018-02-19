@@ -96,16 +96,23 @@ class EmploymentHistoryDataAccessService
     }
 
 
-    public function getEmploymentHistoryRows($uid = -1)
+    public function getEmploymentHistoryRows($id = -1, $usePid = false)
     {
 
         $employmentHistoryArr = array();
         $query = $uid === -1 ? $this->ini['EmploymentHistory']['select.all'] : $this->ini['EmploymentHistory']['select.id'];
+
+
+        if ($usePid){
+            $query = $this->ini['Job']['select.pid'];
+        }
+
         $statement = $this->conn->prepare($query);
 
-        if ($uid !== -1) {
-            $statement->bindParam(":uid", $uid);
+        if ($id !== -1) {
+            $statement->bindParam(":id", $id);
         }
+
 
         try {
 
