@@ -18,13 +18,15 @@ use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
 
-class UserProfileDataAccessService {
+class UserProfileDataAccessService
+{
     private $conn, $ini;
 
     /**
      * UserDataAccessService constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = DatabaseAccess::connect();
         $this->ini = parse_ini_file("db.ini", true);
     }
@@ -32,11 +34,13 @@ class UserProfileDataAccessService {
     /**
      * @return UserModel|bool|int
      */
-    public function read() {
+    public function read()
+    {
         return DataRetrieval::getUserProfileById(session('id'));
     }
 
-    public function update($employmentHistory, $location, $education, $bio) {
+    public function update($employmentHistory, $location, $education, $bio)
+    {
         DataEdit::updateProfile($employmentHistory, $location, $education, $bio);
     }
 
@@ -44,7 +48,8 @@ class UserProfileDataAccessService {
      * @param UserModel $user
      * @return bool
      */
-    public function create(UserModel $user) {
+    public function create(UserModel $user)
+    {
         // define params
         $email = $user->getEmail();
         $password = $user->getPassword();

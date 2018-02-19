@@ -12,6 +12,9 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\Services\Business\EducationBusinessService;
+use App\Services\Business\EmploymentHistoryBusinessService;
+use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\UserBusinessService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,8 +27,26 @@ class UserProfileController extends Controller
 
     function show()
     {
-        $profile = new UserProfileDataAccessService();
-        $result = view('profile')->with(['data' => $profile->read()]);
+        // get profile
+        // general
+        $profileService = new UserProfileDataAccessService();
+        $profile = $profileService->read();
+
+        // education
+        $eduService = new EducationBusinessService();
+        $education = $eduService->getEducation();
+
+        // employment history
+        $empService = new EmploymentHistoryBusinessService();
+        $employment = $empService->getEmploymentHistory();
+
+        // put into $data
+        $data = [
+            'profile' => $profile,
+            'education' => $education,
+            'employment' => $employment
+        ];
+        $result = view('profile')->with($data);
         return $result;
     }
 
@@ -39,8 +60,6 @@ class UserProfileController extends Controller
             'category' => $category
 
         ];
-        /*var_dump($data);
-        exit();*/
         return view('edit_profile')->with(['data' => $data]);
     }
 

@@ -8,14 +8,20 @@ January 31, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+
 namespace App\Services\Business;
+
 use App\Services\Data\UserDataAccessService;
 use App\Services\Data\UserProfileDataAccessService;
 use App\Services\Data\UserProfileService;
 
-class UserProfileBusinessService {
-
-    public function getProfileData(){
+class UserProfileBusinessService
+{
+    /**
+     * @return \App\Model\UserModel|bool|int
+     */
+    public function getProfileData()
+    {
         $profile = new UserProfileDataAccessService();
         return $profile->read();
     }
