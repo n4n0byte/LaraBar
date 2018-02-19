@@ -1,4 +1,3 @@
-<div class="card-deck">
 
     <div class="card card-outline-secondary">
 
@@ -12,4 +11,4 @@
 
         </div>
     </div>
-</div>
+

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     //
-    public function index($message = "")
+    public function index($toolId = -1)
     {
         // TODO add page for insufficient role-access
         if (!$this->isAdmin())
@@ -20,9 +20,12 @@ class AdminController extends Controller
         $temp = new UserModel(0);
         $userService = new UserBusinessService($temp);
         $userList = $userService->listUsers();
-
+        $data = [
+            "userList" => $userList,
+            "toolId" => $toolId
+        ];
         // return view with users list
-        return view("admin")->with(["userList" => $userList]);
+        return view("admin")->with($data);
     }
 
     public function suspend($userId)
@@ -38,7 +41,8 @@ class AdminController extends Controller
         return $this->index("User [$userId] suspended.");
     }
 
-    public  function reactivate($userId) {
+    public function reactivate($userId)
+    {
         // create suspended_user business service
         $service = new SuspendUserBusinessService();
 
@@ -50,7 +54,8 @@ class AdminController extends Controller
         return $this->index("User [$userId] suspended.");
     }
 
-    public function deleteUser($userId) {
+    public function deleteUser($userId)
+    {
         // create a user business service
         $user = new UserModel($userId);
         $service = new UserBusinessService($user);
