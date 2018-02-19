@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 class SkillsModel {
     private $id, $title, $description;
 
