@@ -8,10 +8,12 @@ February 4, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+
 namespace App\Model;
 
 
-class EmploymentHistoryModel {
+class EmploymentHistoryModel
+{
 
     private $id, $uid, $employer, $position, $duration;
 
@@ -23,7 +25,8 @@ class EmploymentHistoryModel {
      * @param $position
      * @param $duration
      */
-    public function __construct($id, $uid, $employer, $position, $duration) {
+    public function __construct($id, $uid, $employer, $position, $duration)
+    {
         $this->id = $id;
         $this->uid = $uid;
         $this->employer = $employer;
@@ -31,76 +34,95 @@ class EmploymentHistoryModel {
         $this->duration = $duration;
     }
 
+    public static function getFields()
+    {
+        return ['ID', 'Employer', 'Position', 'Duration'];
+    }
+
+    public function getJobFieldsArr()
+    {
+        return [$this->id, $this->employer, $this->position, $this->duration];
+    }
+
     /**
      * @return mixed
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @param mixed $id
      */
-    public function setId($id): void {
+    public function setId($id): void
+    {
         $this->id = $id;
     }
 
     /**
      * @return mixed
      */
-    public function getUid() {
+    public function getUid()
+    {
         return $this->uid;
     }
 
     /**
      * @param mixed $uid
      */
-    public function setUid($uid): void {
+    public function setUid($uid): void
+    {
         $this->uid = $uid;
     }
 
     /**
      * @return mixed
      */
-    public function getEmployer() {
+    public function getEmployer()
+    {
         return $this->employer;
     }
 
     /**
      * @param mixed $employer
      */
-    public function setEmployer($employer): void {
+    public function setEmployer($employer): void
+    {
         $this->employer = $employer;
     }
 
     /**
      * @return mixed
      */
-    public function getPosition() {
+    public function getPosition()
+    {
         return $this->position;
     }
 
     /**
      * @param mixed $position
      */
-    public function setPosition($position): void {
+    public function setPosition($position): void
+    {
         $this->position = $position;
     }
 
     /**
      * @return mixed
      */
-    public function getDuration() {
+    public function getDuration()
+    {
         return $this->duration;
     }
 
     /**
      * @param mixed $duration
      */
-    public function setDuration($duration): void {
+    public function setDuration($duration): void
+    {
         $this->duration = $duration;
     }
-
 
 
 }
