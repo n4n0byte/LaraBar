@@ -1,19 +1,24 @@
 <?php
 
-class SkillsModel {
-    private $id, $title, $description;
+namespace App\Model;
+
+class SkillsModel
+{
+    private $id, $uid, $title, $description;
 
     /**
      * SkillsModel constructor.
-     * @param $id
-     * @param $title
-     * @param $description
+     * @param int $id
+     * @param int $uid
+     * @param string $title
+     * @param string $description
      */
-    public function __construct($id = -1, $title = "", $description = "")
+    public function __construct($id = -1, $uid = -1, $title = "", $description = "")
     {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
+        $this->uid = $uid;
     }
 
     /**
@@ -30,6 +35,22 @@ class SkillsModel {
     public function setId(int $id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUid(): int
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @param int $uid
+     */
+    public function setUid(int $uid)
+    {
+        $this->uid = $uid;
     }
 
     /**
@@ -63,8 +84,5 @@ class SkillsModel {
     {
         $this->description = $description;
     }
-
-
-
 
 }

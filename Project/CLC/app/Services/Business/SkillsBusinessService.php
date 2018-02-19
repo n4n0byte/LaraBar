@@ -12,20 +12,20 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Business;
 
-use App\Model\EducationModel;
-use App\Services\Data\EducationDataAccessService;
+use App\Model\SkillsModel;
+use App\Services\Data\SkillsDataAccessService;
 
 class SkillsBusinessService
 {
 
-    private $educationSvc;
+    private $SkillSvc;
 
     /**
-     * EducationBusinessService constructor.
+     * SkillBusinessService constructor.
      */
     public function __construct()
     {
-        $this->educationSvc = new EducationDataAccessService();
+        $this->SkillSvc = new SkillsDataAccessService();
     }
 
     /**
@@ -33,30 +33,30 @@ class SkillsBusinessService
      * @param $level
      * @param $degree
      */
-    public function insertEducation($institution, $level, $degree)
+    public function insertSkill($institution, $level, $degree)
     {
 
         $user = session()->get("user");
-        $educationModel = new EducationModel(-1, $user->getID(), $institution, $level, $degree);
-        $this->educationSvc->createEducationRow($educationModel);
+        $SkillsModel = new SkillsModel(-1, $user->getID(), $institution, $level, $degree);
+        $this->SkillSvc->createSkillRow($SkillsModel);
 
     }
 
     /**
      * @param int $id
      */
-    public function deleteEducation(int $id)
+    public function deleteSkill(int $id)
     {
-        $this->educationSvc->deleteEducationRow($id);
+        $this->SkillSvc->deleteSkillRow($id);
     }
 
     /**
      * @param int $id
      * @return array
      */
-    public function getEducation($id = -1)
+    public function getSkill($id = -1)
     {
-        return $this->educationSvc->getEducationRows($id);
+        return $this->SkillSvc->getSkillRows($id);
     }
 
     /**
@@ -65,12 +65,12 @@ class SkillsBusinessService
      * @param $level
      * @param $degree
      */
-    public function updateEducation($id, $institution, $level, $degree)
+    public function updateSkill($id, $institution, $level, $degree)
     {
 
         $user = session()->get("user");
-        $educationModel = new EducationModel($id, $user->getID(), $institution, $level, $degree);
-        $this->educationSvc->updateEducationRow($educationModel);
+        $SkillsModel = new SkillsModel($id, $user->getID(), $institution, $level, $degree);
+        $this->SkillSvc->updateSkillRow($SkillsModel);
 
     }
 
