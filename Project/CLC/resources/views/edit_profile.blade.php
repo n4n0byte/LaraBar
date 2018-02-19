@@ -24,7 +24,7 @@ $category = $data['category'];
 
 @section('content')
 
-    @component('components.form',['method' => 'POST', 'action' => '/CLC/edit'])
+    @component('components.form',['method' => 'POST', 'action' => '/CLC/profile/edit'])
         @component('components.editTextArea',['label' => 'Biography', 'data' => $userProfile->getBio(),
                                                   'name' => 'bio'])@endcomponent
         @component('components.editTextArea',['label' => 'Employment History', 'data' => $userProfile->getEmploymentHistory(),

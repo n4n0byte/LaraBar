@@ -122,6 +122,7 @@ class DataRetrieval
 
 
     /**
+     * Returns an array containing a UserModel and a UserProfileModel
      * @return array
      */
     public static function getUserProfileById()
@@ -141,7 +142,7 @@ class DataRetrieval
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
-            $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"], $assoc_array["LOCATION"], $assoc_array["EDUCATION"], $assoc_array["EMPLOYMENT_HISTORY"]);
+            $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"], $assoc_array["LOCATION"]);
             $user = self::getModelByUID($id);
             return array('user' => $user, 'userProfile' => $userProfile);
 
