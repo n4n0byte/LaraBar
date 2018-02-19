@@ -1,1 +1,1 @@
-<a href="{{$route}}"> <span class="fa {{$class or ""}}"></span> </a>
+<a href="{{$route}}" onclick="return confirm('Are you sure?');"> <span class="fa {{$class or ""}}"></span> </a>

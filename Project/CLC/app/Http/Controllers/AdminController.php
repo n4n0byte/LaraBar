@@ -58,6 +58,10 @@ class AdminController extends Controller
         return $this->index("User [$userId] suspended.");
     }
 
+    public function updateUser(){
+
+    }
+
     public function deleteUser($userId) {
         // create a user business service
         $user = new UserModel($userId);
