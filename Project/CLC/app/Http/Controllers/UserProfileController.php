@@ -40,12 +40,13 @@ class UserProfileController extends Controller
 
         // put into $data and send to view
         $data = [
-            'profile' => $profile,
+            'userProfile' => $profile['userProfile'],
+            'user' => $profile['user'],
             'education' => $education,
             'employment' => $employment
         ];
-        $result = view('profile')->with($data);
-        return $result;
+
+        return view('profile')->with($data);
     }
 
     /**
