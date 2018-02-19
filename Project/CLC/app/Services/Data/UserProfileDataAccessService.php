@@ -32,11 +32,11 @@ class UserProfileDataAccessService
     }
 
     /**
-     * @return UserModel|bool|int
+     * @return array
      */
     public function read()
     {
-        return DataRetrieval::getUserProfileById(session('id'));
+        return DataRetrieval::getUserProfileById();
     }
 
     public function update($employmentHistory, $location, $education, $bio)

@@ -14,8 +14,6 @@ namespace App\Services\Business;
 
 use App\Model\EducationModel;
 use App\Services\Data\EducationDataAccessService;
-use PDO;
-use PDOException;
 
 class EducationBusinessService
 {
@@ -24,7 +22,6 @@ class EducationBusinessService
 
     /**
      * EducationBusinessService constructor.
-     * @param $educationSvc
      */
     public function __construct()
     {

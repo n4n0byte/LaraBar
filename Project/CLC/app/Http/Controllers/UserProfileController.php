@@ -11,36 +11,34 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Http\Controllers;
 
-use App\Model\UserModel;
 use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
-use App\Services\Business\JobPostBusinessService;
-use App\Services\Business\UserBusinessService;
+use App\Services\Business\UserProfileBusinessService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use Symfony\Component\Console\Helper\Table;
-use \App\Services\Data\UserProfileDataAccessService;
+use App\Services\Data\UserProfileDataAccessService;
 
 class UserProfileController extends Controller
 {
 
+    /**
+     * @return $this
+     */
     function show()
     {
         // get profile
         // general
-        $profileService = new UserProfileDataAccessService();
-        $profile = $profileService->read();
-
-        // education
-        $eduService = new EducationBusinessService();
-        $education = $eduService->getEducation();
+        $profileService = new UserProfileBusinessService();
+        $profile = $profileService->getProfileData();
 
         // employment history
         $empService = new EmploymentHistoryBusinessService();
         $employment = $empService->getEmploymentHistory();
 
-        // put into $data
+        // education
+        $eduService = new EducationBusinessService();
+        $education = $eduService->getEducation();
+
+        // put into $data and send to view
         $data = [
             'profile' => $profile,
             'education' => $education,
@@ -50,6 +48,10 @@ class UserProfileController extends Controller
         return $result;
     }
 
+    /**
+     * @param $category
+     * @return $this
+     */
     function showEditor($category)
     {
         $profile = new UserProfileDataAccessService();
@@ -63,6 +65,10 @@ class UserProfileController extends Controller
         return view('edit_profile')->with(['data' => $data]);
     }
 
+    /**
+     * @param Request $request
+     * @return $this
+     */
     function update(Request $request)
     {
         $profileSvc = new UserProfileDataAccessService();

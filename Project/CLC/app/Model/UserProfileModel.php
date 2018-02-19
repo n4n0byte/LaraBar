@@ -15,124 +15,134 @@ use App\Services\DatabaseAccess;
 use PDO;
 use PDOStatement;
 
-class UserProfileModel {
-    private $id, $imgURL, $uid, $bio, $location, $education, $employmentHistory;
+class UserProfileModel
+{
+    private $id, $imgURL, $uid, $bio, $location;
 
     /**
-     * UserModel constructor.
-     * @param $id
-     * @param $imgURL
-     * @param $uid
-     * @param $bio
-     * @param $location
-     * @param $education
+     * UserProfileModel constructor.
+     * @param string $imgURL
+     * @param string $bio
+     * @param string $location
      */
-    public function __construct($imgURL = "", $bio = "", $location = "", $education = "", $employmentHistory = "") {
-        $this->employmentHistory = $employmentHistory;
+    public function __construct($imgURL = "", $bio = "", $location = "")
+    {
         $this->imgURL = $imgURL;
         $this->bio = $bio;
         $this->location = $location;
-        $this->education = $education;
     }
 
     /**
      * @return mixed
      */
-    public function getImgURL() {
+    public function getImgURL()
+    {
         return $this->imgURL;
     }
 
     /**
      * @param mixed $imgURL
      */
-    public function setImgURL($imgURL) {
+    public function setImgURL($imgURL)
+    {
         $this->imgURL = $imgURL;
     }
 
     /**
      * @return mixed
      */
-    public function getUid() {
+    public function getUid()
+    {
         return $this->uid;
 
 
     }
 
-
     /**
      * @return mixed
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @param mixed $id
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
     /**
      * @param mixed $uid
      */
-    public function setUid($uid) {
+    public function setUid($uid)
+    {
         $this->uid = $uid;
     }
 
     /**
      * @return mixed
      */
-    public function getBio() {
+    public function getBio()
+    {
         return $this->bio;
     }
 
     /**
      * @param mixed $bio
      */
-    public function setBio($bio) {
+    public function setBio($bio)
+    {
         $this->bio = $bio;
     }
 
     /**
      * @return mixed
      */
-    public function getLocation() {
+    public function getLocation()
+    {
         return $this->location;
     }
 
     /**
      * @param mixed $location
      */
-    public function setLocation($location) {
+    public function setLocation($location)
+    {
         $this->location = $location;
     }
 
     /**
      * @return mixed
      */
-    public function getEducation() {
+    public function getEducation()
+    {
         return $this->education;
     }
 
     /**
      * @param mixed $education
      */
-    public function setEducation($education) {
+    public function setEducation($education)
+    {
         $this->education = $education;
     }
 
     /**
      * @return mixed
      */
-    public function getEmploymentHistory() {
+    public function getEmploymentHistory()
+    {
         return $this->employmentHistory;
     }
 
     /**
      * @param mixed $employmentHistory
      */
-    public function setEmploymentHistory($employmentHistory) {
+    public function setEmploymentHistory($employmentHistory)
+    {
         $this->employmentHistory = $employmentHistory;
     }
 

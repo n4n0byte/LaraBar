@@ -1,4 +1,5 @@
 <?php
+
 /*
 version 1.0
 
@@ -18,7 +19,7 @@ use App\Services\Data\UserProfileService;
 class UserProfileBusinessService
 {
     /**
-     * @return \App\Model\UserModel|bool|int
+     * @return array
      */
     public function getProfileData()
     {
