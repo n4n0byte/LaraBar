@@ -101,7 +101,7 @@ class JobPostDataAccessService {
         $jobs = array();
         $query = $id === -1 ? $this->ini['Job']['select.all'] : $this->ini['Job']['select.id'];
 
-        if ($id > -1 && $usePid){
+        if ($usePid){
             $query = $this->ini['Job']['select.pid'];
         }
 
