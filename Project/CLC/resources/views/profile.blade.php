@@ -9,6 +9,9 @@ We used source code from the following websites to complete this assignment: N/A
 */
 /**
  * @var $user \App\Model\UserModel
+ * @var $employment \App\Model\EmploymentHistoryModel
+ * @var $education \App\Model\EducationModel
+ * @var $profile \App\Model\UserProfileModel
  */
 ?>
 @extends('layouts.master')
@@ -41,11 +44,13 @@ We used source code from the following websites to complete this assignment: N/A
      'id' => $user->getId()])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Education', 'category' => 'education' ,'info' => $userProfile->getEducation() ,
+    @component('components.profileCards',['title' => 'Education', 'category' => 'education'  ,
      'id' => $user->getId()])
+        @component('components.generalTable', ['names' => $employment])
+        @endcomponent
     @endcomponent
 
     @component('components.profileCards',['title' => 'Employment History', 'category' => 'employment' ,
-    'info' => $userProfile->getEmploymentHistory() , 'id' => $user->getId()])
+     'id' => $user->getId()])
     @endcomponent
 @endsection

@@ -30,13 +30,13 @@ class UserProfileController extends Controller
         $profileService = new UserProfileBusinessService();
         $profile = $profileService->getProfileData();
 
-        // employment history
-        $empService = new EmploymentHistoryBusinessService();
-        $employment = $empService->getEmploymentHistory();
-
         // education
         $eduService = new EducationBusinessService();
         $education = $eduService->getEducation();
+
+        // employment history
+        $empService = new EmploymentHistoryBusinessService();
+        $employment = $empService->getEmploymentHistory();
 
         // put into $data and send to view
         $data = [

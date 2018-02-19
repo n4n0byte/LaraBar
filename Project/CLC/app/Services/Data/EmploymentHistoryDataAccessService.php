@@ -11,19 +11,18 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Data;
 
-
 use App\Model\EmploymentHistoryModel;
+use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
-use \App\Services\DatabaseAccess;
 
-class EmploymentHistoryDataAccessService {
+class EmploymentHistoryDataAccessService
+{
 
     private $conn, $ini;
 
     /**
      * UserDataAccessService constructor.
-     * @param $conn
      */
     public function __construct()
     {
@@ -31,7 +30,8 @@ class EmploymentHistoryDataAccessService {
         $this->ini = parse_ini_file("db.ini", true);
     }
 
-    public function createEmploymentHistoryRow(EmploymentHistoryModel $model){
+    public function createEmploymentHistoryRow(EmploymentHistoryModel $model)
+    {
         $user = session()->get('user');
         $uid = $user->getID();
         $employer = $model->getEmployer();
@@ -56,11 +56,12 @@ class EmploymentHistoryDataAccessService {
 
     }
 
-    public function deleteEducationRow(int $id){
+    public function deleteEducationRow(int $id)
+    {
         $query = $this->ini['EmploymentHistory']['delete'];
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam("id",$id);
+        $statement->bindParam("id", $id);
 
         try {
 
@@ -72,10 +73,11 @@ class EmploymentHistoryDataAccessService {
 
     }
 
-    public function updateEmploymentHistoryRow(EmploymentHistoryModel $model){
+    public function updateEmploymentHistoryRow(EmploymentHistoryModel $model)
+    {
 
-        $modelArr = array($model->getId(),$model->getUid(),$model->getEmployer(),
-            $model->getPosition(),$model->getDuration());
+        $modelArr = array($model->getId(), $model->getUid(), $model->getEmployer(),
+            $model->getPosition(), $model->getDuration());
         $query = $this->ini['EmploymentHistory']['update'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $modelArr[0]);
@@ -94,13 +96,14 @@ class EmploymentHistoryDataAccessService {
     }
 
 
-    public function getEmploymentHistoryRows($uid = -1){
+    public function getEmploymentHistoryRows($uid = -1)
+    {
 
         $employmentHistoryArr = array();
         $query = $uid === -1 ? $this->ini['EmploymentHistory']['select.all'] : $this->ini['EmploymentHistory']['select.id'];
         $statement = $this->conn->prepare($query);
 
-        if ($uid !== -1){
+        if ($uid !== -1) {
             $statement->bindParam(":uid", $uid);
         }
 
@@ -108,10 +111,10 @@ class EmploymentHistoryDataAccessService {
 
             $statement->execute();
 
-            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
-                $employmentHistoryRow = new EmploymentHistoryModel($row["ID"],$row["UID"],$row["EMPLOYER"],$row["POSITION"],$row["DURATION"]);
-                array_push($employmentHistoryArr,$employmentHistoryRow);
+                $employmentHistoryRow = new EmploymentHistoryModel($row["ID"], $row["UID"], $row["EMPLOYER"], $row["POSITION"], $row["DURATION"]);
+                array_push($employmentHistoryArr, $employmentHistoryRow);
             }
 
 
