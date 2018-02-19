@@ -195,3 +195,15 @@ Did you mean this?
 #4 D:\\Users\\Ali\\Documents\\Laravel\\CST256\\Project\\CLC\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #5 {main}
 "} 
+[2018-02-19 03:39:20] local.ERROR: The C:\Users\speed\Documents\_repositories\CST256\Project\CLC\bootstrap/cache directory must be present and writable. {"exception":"[object] (Exception(code: 0): The C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\bootstrap/cache directory must be present and writable. at C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\PackageManifest.php:165)
+[stacktrace]
+#0 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\PackageManifest.php(125): Illuminate\\Foundation\\PackageManifest->write(Array)
+#1 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\PackageManifest.php(97): Illuminate\\Foundation\\PackageManifest->build()
+#2 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\PackageManifest.php(80): Illuminate\\Foundation\\PackageManifest->getManifest()
+#3 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\RegisterFacades.php(26): Illuminate\\Foundation\\PackageManifest->aliases()
+#4 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(213): Illuminate\\Foundation\\Bootstrap\\RegisterFacades->bootstrap(Object(Illuminate\\Foundation\\Application))
+#5 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(296): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#6 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(119): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#7 C:\\Users\\speed\\Documents\\_repositories\\CST256\\Project\\CLC\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 {main}
+"} 

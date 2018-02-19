@@ -8,8 +8,10 @@
  * This assignment was completed in collaboration with Connor Low, Ali Cooper.
  * We used source code from the following websites to complete this assignment: N/A
  */
+
 namespace App\Model;
-class EducationModel{
+class EducationModel
+{
 
     private $id, $uid, $institution, $level, $degree;
 
@@ -21,7 +23,8 @@ class EducationModel{
      * @param $level
      * @param $degree
      */
-    public function __construct($id = -1, $uid, $institution, $level, $degree) {
+    public function __construct($id = -1, $uid, $institution, $level, $degree)
+    {
         $this->id = $id;
         $this->uid = $uid;
         $this->institution = $institution;
@@ -29,76 +32,95 @@ class EducationModel{
         $this->degree = $degree;
     }
 
+    public static function getFields()
+    {
+        return ['ID', 'UID', 'Institution', 'Degree', 'Program'];
+    }
+
+    public function getJobFieldsArr()
+    {
+        return [$this->id, $this->uid, $this->institution, $this->level, $this->degree];
+    }
+
     /**
      * @return mixed
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @param mixed $id
      */
-    public function setId($id): void {
+    public function setId($id): void
+    {
         $this->id = $id;
     }
 
     /**
      * @return mixed
      */
-    public function getUid() {
+    public function getUid()
+    {
         return $this->uid;
     }
 
     /**
      * @param mixed $uid
      */
-    public function setUid($uid): void {
+    public function setUid($uid): void
+    {
         $this->uid = $uid;
     }
 
     /**
      * @return mixed
      */
-    public function getInstitution() {
+    public function getInstitution()
+    {
         return $this->institution;
     }
 
     /**
      * @param mixed $institution
      */
-    public function setInstitution($institution): void {
+    public function setInstitution($institution): void
+    {
         $this->institution = $institution;
     }
 
     /**
      * @return mixed
      */
-    public function getLevel() {
+    public function getLevel()
+    {
         return $this->level;
     }
 
     /**
      * @param mixed $level
      */
-    public function setLevel($level): void {
+    public function setLevel($level): void
+    {
         $this->level = $level;
     }
 
     /**
      * @return mixed
      */
-    public function getDegree() {
+    public function getDegree()
+    {
         return $this->degree;
     }
 
     /**
      * @param mixed $degree
      */
-    public function setDegree($degree): void {
+    public function setDegree($degree): void
+    {
         $this->degree = $degree;
     }
-
 
 
 }

@@ -15,7 +15,8 @@ use App\Services\DatabaseAccess;
 use PDO;
 use PDOStatement;
 
-class UserModel {
+class UserModel
+{
     private $id;
     private $email;
     private $password;
@@ -32,7 +33,8 @@ class UserModel {
      * @param $firstName
      * @param $lastName
      */
-    public function __construct($id, $email = "", $password = "", $firstName = "", $lastName = "") {
+    public function __construct($id, $email = "", $password = "", $firstName = "", $lastName = "")
+    {
         $this->id = $id;
         $this->email = $email;
         $this->password = $password;
@@ -40,102 +42,127 @@ class UserModel {
         $this->lastName = $lastName;
     }
 
+    public static function getFields()
+    {
+        return ['ID', 'Email', 'First Name', 'Last Name', 'Admin'];
+    }
+
+    public function getJobFieldsArr()
+    {
+        return [$this->id, $this->email, $this->firstName, $this->lastName, $this->admin];
+    }
+
     /**
      * @return mixed
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @param mixed $id
      */
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
     /**
      * @return string
      */
-    public function getEmail(): string {
+    public function getEmail(): string
+    {
         return $this->email;
     }
 
     /**
      * @param string $email
      */
-    public function setEmail(string $email) {
+    public function setEmail(string $email)
+    {
         $this->email = $email;
     }
 
     /**
      * @return string
      */
-    public function getPassword(): string {
+    public function getPassword(): string
+    {
         return $this->password;
     }
 
     /**
      * @param string $password
      */
-    public function setPassword(string $password) {
+    public function setPassword(string $password)
+    {
         $this->password = $password;
     }
 
     /**
      * @return string
      */
-    public function getFirstName(): string {
+    public function getFirstName(): string
+    {
         return $this->firstName;
     }
 
     /**
      * @param string $firstName
      */
-    public function setFirstName(string $firstName) {
+    public function setFirstName(string $firstName)
+    {
         $this->firstName = $firstName;
     }
 
     /**
      * @return string
      */
-    public function getLastName(): string {
+    public function getLastName(): string
+    {
         return $this->lastName;
     }
 
     /**
      * @param string $lastName
      */
-    public function setLastName(string $lastName) {
+    public function setLastName(string $lastName)
+    {
         $this->lastName = $lastName;
     }
 
     /**
      * @return mixed
      */
-    public function getAvatar() {
+    public function getAvatar()
+    {
         return $this->avatar;
     }
 
     /**
      * @param mixed $url
      */
-    public function setAvatar($url) {
+    public function setAvatar($url)
+    {
         $this->avatar = $url;
     }
 
     /**
      * @return mixed
      */
-    public function getAdmin() {
+    public function getAdmin()
+    {
         return $this->admin;
     }
 
     /**
      * @param mixed $admin
      */
-    public function setAdmin($admin) {
+    public function setAdmin($admin)
+    {
         $this->admin = $admin;
     }
+
 
 }

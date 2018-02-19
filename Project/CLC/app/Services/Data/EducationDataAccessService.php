@@ -9,6 +9,7 @@ This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
 namespace App\Services\Data;
+
 use App\Model\EducationModel;
 use App\Services\DatabaseAccess;
 use PDO;

@@ -3,6 +3,8 @@
 /.vagrant
 build.properties
 /vendor
+/vendor/*
+vendor
 /storage
 vendor.old/
 /node_modules

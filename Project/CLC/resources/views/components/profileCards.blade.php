@@ -5,13 +5,17 @@
     </div>
 
     <div class="card-body">
-
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{$info}}</li>
-        </ul>
+        @if(isset($info))
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{$info}}</li>
+            </ul>
+        @else
+            {{$slot}}
+        @endif
 
     </div>
     <div class="card-footer">
-        <a href="/CLC/profile/edit/{{$category}}" title="Edit {{$title}}"><span class="fa fa-pencil-square-o" style="font-size: 20px;"></span></a>
+        <a href="/CLC/profile/edit/{{$category}}" title="Edit {{$title}}"><span class="fa fa-pencil-square-o"
+                                                                                style="font-size: 20px;"></span></a>
     </div>
 </div>

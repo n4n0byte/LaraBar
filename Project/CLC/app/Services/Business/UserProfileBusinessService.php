@@ -12,9 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Business;
 
-use App\Services\Data\UserDataAccessService;
 use App\Services\Data\UserProfileDataAccessService;
-use App\Services\Data\UserProfileService;
 
 class UserProfileBusinessService
 {

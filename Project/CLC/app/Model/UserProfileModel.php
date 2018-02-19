@@ -32,6 +32,16 @@ class UserProfileModel
         $this->location = $location;
     }
 
+    public static function getFields()
+    {
+        return ['ID', 'Location', 'Biography'];
+    }
+
+    public function getJobFieldsArr()
+    {
+        return [$this->id, $this->location, $this->bio];
+    }
+
     /**
      * @return mixed
      */
@@ -54,8 +64,6 @@ class UserProfileModel
     public function getUid()
     {
         return $this->uid;
-
-
     }
 
     /**
@@ -113,38 +121,5 @@ class UserProfileModel
     {
         $this->location = $location;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getEducation()
-    {
-        return $this->education;
-    }
-
-    /**
-     * @param mixed $education
-     */
-    public function setEducation($education)
-    {
-        $this->education = $education;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmploymentHistory()
-    {
-        return $this->employmentHistory;
-    }
-
-    /**
-     * @param mixed $employmentHistory
-     */
-    public function setEmploymentHistory($employmentHistory)
-    {
-        $this->employmentHistory = $employmentHistory;
-    }
-
 
 }
