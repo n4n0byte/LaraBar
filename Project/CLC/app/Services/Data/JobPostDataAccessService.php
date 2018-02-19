@@ -96,16 +96,20 @@ class JobPostDataAccessService {
     }
 
 
-    public function getJobs($uid = -1){
+    public function getJobs($id = -1, $usePid = false){
 
         $jobs = array();
-        $query = $uid === -1 ? $this->ini['Job']['select.all'] : $this->ini['Job']['select.id'];
-        $statement = $this->conn->prepare($query);
+        $query = $id === -1 ? $this->ini['Job']['select.all'] : $this->ini['Job']['select.id'];
 
-        if ($uid !== -1){
-            $statement->bindParam(":uid", $uid);
+        if ($id > -1 && $usePid){
+            $query = $this->ini['Job']['select.pid'];
         }
 
+        $statement = $this->conn->prepare($query);
+
+        if ($id !== -1) {
+            $statement->bindParam(":id", $id);
+        }
         try {
 
             $statement->execute();

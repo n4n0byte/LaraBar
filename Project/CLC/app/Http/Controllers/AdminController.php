@@ -58,10 +58,6 @@ class AdminController extends Controller
         return $this->index("User [$userId] suspended.");
     }
 
-    public function updateUser(){
-
-    }
-
     public function deleteUser($userId) {
         // create a user business service
         $user = new UserModel($userId);
@@ -73,6 +69,23 @@ class AdminController extends Controller
         // run index to generate updated user list
         $message = "User $userId deleted";
         return $this->index("User [$userId] suspended.")->with("message", $message);
+    }
+
+    public function updateJobPost($id){
+
+        $jobSvc = new JobPostBusinessService();
+        $jobPost = $jobSvc->getJobPosts($id,true)[0];
+        return view('updateInfo')->with(['post' => $jobPost]);
+
+    }
+
+    public function updateJobPostData(Request $request){
+        $jobSvc = new JobPostBusinessService();
+
+        $jobSvc->updateJobPost($request->get("id"),$request->get("title"), $request->get("location"),
+            $request->get("description"),$request->get("requirements"),(int)$request->get("salary"));
+
+        return redirect()->action('AdminController@index');
     }
 
     public function deleteJobPost($id){

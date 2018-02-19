@@ -42,6 +42,10 @@ Route::get("addJobPost",function(){
     return view("addJobPost");
 });
 
+
+
+Route::post("updateJobPostData/","AdminController@updateJobPost");
+Route::get("updateJobPost/{id}","AdminController@updateJobPost");
 Route::get("deleteJobPost/{id}","AdminController@deleteJobPost");
 Route::post("addJobPost","AdminController@addJobPost");
 Route::get('profile', 'UserProfileController@show');
