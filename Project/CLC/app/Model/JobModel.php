@@ -151,6 +151,13 @@ class JobModel {
         $this->salary = $salary;
     }
 
+    public static function getFields(){
+        return ['ID','UID','Title','Author','Location','Description','Requirements','Salary'];
+    }
 
+    public function getJobFieldsArr(){
+        return [$this->id,$this->uid,$this->title,$this->author,$this->location,
+                $this->description,$this->requirements,$this->salary];
+    }
 
 }
