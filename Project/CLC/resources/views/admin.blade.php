@@ -32,7 +32,7 @@ We used source code from the following websites to complete this assignment: N/A
 @section('content')
 
     <div>
-        <a href="#" id="toggle"><label><h3>Toggle</h3></label></a>
+        <a href="#" id="toggle"><label class="btn btn-outline-info"><h5>Toggle</h5></label></a>
     </div>
 
     <div id="adminTableDiv">
@@ -59,7 +59,7 @@ We used source code from the following websites to complete this assignment: N/A
     <div id="jobPosts" style="display: none;">
         <h3 class="label">Job Posts
             <span>
-                @component('components.buttons.btn',['route' => '/CLC/admin/addJobPost/','class' => 'fa-plus'])
+                @component('components.buttons.btn',['route' => '/CLC/addJobPost/','class' => 'fa-plus'])
                 @endcomponent
             </span>
         </h3>
@@ -68,10 +68,10 @@ We used source code from the following websites to complete this assignment: N/A
             @foreach($jobData as $job)
                 @component('components.generalTableContent',['row' => $job->getJobFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/admin/deleteJobPost/' . $job->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $job->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/admin/updateJobPost/' . $job->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $job->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot

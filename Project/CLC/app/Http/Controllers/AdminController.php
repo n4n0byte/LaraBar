@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\Services\Business\EducationBusinessService;
 use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
@@ -68,6 +69,23 @@ class AdminController extends Controller
         // run index to generate updated user list
         $message = "User $userId deleted";
         return $this->index("User [$userId] suspended.")->with("message", $message);
+    }
+
+    public function deleteJobPost($id){
+
+        $jobSvc = new JobPostBusinessService();
+        $jobSvc->deleteJobPost($id);
+        return redirect()->action('AdminController@index');
+
+    }
+
+    public function addJobPost(Request $request){
+
+        $jobSvc = new JobPostBusinessService();
+        $jobSvc->createJobPost($request->get("title"), $request->get("location"),
+                               $request->get("description"),$request->get("requirements"),(int)$request->get("salary"));
+
+        return redirect()->action('AdminController@index');
     }
 
     private function isAdmin()

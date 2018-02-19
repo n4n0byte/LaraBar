@@ -38,7 +38,12 @@ Route::get('home', function () {
     return view('home');
 }); //TODO change to ask when implemented
 
+Route::get("addJobPost",function(){
+    return view("addJobPost");
+});
 
+Route::get("deleteJobPost/{id}","AdminController@deleteJobPost");
+Route::post("addJobPost","AdminController@addJobPost");
 Route::get('profile', 'UserProfileController@show');
 Route::get('profile/edit/{category}', 'UserProfileController@showEditor');
 Route::post('profile/edit', 'UserProfileController@update');
