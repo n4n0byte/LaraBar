@@ -20,6 +20,7 @@ We used source code from the following websites to complete this assignment:
     <link rel="stylesheet" href="/CLC/public/css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="/CLC/public/css/vertical.css">
     <link rel="stylesheet" href="/CLC/public/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="/CLC/public/js/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="/CLC/public/js/bootstrap.js"></script>

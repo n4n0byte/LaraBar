@@ -7,6 +7,9 @@ January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+/**
+ * @var $user \App\Model\UserModel
+ */
 $user = $data["user"];
 $userProfile = $data["userProfile"];
 ?>
@@ -26,22 +29,25 @@ $userProfile = $data["userProfile"];
 
 
 @section('content')
+
     @component('components.personalInfoCard',['firstName' => $user->getFirstName(),
                                               'lastName' => $user->getLastName(),
                                               'email' => $user->getEmail() ])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Biography','info' => $userProfile->getBio()])
+    @component('components.profileCards',['title' => 'Biography','info' => $userProfile->getBio() ,
+     'id' => $user->getId()])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Education','info' => $userProfile->getEducation()])
+    @component('components.profileCards',['title' => 'Education','info' => $userProfile->getEducation() ,
+     'id' => $user->getId()])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Location','info' => $userProfile->getlocation()])
+    @component('components.profileCards',['title' => 'Location','info' => $userProfile->getlocation() ,
+     'id' => $user->getId()])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Employment History','info' =>
-                                            $userProfile->getEmploymentHistory()])
+    @component('components.profileCards',['title' => 'Employment History',
+    'info' => $userProfile->getEmploymentHistory() , 'id' => $user->getId()])
     @endcomponent
-
 @endsection
