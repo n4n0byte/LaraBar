@@ -12,6 +12,6 @@
 
     </div>
     <div class="card-footer">
-        <a href="/CLC/edit" ><span class="fa fa-pencil-square-o" style=""></span></a>
+        <a href="/CLC/profile/edit/{{$category}}" title="Edit {{$title}}"><span class="fa fa-pencil-square-o" style="font-size: 20px;"></span></a>
     </div>
 </div>

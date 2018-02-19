@@ -9,6 +9,7 @@ We used source code from the following websites to complete this assignment: N/A
 */
 $user = $data['user'];
 $userProfile = $data['userProfile'];
+$category = $data['category'];
 ?>
 @extends('layouts.master')
 @section('title','Profile')
