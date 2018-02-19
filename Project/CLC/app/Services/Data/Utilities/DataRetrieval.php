@@ -23,11 +23,17 @@ class DataRetrieval
 
     private static $iniPath = "app/Services/Data/db.ini";
 
+    /**
+     * @return array|bool
+     */
     static function getParsedIni()
     {
         return parse_ini_file(self::$iniPath, true);
     }
 
+    /**
+     *
+     */
     static function hasProfile()
     {
         $id = session('uid');
@@ -40,6 +46,10 @@ class DataRetrieval
         $user = new UserModel(0, "", "");
     }
 
+    /**
+     * @param $id
+     * @return UserModel|bool
+     */
     static function getModelByUID($id)
     {
         $conn = DatabaseAccess::connect();
@@ -72,7 +82,11 @@ class DataRetrieval
         }
     }
 
-
+    /**
+     * @param $colName
+     * @param $varName
+     * @return UserModel|bool
+     */
     static function getUserModelByAttr($colName, $varName)
     {
 
@@ -107,6 +121,9 @@ class DataRetrieval
     }
 
 
+    /**
+     * @return array
+     */
     public static function getUserProfileById()
     {
         $ask = session()->get("user");

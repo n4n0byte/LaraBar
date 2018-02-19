@@ -19,7 +19,7 @@ $userProfile = $data["userProfile"];
 @section('navbar')
     @component('components.navbar')
         @component('components.navItem', ['title' => 'Home', 'uri' => "/CLC/home"])@endcomponent
-        @component('components.navItem', ['title' => 'Edit', 'uri' => '/CLC/edit'])@endcomponent
+        @component('components.navItem', ['title' => 'Edit', 'uri' => '/CLC/profile/edit'])@endcomponent
         @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
         @if(session()->get('user')->getAdmin())
             @component('components.navItem', ['title' => 'Administrator', 'uri' => '/CLC/admin'])@endcomponent
@@ -35,19 +35,18 @@ $userProfile = $data["userProfile"];
                                               'email' => $user->getEmail() ])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Biography','info' => $userProfile->getBio() ,
+    @component('components.profileCards',['title' => 'Biography', 'category' => 'biography' ,'info' => $userProfile->getBio() ,
+     'id' => $user->getId()])
+    @endcomponent
+    @component('components.profileCards',['title' => 'Education', 'category' => 'education' ,'info' => $userProfile->getEducation() ,
      'id' => $user->getId()])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Education','info' => $userProfile->getEducation() ,
+    @component('components.profileCards',['title' => 'Location', 'category' => 'location' ,'info' => $userProfile->getlocation() ,
      'id' => $user->getId()])
     @endcomponent
 
-    @component('components.profileCards',['title' => 'Location','info' => $userProfile->getlocation() ,
-     'id' => $user->getId()])
-    @endcomponent
-
-    @component('components.profileCards',['title' => 'Employment History',
+    @component('components.profileCards',['title' => 'Employment History', 'category' => 'employment' ,
     'info' => $userProfile->getEmploymentHistory() , 'id' => $user->getId()])
     @endcomponent
 @endsection
