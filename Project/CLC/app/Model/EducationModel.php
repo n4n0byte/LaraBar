@@ -34,12 +34,12 @@ class EducationModel
 
     public static function getFields()
     {
-        return ['ID', 'UID', 'Institution', 'Degree', 'Program'];
+        return ['Institution', 'Degree', 'Program'];
     }
 
     public function getJobFieldsArr()
     {
-        return [$this->id, $this->uid, $this->institution, $this->level, $this->degree];
+        return [$this->institution, $this->level, $this->degree];
     }
 
     /**

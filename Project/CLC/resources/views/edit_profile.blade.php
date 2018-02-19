@@ -10,7 +10,10 @@ We used source code from the following websites to complete this assignment: N/A
 $user = $data['user'];
 /* @var $userProfile \App\Model\UserProfileModel */
 $userProfile = $data['userProfile'];
+$education = $data['education'];
+$employment = $data['employment'];
 $category = $data['category'];
+
 ?>
 @extends('layouts.master')
 @section('title','Profile')
@@ -27,7 +30,7 @@ $category = $data['category'];
 
     @switch($category)
         @case('education')
-        @component('components.profile.editEducation') @endcomponent
+        @component('components.profile.editEducation', ['institution' => '', 'level' => '', 'degree' => '']) @endcomponent
         @break
 
         @case('employment')
@@ -38,19 +41,5 @@ $category = $data['category'];
         @component('components.profile.editProfile', ['bio' => $userProfile->getBio(), 'location' => $userProfile->getLocation()]) @endcomponent
         @break
     @endswitch
-    {{--@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/edit'])
-        @component('components.editTextArea',['label' => 'Biography', 'data' => $userProfile->getBio(),
-                                                  'name' => 'bio'])@endcomponent
-        @component('components.editTextArea',['label' => 'Employment History', 'data' => $userProfile->getEmploymentHistory(),
-                                                 'name' => 'employmentHistory'])@endcomponent
-
-        @component('components.editTextArea',['label' => 'Education', 'data' => $userProfile->getEducation(),
-                                                 'name' => 'education'])@endcomponent
-
-        @component('components.editTextInput',['label' => 'Location', 'data' => $userProfile->getLocation(),
-                                                 'name' => 'location'])@endcomponent
-
-        @component('components.submitButton')@endcomponent
-    @endcomponent--}}
 
 @endsection

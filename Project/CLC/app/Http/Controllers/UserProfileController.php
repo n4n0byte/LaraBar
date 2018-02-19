@@ -11,6 +11,9 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Http\Controllers;
 
+use App\Model\EducationModel;
+use App\Model\EmploymentHistoryModel;
+use App\Model\UserModel;
 use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\UserProfileBusinessService;
@@ -55,13 +58,30 @@ class UserProfileController extends Controller
      */
     function showEditor($category)
     {
-        $profile = new UserProfileDataAccessService();
-        $models = $profile->read();
-        $data = [
-            'user' => $models["user"],
-            'userProfile' => $models["userProfile"],
-            'category' => $category
+        /* @var $user UserModel */
+        $user = session('user');
 
+        // get profile
+        // general
+        $profileService = new UserProfileBusinessService();
+        $profile = $profileService->getProfileData();
+
+        // education for current user
+        $eduService = new EducationBusinessService();
+        $education = $eduService->getEducation($user->getId());
+        $educationModel = new EducationModel($education['ID'], $education['UID'], $education['INSTITUTION'], $education['LEVEL'], $education['DEGREE']);
+
+        // employment history for current user
+        $empService = new EmploymentHistoryBusinessService();
+        $employment = $empService->getEmploymentHistory($user->getId());
+        $employmentModel = new EmploymentHistoryModel($employment['ID'], $employment['UID'], $employment['EMPLOYER'], $employment['POSITION'], $employment['DURATION']);
+
+        $data = [
+            'user' => $profile["user"],
+            'userProfile' => $profile["userProfile"],
+            'category' => $category,
+            'education' => $educationModel,
+            'employment' => $employmentModel
         ];
         return view('edit_profile')->with(['data' => $data]);
     }
