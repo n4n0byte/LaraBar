@@ -8,6 +8,7 @@ This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
 $user = $data['user'];
+/* @var $userProfile \App\Model\UserProfileModel */
 $userProfile = $data['userProfile'];
 $category = $data['category'];
 ?>
@@ -24,7 +25,20 @@ $category = $data['category'];
 
 @section('content')
 
-    @component('components.form',['method' => 'POST', 'action' => '/CLC/profile/edit'])
+    @switch($category)
+        @case('education')
+        @component('components.profile.editEducation') @endcomponent
+        @break
+
+        @case('employment')
+        @component('components.profile.editEmployment') @endcomponent
+        @break
+
+        @default
+        @component('components.profile.editProfile', ['bio' => $userProfile->getBio(), 'location' => $userProfile->getLocation()]) @endcomponent
+        @break
+    @endswitch
+    {{--@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/edit'])
         @component('components.editTextArea',['label' => 'Biography', 'data' => $userProfile->getBio(),
                                                   'name' => 'bio'])@endcomponent
         @component('components.editTextArea',['label' => 'Employment History', 'data' => $userProfile->getEmploymentHistory(),
@@ -37,6 +51,6 @@ $category = $data['category'];
                                                  'name' => 'location'])@endcomponent
 
         @component('components.submitButton')@endcomponent
-    @endcomponent
+    @endcomponent--}}
 
 @endsection
