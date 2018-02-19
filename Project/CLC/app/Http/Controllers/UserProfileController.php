@@ -68,20 +68,17 @@ class UserProfileController extends Controller
 
         // education for current user
         $eduService = new EducationBusinessService();
-        $education = $eduService->getEducation($user->getId());
-        $educationModel = new EducationModel($education['ID'], $education['UID'], $education['INSTITUTION'], $education['LEVEL'], $education['DEGREE']);
+
 
         // employment history for current user
         $empService = new EmploymentHistoryBusinessService();
-        $employment = $empService->getEmploymentHistory($user->getId());
-        $employmentModel = new EmploymentHistoryModel($employment['ID'], $employment['UID'], $employment['EMPLOYER'], $employment['POSITION'], $employment['DURATION']);
 
         $data = [
             'user' => $profile["user"],
             'userProfile' => $profile["userProfile"],
             'category' => $category,
-            'education' => $educationModel,
-            'employment' => $employmentModel
+            'education' => $eduService->getEducation(),
+            'employment' => $empService->getEmploymentHistory()
         ];
         return view('edit_profile')->with(['data' => $data]);
     }
