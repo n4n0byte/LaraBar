@@ -107,6 +107,7 @@ class EducationDataAccessService
             $statement->execute();
 
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
                 $educationRow = new EducationModel($row["ID"],$row["UID"],$row["INSTITUTION"],$row["LEVEL"],$row["DEGREE"]);
                 array_push($educationArr,$educationRow);
