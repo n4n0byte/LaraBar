@@ -100,7 +100,7 @@ class EmploymentHistoryDataAccessService
     {
 
         $employmentHistoryArr = array();
-        $query = $uid === -1 ? $this->ini['EmploymentHistory']['select.all'] : $this->ini['EmploymentHistory']['select.id'];
+        $query = $id === -1 ? $this->ini['EmploymentHistory']['select.all'] : $this->ini['EmploymentHistory']['select.id'];
 
 
         if ($usePid){
