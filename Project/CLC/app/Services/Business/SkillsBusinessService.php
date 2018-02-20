@@ -49,11 +49,12 @@ class SkillsBusinessService
 
     /**
      * @param int $id
+     * @param bool $usePostId
      * @return array
      */
-    public function getSkill($id = -1)
+    public function getSkill($id = -1, $usePostId = false)
     {
-        return $this->SkillSvc->getSkillRows($id);
+        return $this->SkillSvc->getSkillRows($id, $usePostId);
     }
 
     /**

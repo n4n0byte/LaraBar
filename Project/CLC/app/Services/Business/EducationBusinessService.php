@@ -52,11 +52,12 @@ class EducationBusinessService
 
     /**
      * @param int $id
+     * @param bool $usePostId
      * @return array
      */
-    public function getEducation($id = -1)
+    public function getEducation($id = -1, $usePostId = false)
     {
-        return $this->educationSvc->getEducationRows($id);
+        return $this->educationSvc->getEducationRows($id,$usePostId);
     }
 
     /**

@@ -85,4 +85,15 @@ class SkillsModel
         $this->description = $description;
     }
 
+    public static function getFields()
+    {
+        return ['ID', 'UID', 'Title', 'Description'];
+    }
+
+    public function getSkillFieldsArr()
+    {
+        return [$this->id, $this->uid, $this->title, $this->description];
+    }
+
+
 }

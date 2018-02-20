@@ -11,11 +11,10 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Data;
 
-use App\Model\SkillModel;
-use App\Model\SkillsModel;
 use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
+use App\Model\SkillsModel;
 
 class SkillsDataAccessService
 {
@@ -75,10 +74,11 @@ class SkillsDataAccessService
     {
 
         // TODO fix
-        $modelArr = array($model->getId(), $model->getUid(), $model->getInstitution(),
-            $model->getLevel(), $model->getDegree());
+        $modelArr = array($model->getId(), $model->getUid(), $model->getDescription(),
+            $model->getTitle());
         $query = $this->ini['Skill']['update'];
         $statement = $this->conn->prepare($query);
+
         $statement->bindParam(":id", $modelArr[0]);
         $statement->bindParam(":institution", $modelArr[2]);
         $statement->bindParam(":level", $modelArr[3]);
@@ -95,15 +95,21 @@ class SkillsDataAccessService
     }
 
 
-    public function getSkillRows($uid = -1)
+    public function getSkillRows($id = -1, $usePid = false)
     {
 
         $SkillArr = array();
-        $query = $uid === -1 ? $this->ini['Skill']['select.all'] : $this->ini['Skill']['select.id'];
+        $query = $id === -1 ? $this->ini['Skill']['select.all'] : $this->ini['Skill']['select.id'];
+
+        if ($usePid){
+            $query = $this->ini['Skill']['select.pid'];
+        }
+
         $statement = $this->conn->prepare($query);
 
-        if ($uid !== -1) {
-            $statement->bindParam(":uid", $uid);
+
+        if ($id !== -1) {
+            $statement->bindParam(":id", $id);
         }
 
         try {
@@ -114,7 +120,7 @@ class SkillsDataAccessService
 
                 // TODO
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
-                $SkillRow = new SkillsModel($row["ID"], $row["UID"], $row["INSTITUTION"], $row["LEVEL"], $row["DEGREE"]);
+                $SkillRow = new SkillsModel($row["ID"], $row["UID"], $row["TITLE"], $row["DESCRIPTION"]);
                 array_push($SkillArr, $SkillRow);
             }
 
