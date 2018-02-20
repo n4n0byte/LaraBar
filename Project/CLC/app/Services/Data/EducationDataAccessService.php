@@ -91,7 +91,11 @@ class EducationDataAccessService
 
     }
 
-
+    /**
+     * @param int $id
+     * @param bool $usePostId
+     * @return array
+     */
     public function getEducationRows($id = -1, $usePostId = false){
 
         $educationArr = array();

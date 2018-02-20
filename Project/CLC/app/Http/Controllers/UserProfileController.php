@@ -75,14 +75,14 @@ class UserProfileController extends Controller
 
         // education
         $eduService = new EducationBusinessService();
-        $education = $eduService->getEducation($user->getId(), true);
+        $education = $eduService->getEducation($user->getId());
 
         // employment history
         $empService = new EmploymentHistoryBusinessService();
-        $employment = $empService->getEmploymentHistory($user->getId(), true);
+        $employment = $empService->getEmploymentHistory($user->getId());
 
         $skillsSvc = new SkillsBusinessService();
-        $skills = $skillsSvc->getSkill($user->getId(), true);
+        $skills = $skillsSvc->getSkill($user->getId());
 
         // put into $data and send to view
         $data = [
