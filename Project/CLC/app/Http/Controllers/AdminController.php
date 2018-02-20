@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\UserModel;
 use App\Services\Business\EducationBusinessService;
+use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
@@ -23,10 +24,6 @@ class AdminController extends Controller
         $userService = new UserBusinessService($temp);
         $userList = $userService->listUsers();
         $jobData = new JobPostBusinessService();
-
-        $e = new EducationBusinessService();
-
-        $x = $e->getEducation(8,true);
 
 
         $data = [

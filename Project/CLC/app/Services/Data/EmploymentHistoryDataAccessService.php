@@ -104,7 +104,7 @@ class EmploymentHistoryDataAccessService
 
 
         if ($usePid){
-            $query = $this->ini['Job']['select.pid'];
+            $query = $this->ini['EmploymentHistory']['select.pid'];
         }
 
         $statement = $this->conn->prepare($query);

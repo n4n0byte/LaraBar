@@ -54,9 +54,9 @@ class EmploymentHistoryBusinessService
      * @param int $id
      * @return array
      */
-    public function getEmploymentHistory($id = -1)
+    public function getEmploymentHistory($id = -1, $usePostId = false)
     {
-        return $this->employmentHistorySvc->getEmploymentHistoryRows($id);
+        return $this->employmentHistorySvc->getEmploymentHistoryRows($id, $usePostId);
     }
 
     /**
