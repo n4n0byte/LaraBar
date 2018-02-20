@@ -40,8 +40,8 @@ class JobPostBusinessService {
         $this->jobSvc->updateJobPost($model);
     }
 
-    public function getJobPosts($uid = -1){
-        return $this->jobSvc->getJobs($uid);
+    public function getJobPosts($uid = -1, $usePid = false){
+        return $this->jobSvc->getJobs($uid, $usePid);
     }
 
 }

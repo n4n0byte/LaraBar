@@ -30,6 +30,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('content')
 
+
     @component('components.personalInfoCard',['firstName' => $user->getFirstName(),
                                               'lastName' => $user->getLastName(),
                                               'email' => $user->getEmail() ])
@@ -45,6 +46,13 @@ We used source code from the following websites to complete this assignment: N/A
 
     @component('components.profileCards',['title' => 'Education', 'category' => 'education'  ,
      'id' => $user->getId()])
+
+        {{--Adds item--}}
+        @slot("btns")
+            @component('components.buttons.btn',['route' => '/CLC/addJobPost/','class' => 'fa-plus'])
+            @endcomponent
+        @endslot
+
         @component('components.generalTable', ['names' => \App\Model\EducationModel::getFields()])
             @foreach($education as $row)
                 @component('components.generalTableContent', ['row' => $row->getEducationFieldsArr()])
@@ -63,6 +71,13 @@ We used source code from the following websites to complete this assignment: N/A
 
     @component('components.profileCards',['title' => 'Employment History', 'category' => 'employment' ,
      'id' => $user->getId()])
+
+        {{--Adds item--}}
+        @slot("btns")
+            @component('components.buttons.btn',['route' => '/CLC/addJobPost/','class' => 'fa-plus'])
+            @endcomponent
+        @endslot
+
         @component('components.generalTable', ['names' => \App\Model\EmploymentHistoryModel::getFields()])
             @foreach($employment as $row)
                 @component('components.generalTableContent', ['row' => $row->getEmploymentFieldsArr()])
@@ -80,6 +95,13 @@ We used source code from the following websites to complete this assignment: N/A
     @endcomponent
 
     @component('components.profileCards',['title' => 'Skills', 'category' => 'skills' ,'id' => $user->getId()])
+
+        {{--Adds item--}}
+        @slot("btns")
+            @component('components.buttons.btn',['route' => '/CLC/addJobPost/','class' => 'fa-plus'])
+            @endcomponent
+        @endslot
+
         @component('components.generalTable', ['names' => \App\Model\SkillsModel::getFields()])
             @foreach($skills as $row)
                 @component('components.generalTableContent', ['row' => $row->getSkillFieldsArr()])

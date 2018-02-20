@@ -48,6 +48,9 @@ Route::post("updateJobPostData/","AdminController@updateJobPostData");
 Route::get("updateJobPost/{id}","AdminController@updateJobPost");
 Route::get("deleteJobPost/{id}","AdminController@deleteJobPost");
 Route::post("addJobPost","AdminController@addJobPost");
+
+Route::get("addItem/{type}","ProfileController@add");
+
 Route::get('profile', 'UserProfileController@show');
 Route::get('profile/edit/{category}', 'UserProfileController@showEditor');
 Route::post('profile/edit', 'UserProfileController@update');

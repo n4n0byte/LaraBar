@@ -7,7 +7,6 @@ January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
-/* @var $userProfile \App\Model\UserProfileModel */
 ?>
 @extends('layouts.master')
 @section('title','Profile')
@@ -22,8 +21,8 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('content')
 
-    @component('components.form','')
-
+    @component('components.form',['method' => 'POST', 'action' => '/CLC/add/' . $type])
+        @component('components.editTextInput',['label' => 'Title', 'name' => 'title'])@endcomponent
     @endcomponent
 
 @endsection

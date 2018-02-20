@@ -25,6 +25,33 @@ use App\Services\Data\UserProfileDataAccessService;
 class UserProfileController extends Controller
 {
 
+    private static $types = ['employmentHistory','education','skill'];
+
+    /**
+     * @param $type
+     * @param $name
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function viewAdd($type,$name){
+
+        $result = array_search($type,self::$types);
+
+        $data = ['type' => $type, 'name' => $name];
+
+        return $result === false ? redirect()->action('ProfileController@index') :
+            view("add")->with($data);
+
+    }
+
+    public function add(Request $request){
+
+
+        return redirect()->action("ProfileController@index");
+    }
+
+
+
+
     /**
      * @return $this
      */
