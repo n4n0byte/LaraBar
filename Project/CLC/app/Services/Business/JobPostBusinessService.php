@@ -20,7 +20,6 @@ class JobPostBusinessService {
 
     /**
      * JobPostBusinessService constructor.
-     * @param $jobSvc
      */
     public function __construct() {
         $this->jobSvc = new JobPostDataAccessService();

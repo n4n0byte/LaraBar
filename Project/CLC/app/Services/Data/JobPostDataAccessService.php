@@ -44,6 +44,7 @@ class JobPostDataAccessService {
         $statement->bindParam(":salary",$data[4]);
 
 
+
         try {
 
             $result = $statement->execute();
