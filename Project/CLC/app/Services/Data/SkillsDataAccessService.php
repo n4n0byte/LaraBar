@@ -11,10 +11,10 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Data;
 
+use App\Model\SkillsModel;
 use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
-use App\Model\SkillsModel;
 
 class SkillsDataAccessService
 {
@@ -79,16 +79,15 @@ class SkillsDataAccessService
         $statement = $this->conn->prepare($query);
 
         $statement->bindParam(":id", $modelArr[0]);
-        $statement->bindParam(":institution", $modelArr[2]);
-        $statement->bindParam(":level", $modelArr[3]);
-        $statement->bindParam(":degree", $modelArr[4]);
+        $statement->bindParam(":description", $modelArr[2]);
+        $statement->bindParam(":title", $modelArr[3]);
 
         try {
 
             $result = $statement->execute();
 
         } catch (PDOException $e) {
-            throw new PDOException("Exception in JobPostDAO::update\n" . $e->getMessage());
+            throw new PDOException("Exception in SkillsDAO::update\n" . $e->getMessage());
         }
 
     }
