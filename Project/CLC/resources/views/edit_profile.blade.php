@@ -47,6 +47,16 @@ We used source code from the following websites to complete this assignment: N/A
         @endcomponent
         @break
 
+        @case('location')
+            @component('components.profile.editLocation',['id' => $model->getId(), 'location' => $model->getLocation() ])
+        @endcomponent
+        @break
+
+        @case('biography')
+        @component('components.profile.editBiography',['id' => $model->getId(), 'biography' => $model->getBio() ])
+        @endcomponent
+        @break
+
     @endswitch
 
 @endsection

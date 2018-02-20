@@ -114,6 +114,36 @@ class UserProfileController extends Controller
     }
 
     /**
+     * @param Request $request
+     */
+    function updateBiography(Request $request){
+
+        $bio = $request->get('biography');
+        $location = $this->userProfileService->getProfileData()['userProfile']->getLocation();
+
+        $model = new UserProfileModel("",$bio,$location);
+        $this->userProfileService->updateUserProfile($model);
+
+        return redirect()->action('UserProfileController@show');
+
+    }
+
+    /**
+     * @param Request $request
+     */
+    function updateLocation(Request $request){
+
+        $location = $request->get('location');
+        $bio = $this->userProfileService->getProfileData()['userProfile']->getBio();
+
+        $model = new UserProfileModel("",$bio,$location);
+        $this->userProfileService->updateUserProfile($model);
+
+        return redirect()->action('UserProfileController@show');
+
+    }
+
+    /**
      * @param $category
      * @return $this
      */
@@ -145,8 +175,16 @@ class UserProfileController extends Controller
                 $category = "personal";
                 break;
             case "location":
+                //get profile model
                 $model = $this->userProfileService->getProfileData();
+                $model = $model['userProfile'];
                 $category = "location";
+                break;
+            case "biography":
+                //get profile model
+                $model = $this->userProfileService->getProfileData();
+                $model = $model['userProfile'];
+                $category = "biography";
                 break;
         }
 

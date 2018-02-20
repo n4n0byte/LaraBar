@@ -58,6 +58,9 @@ Route::post('profile/editPersonalInfo', 'UserProfileController@updatePersonalInf
 Route::post('profile/editEmployment', 'UserProfileController@updateEmployment');
 Route::post('profile/editEducation', 'UserProfileController@updateEducation');
 Route::post('profile/editSkills', 'UserProfileController@updateSkills');
+Route::post('profile/editLocation', 'UserProfileController@updateLocation');
+Route::post('profile/editBiography', 'UserProfileController@updateBiography');
+
 // --- Insert
 Route::post('profile/addSkills', 'UserProfileController@createSkills');
 Route::post('profile/addEmployment', 'UserProfileController@createEmployment');
