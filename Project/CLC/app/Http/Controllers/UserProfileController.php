@@ -81,15 +81,13 @@ class UserProfileController extends Controller
         $skillsSvc = new SkillsBusinessService();
         $skills = $skillsSvc->getSkill();
 
-        $message = isset($confirmation) ? $confirmation : "";
         // put into $data and send to view
         $data = [
             'userProfile' => $profile['userProfile'],
             'user' => $profile['user'],
             'education' => $education,
             'employment' => $employment,
-            'skills' => $skills,
-            'confirmation' => $message
+            'skills' => $skills
         ];
 
         return view('profile')->with($data);
@@ -97,7 +95,6 @@ class UserProfileController extends Controller
 
     /**
      * @param $category
-     * @param $id
      * @return $this
      */
     function showEditor($category, $id)
@@ -115,7 +112,7 @@ class UserProfileController extends Controller
                 $model = $this->eduService->getEducation((int)$id, true);
                 $category = "education";
                 break;
-            case "employmentHistory":
+            case "employment":
                 $model = $this->empService->getEmploymentHistory((int)$id,true);
                 $category = "employment";
                 break;
@@ -243,7 +240,7 @@ class UserProfileController extends Controller
 
     function updateSkills(Request $request)
     {
-        // ` inputs
+        // get inputs
         $inputTitle = $request->input('title');
         $inputDescription = $request->input('description');
         $inputId = $request->input('post-id');
@@ -254,7 +251,8 @@ class UserProfileController extends Controller
         $model = new SkillsModel($inputId, $user->getId(), $inputTitle, $inputDescription);
 
         // commit changes
-        $this->skillService->updateSkill($model);
+        $profileSvc = new SkillsBusinessService();
+        $profileSvc->updateSkill($model);
         return redirect()->action("UserProfileController@show");
     }
 
@@ -304,40 +302,6 @@ class UserProfileController extends Controller
             'employment' => $empService->getEmploymentHistory()
         ];
         return view('add_profile')->with(['data' => $data]);
-    }
-
-    /**
-     * @param $category
-     * @param $id
-     * @return $this
-     */
-    function delete($category, $id)
-    {
-        /* @var $user UserModel */
-        $user = session('user');
-
-        // get profile
-        // general
-        $message = null;
-
-        switch ($category) {
-            case "education":
-                $this->eduService->deleteEducation((int)$id);
-                $message = "Education record $id removed";
-                break;
-            case "employment":
-                $this->empService->removeEmploymentHistory((int)$id);
-                $message = "Employment record $id removed";
-                break;
-            case "skills":
-                $this->skillService->deleteSkill((int)$id);
-                $message = "Skill record $id removed";
-                break;
-            default:
-                $message = "Nothing has changed";
-        }
-
-        return redirect()->action("UserProfileController@show")->with(['confirmation' => $message]);
     }
 
 }
