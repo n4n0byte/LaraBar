@@ -13,9 +13,11 @@ namespace App\Http\Controllers;
 
 use App\Model\EducationModel;
 use App\Model\EmploymentHistoryModel;
+use App\Model\SkillsModel;
 use App\Model\UserModel;
 use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
+use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 use Illuminate\Http\Request;
 use App\Services\Data\UserProfileDataAccessService;
@@ -41,12 +43,16 @@ class UserProfileController extends Controller
         $empService = new EmploymentHistoryBusinessService();
         $employment = $empService->getEmploymentHistory();
 
+        $skillsSvc = new SkillsBusinessService();
+        $skills = $skillsSvc->getSkill();
+
         // put into $data and send to view
         $data = [
             'userProfile' => $profile['userProfile'],
             'user' => $profile['user'],
             'education' => $education,
-            'employment' => $employment
+            'employment' => $employment,
+            'skills' => $skills
         ];
 
         return view('profile')->with($data);

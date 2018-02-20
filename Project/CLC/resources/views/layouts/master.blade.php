@@ -44,7 +44,7 @@ We used source code from the following websites to complete this assignment:
 <div id="overlay">
     @yield('navbar')
 
-    <div class="container" style="margin: 150px auto;">
+    <div class="container" style="margin: 50px auto;">
         @yield('content')
     </div>
 

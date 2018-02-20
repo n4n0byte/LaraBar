@@ -37,7 +37,7 @@ class EducationModel
         return ['Institution', 'Degree', 'Program'];
     }
 
-    public function getJobFieldsArr()
+    public function getEducationFieldsArr()
     {
         return [$this->institution, $this->level, $this->degree];
     }
