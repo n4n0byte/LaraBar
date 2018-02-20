@@ -75,10 +75,11 @@ class SkillsDataAccessService
     {
 
         // TODO fix
-        $modelArr = array($model->getId(), $model->getUid(), $model->getInstitution(),
-            $model->getLevel(), $model->getDegree());
+        $modelArr = array($model->getId(), $model->getUid(), $model->getDescription(),
+            $model->getTitle());
         $query = $this->ini['Skill']['update'];
         $statement = $this->conn->prepare($query);
+
         $statement->bindParam(":id", $modelArr[0]);
         $statement->bindParam(":institution", $modelArr[2]);
         $statement->bindParam(":level", $modelArr[3]);
@@ -114,7 +115,7 @@ class SkillsDataAccessService
 
                 // TODO
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
-                $SkillRow = new SkillsModel($row["ID"], $row["UID"], $row["INSTITUTION"], $row["LEVEL"], $row["DEGREE"]);
+                $SkillRow = new SkillsModel($row["ID"], $row["UID"], $row["TITLE"], $row["DESCRIPTION"]);
                 array_push($SkillArr, $SkillRow);
             }
 

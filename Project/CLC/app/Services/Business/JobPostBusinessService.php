@@ -36,7 +36,7 @@ class JobPostBusinessService {
 
     public function updateJobPost($id,$title,$location,$description,$requirements,$salary){
         $user = session()->get('user');
-        $model = new JobModel($id,$user->getID(),$title,$user->getEmail(),$location,$description,$requirements,$salary);
+        $model = new JobModel($id, $user->getID(), $title, $user->getEmail(),$location,$description,$requirements,$salary);
         $this->jobSvc->updateJobPost($model);
     }
 

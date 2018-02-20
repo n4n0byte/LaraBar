@@ -92,14 +92,19 @@ class EducationDataAccessService
     }
 
 
-    public function getEducationRows($uid = -1){
+    public function getEducationRows($id = -1, $usePostId = false){
 
         $educationArr = array();
-        $query = $uid === -1 ? $this->ini['Education']['select.all'] : $this->ini['Education']['select.id'];
+        $query = $id === -1 ? $this->ini['Education']['select.all'] : $this->ini['Education']['select.id'];
+
+        if ($usePostId){
+            $query = $this->ini['Education']['select.pid'];
+        }
+
         $statement = $this->conn->prepare($query);
 
-        if ($uid !== -1){
-            $statement->bindParam(":uid", $uid);
+        if ($id !== -1){
+            $statement->bindParam(":uid", $id);
         }
 
         try {

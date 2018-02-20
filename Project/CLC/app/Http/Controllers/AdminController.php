@@ -24,6 +24,11 @@ class AdminController extends Controller
         $userList = $userService->listUsers();
         $jobData = new JobPostBusinessService();
 
+        $e = new EducationBusinessService();
+
+        $x = $e->getEducation(8,true);
+
+
         $data = [
             "userList" => $userList,
             "toolId" => $toolId,

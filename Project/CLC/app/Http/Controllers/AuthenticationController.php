@@ -49,7 +49,7 @@ class AuthenticationController extends Controller {
         // create UserModel
         if ($inputPassword == "" || $inputEmail == "")
             return view("register")->with(['user' => -1]);
-        $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
+        $user = new UserModel(0, $inputEmail,$inputPassword, $inputFirstName, $inputLastName);
 
         // create a business service
         $service = new UserBusinessService($user);
