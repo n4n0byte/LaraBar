@@ -151,7 +151,7 @@ class UserProfileController extends Controller
         $inputInstitution = $request->input('institution');
         $inputLevel = $request->input('level');
         $inputDegree = $request->input('degree');
-        $inputId = $request->input('id');
+        $inputId = $request->input('post-id');
 
         /* @var $user UserModel */
         $user = session('user');
@@ -169,7 +169,7 @@ class UserProfileController extends Controller
     function updateEmployment(Request $request)
     {
         // get inputs
-        $inputInstitution = $request->input('institution');
+        $inputId = $request->input('post-id');
 
         /* @var $user UserModel */
         $user = session('user');
@@ -179,8 +179,8 @@ class UserProfileController extends Controller
         $model = new EmploymentHistoryModel();
 
         // commit changes
-        $profileSvc = new EducationBusinessService();
-        $profileSvc->updateEducation($model);
+        $profileSvc = new EmploymentHistoryBusinessService();
+        $profileSvc->updateEmploymentHistory($model);
         return redirect()->action("UserProfileController@show");
     }
 

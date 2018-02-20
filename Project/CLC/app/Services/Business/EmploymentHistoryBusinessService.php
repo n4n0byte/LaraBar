@@ -60,17 +60,13 @@ class EmploymentHistoryBusinessService
     }
 
     /**
-     * @param $id
-     * @param $employer
-     * @param $position
-     * @param $duration
+     * @param EmploymentHistoryModel $model
      */
-    public function updateEmploymentHistory($id, $employer, $position, $duration)
+    public function updateEmploymentHistory(EmploymentHistoryModel $model)
     {
 
         $user = session()->get("user");
-        $employmentHistoryModel = new EmploymentHistoryModel($id, $user->getID(), $employer, $position, $duration);
-        $this->employmentHistorySvc->updateEmploymentHistoryRow($employmentHistoryModel);
+        $this->employmentHistorySvc->updateEmploymentHistoryRow($model);
 
     }
 
