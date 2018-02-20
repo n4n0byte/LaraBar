@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Model\EducationModel;
 use App\Model\EmploymentHistoryModel;
+use App\Model\SkillsModel;
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
 use App\Services\Business\EducationBusinessService;
@@ -166,21 +167,95 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
-    function updateEmployment(Request $request)
+    function createEducation(Request $request)
     {
         // get inputs
-        $inputId = $request->input('post-id');
+        $inputInstitution = $request->input('institution');
+        $inputLevel = $request->input('level');
+        $inputDegree = $request->input('degree');
 
         /* @var $user UserModel */
         $user = session('user');
 
         // create model
         /* $model = */
-        $model = new EmploymentHistoryModel();
+        $model = new EducationModel(-1, $user->getId(), $inputInstitution, $inputLevel, $inputDegree);
+
+        // commit changes
+        $profileSvc = new EducationBusinessService();
+        $profileSvc->updateEducation($model);
+        return redirect()->action("UserProfileController@show");
+    }
+
+    function updateEmployment(Request $request)
+    {
+        // get inputs
+        $inputEmployer = $request->input('employer');
+        $inputPosition = $request->input('position');
+        $inputDuration = $request->input('duration');
+        $inputId = $request->input('post-id');
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // create model
+        $model = new EmploymentHistoryModel($inputId, $user->getId(), $inputEmployer, $inputPosition, $inputDuration);
 
         // commit changes
         $profileSvc = new EmploymentHistoryBusinessService();
         $profileSvc->updateEmploymentHistory($model);
+        return redirect()->action("UserProfileController@show");
+    }
+
+    function createEmployment(Request $request)
+    {
+        // get inputs
+        $inputEmployer = $request->input('employer');
+        $inputPosition = $request->input('position');
+        $inputDuration = $request->input('duration');
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // create model
+        $model = new EmploymentHistoryModel(-1, $user->getId(), $inputEmployer, $inputPosition, $inputDuration);
+
+        // commit changes
+        $profileSvc = new EmploymentHistoryBusinessService();
+        $profileSvc->updateEmploymentHistory($model);
+        return redirect()->action("UserProfileController@show");
+    }
+
+    function updateSkills(Request $request)
+    {
+        // get inputs
+        $inputTitle = $request->input('title');
+        $inputDescription = $request->input('description');
+        $inputId = $request->input('post-id');
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // create model
+        $model = new SkillsModel($inputId, $user->getId(), $inputTitle, $inputDescription);
+
+        // commit changes
+        $profileSvc = new SkillsBusinessService();
+        $profileSvc->updateSkill($model);
+        return redirect()->action("UserProfileController@show");
+    }
+
+    function createSkills(Request $request)
+    {
+        // get inputs
+        $inputTitle = $request->input('title');
+        $inputDescription = $request->input('description');
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // create model
+        $model = new SkillsModel(-1, $user->getId(), $inputTitle, $inputDescription);
+
+        // commit changes
+        $profileSvc = new SkillsBusinessService();
+        $profileSvc->updateSkill($model);
         return redirect()->action("UserProfileController@show");
     }
 

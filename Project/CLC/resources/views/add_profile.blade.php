@@ -1,9 +1,9 @@
 <?php
 /*
 version 1.0
-Ali
+Connor
 CST-256
-January 24, 2018
+February 19, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
@@ -30,15 +30,15 @@ $category = $data['category'];
 
     @switch($category)
         @case('education')
-        @component('components.profile.editEducation', ['institution' => '', 'level' => '', 'degree' => '']) @endcomponent
+        @component('components.profile.addEducation', ['institution' => '', 'level' => '', 'degree' => '']) @endcomponent
         @break
 
         @case('employment')
-        @component('components.profile.editEmployment') @endcomponent
+        @component('components.profile.addEmployment') @endcomponent
         @break
 
         @case('skills')
-        @component('components.profile.editSkills') @endcomponent
+        @component('components.profile.addSkills') @endcomponent
         @break
 
         @default

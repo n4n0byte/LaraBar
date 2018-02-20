@@ -67,7 +67,10 @@ class EducationBusinessService
     {
 
         $user = session()->get("user");
-        $this->educationSvc->updateEducationRow($model);
+        if ($model->getId() > 0)
+            $this->educationSvc->updateEducationRow($model);
+        else
+            $this->educationSvc->createEducationRow($model);
 
     }
 
