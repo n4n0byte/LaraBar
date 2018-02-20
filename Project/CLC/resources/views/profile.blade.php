@@ -61,7 +61,7 @@ $user = session('user');
                         @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/profile/edit/education/' . $row->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot
@@ -86,7 +86,7 @@ $user = session('user');
                         @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/profile/edit/employment/' . $row->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot
@@ -110,7 +110,7 @@ $user = session('user');
                         @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/profile/edit/skills/' . $row->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot
