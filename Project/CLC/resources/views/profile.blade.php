@@ -47,8 +47,15 @@ We used source code from the following websites to complete this assignment: N/A
      'id' => $user->getId()])
         @component('components.generalTable', ['names' => \App\Model\EducationModel::getFields()])
             @foreach($education as $row)
-                <?php var_dump($row); exit();?>
-                @component('components.generalTableContent', ['row' => $row])
+                @component('components.generalTableContent', ['row' => $row->getEducationFieldsArr()])
+                    @slot('btns')
+                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
+                                                             'class' => 'fa-remove'])
+                        @endcomponent
+                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $row->getId(),
+                                         'class' => 'fa-edit'])
+                        @endcomponent
+                    @endslot
                 @endcomponent
             @endforeach
         @endcomponent
@@ -58,7 +65,15 @@ We used source code from the following websites to complete this assignment: N/A
      'id' => $user->getId()])
         @component('components.generalTable', ['names' => \App\Model\EmploymentHistoryModel::getFields()])
             @foreach($employment as $row)
-                @component('components.generalTableContent', ['row' => $row])
+                @component('components.generalTableContent', ['row' => $row->getEmploymentFieldsArr()])
+                    @slot('btns')
+                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
+                                                             'class' => 'fa-remove'])
+                        @endcomponent
+                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $row->getId(),
+                                         'class' => 'fa-edit'])
+                        @endcomponent
+                    @endslot
                 @endcomponent
             @endforeach
         @endcomponent
@@ -67,7 +82,15 @@ We used source code from the following websites to complete this assignment: N/A
     @component('components.profileCards',['title' => 'Skills', 'category' => 'skills' ,'id' => $user->getId()])
         @component('components.generalTable', ['names' => \App\Model\SkillsModel::getFields()])
             @foreach($skills as $row)
-                @component('components.generalTableContent', ['row' => $row])
+                @component('components.generalTableContent', ['row' => $row->getSkillFieldsArr()])
+                    @slot('btns')
+                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
+                                                             'class' => 'fa-remove'])
+                        @endcomponent
+                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $row->getId(),
+                                         'class' => 'fa-edit'])
+                        @endcomponent
+                    @endslot
                 @endcomponent
             @endforeach
         @endcomponent

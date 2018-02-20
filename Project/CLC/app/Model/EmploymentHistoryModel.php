@@ -39,7 +39,7 @@ class EmploymentHistoryModel
         return ['Employer', 'Position', 'Duration'];
     }
 
-    public function getJobFieldsArr()
+    public function getEmploymentFieldsArr()
     {
         return [$this->employer, $this->position, $this->duration];
     }
