@@ -49,12 +49,15 @@ Route::get("updateJobPost/{id}","AdminController@updateJobPost");
 Route::get("deleteJobPost/{id}","AdminController@deleteJobPost");
 Route::post("addJobPost","AdminController@addJobPost");
 Route::get('profile', 'UserProfileController@show');
-Route::get('profile/edit/{category}', 'UserProfileController@showEditor');
-Route::get('profile/add/{category}', 'UserProfileController@addEditor');
+Route::get('profile/edit/{category}', 'UserProfileController@showEditor'); // update form view
+Route::get('profile/add/{category}', 'UserProfileController@addEditor'); // create form view
 Route::post('profile/editProfile', 'UserProfileController@updateProfile');
 Route::post('profile/editEmployment', 'UserProfileController@updateEmployment');
 Route::post('profile/editEducation', 'UserProfileController@updateEducation');
-Route::post('profile/editSkills', 'UserProfileController@updateSkills');
+Route::post('profile/addSkills', 'UserProfileController@updateSkills');
+Route::post('profile/addEmployment', 'UserProfileController@createEmployment');
+Route::post('profile/addEducation', 'UserProfileController@createEducation');
+Route::post('profile/editSkills', 'UserProfileController@createSkills');
 Route::get('admin', 'AdminController@index');
 Route::get('admin/suspend/{id}', 'AdminController@suspend');
 Route::get('admin/reactivate/{id}', 'AdminController@reactivate');

@@ -1,3 +1,4 @@
+/// WE DON'T USE THIS
 @component('components.form',['method' => 'POST', 'action' => '/CLC/profile/add/profile'])
     @component('components.editTextArea',['id' => 'biography', 'label' => 'Biography',
                                                   'name' => 'bio'])

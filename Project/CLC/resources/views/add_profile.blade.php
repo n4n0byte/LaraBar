@@ -30,7 +30,7 @@ $category = $data['category'];
 
     @switch($category)
         @case('education')
-        @component('components.profile.addEducation', ['institution' => '', 'level' => '', 'degree' => '']) @endcomponent
+        @component('components.profile.addEducation') @endcomponent
         @break
 
         @case('employment')

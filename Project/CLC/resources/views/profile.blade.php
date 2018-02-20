@@ -50,7 +50,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/addJobPost/','class' => 'fa-plus'])
+            @component('components.buttons.btn',['route' => '/CLC/profile/add/education','class' => 'fa-plus'])
             @endcomponent
         @endslot
 
@@ -75,7 +75,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/addJobPost/','class' => 'fa-plus'])
+            @component('components.buttons.btn',['route' => '/CLC/profile/add/employment','class' => 'fa-plus'])
             @endcomponent
         @endslot
 
@@ -99,7 +99,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/addJobPost/','class' => 'fa-plus'])
+            @component('components.buttons.btn',['route' => '/CLC/profile/add/skills','class' => 'fa-plus'])
             @endcomponent
         @endslot
 

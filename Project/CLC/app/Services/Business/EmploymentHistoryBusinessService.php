@@ -66,7 +66,10 @@ class EmploymentHistoryBusinessService
     {
 
         $user = session()->get("user");
-        $this->employmentHistorySvc->updateEmploymentHistoryRow($model);
+        if ($model->getId() > 0)
+            $this->employmentHistorySvc->updateEmploymentHistoryRow($model);
+        else
+            $this->
 
     }
 

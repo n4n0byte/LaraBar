@@ -259,4 +259,35 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
+    /**
+     * @param $category
+     * @return $this
+     */
+    function addEditor($category)
+    {
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // get profile
+        // general
+        $profileService = new UserProfileBusinessService();
+        $profile = $profileService->getProfileData();
+
+        // education for current user
+        $eduService = new EducationBusinessService();
+
+
+        // employment history for current user
+        $empService = new EmploymentHistoryBusinessService();
+
+        $data = [
+            'user' => $profile["user"],
+            'userProfile' => $profile["userProfile"],
+            'category' => $category,
+            'education' => $eduService->getEducation(),
+            'employment' => $empService->getEmploymentHistory()
+        ];
+        return view('add_profile')->with(['data' => $data]);
+    }
+
 }
