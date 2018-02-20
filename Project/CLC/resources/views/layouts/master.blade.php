@@ -29,6 +29,9 @@ We used source code from the following websites to complete this assignment:
     <script src="/CLC/public/js/tether.js"></script>
     <title>@yield('title')</title>
     <style>
+        body{
+
+        }
         ::-webkit-scrollbar {
             z-index: 100;
         }

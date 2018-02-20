@@ -9,12 +9,10 @@ This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
 namespace App\Services\Data;
-use App\Services\Business\UserBusinessService;
-use App\Services\DatabaseAccess;
-use PDOException;
-use PDO;
 use App\Model\JobModel;
-use App\Model\UserModel;
+use App\Services\DatabaseAccess;
+use PDO;
+use PDOException;
 
 class JobPostDataAccessService {
 
@@ -114,7 +112,7 @@ class JobPostDataAccessService {
         try {
 
             $statement->execute();
-
+            $x = $statement->rowCount();
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
                 $job = new JobModel($row["ID"],$row["UID"],$row["TITLE"],$row["AUTHOR"],

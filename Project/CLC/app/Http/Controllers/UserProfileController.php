@@ -26,6 +26,13 @@ class UserProfileController extends Controller
 {
 
     private static $types = ['employmentHistory', 'education', 'skill'];
+    private  $eduService, $empService, $skillService;
+
+    function __construct() {
+        $this->eduService = new EducationBusinessService();
+        $this->empService = new EmploymentHistoryBusinessService();
+        $this->skillService = new SkillsBusinessService();
+    }
 
     /**
      * @param $type
@@ -89,31 +96,38 @@ class UserProfileController extends Controller
      * @param $category
      * @return $this
      */
-    function showEditor($category)
+    function showEditor($category, $id)
     {
         /* @var $user UserModel */
         $user = session('user');
 
         // get profile
         // general
-        $profileService = new UserProfileBusinessService();
-        $profile = $profileService->getProfileData();
+        $model = null;
+        $view = null;
 
-        // education for current user
-        $eduService = new EducationBusinessService();
-
-
-        // employment history for current user
-        $empService = new EmploymentHistoryBusinessService();
+        switch ($category){
+            case "education":
+                $model = $this->eduService->getEducation((int)$id,true);
+                $category = "education";
+                $view = "Education";
+                break;
+            case "employmentHistory":
+                $model = $this->empService->getEmploymentHistory((int)$id,true);
+                $category = "Employment";
+                break;
+            case "skill":
+                $model = $this->skillService->getSkill((int)$id,true);
+                $category = "Skill";
+                break;
+        }
 
         $data = [
-            'user' => $profile["user"],
-            'userProfile' => $profile["userProfile"],
-            'category' => $category,
-            'education' => $eduService->getEducation(),
-            'employment' => $empService->getEmploymentHistory()
+            'model' => $model[0],
+            'category' => $category
         ];
-        return view('edit_profile')->with(['data' => $data]);
+
+        return view('edit_profile' )->with($data);
     }
 
     function editMember()

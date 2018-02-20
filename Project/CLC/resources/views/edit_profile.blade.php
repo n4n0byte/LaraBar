@@ -7,12 +7,6 @@ January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
-$user = $data['user'];
-/* @var $userProfile \App\Model\UserProfileModel */
-$userProfile = $data['userProfile'];
-$education = $data['education'];
-$employment = $data['employment'];
-$category = $data['category'];
 
 ?>
 @extends('layouts.master')
@@ -30,20 +24,26 @@ $category = $data['category'];
 
     @switch($category)
         @case('education')
-        @component('components.profile.editEducation', ['institution' => '', 'level' => '', 'degree' => '']) @endcomponent
+        @component('components.profile.editEducation', ['institution' => $model->getInstitution(),
+                    'level' => $model->getLevel(), 'degree' => $model->getDegree()
+                    ,'id' => $model->getId()]) @endcomponent
         @break
 
         @case('employment')
-        @component('components.profile.editEmployment') @endcomponent
+        @component('components.profile.editEmployment',['employer' => $model->getEmployer(),
+                    'level' => $model->getPosition(), 'duration' => $model->getDuration()
+                    ,'id' => $model->getId()] ) @endcomponent
         @break
 
         @case('skills')
-        @component('components.profile.editSkills') @endcomponent
+        @component('components.profile.editSkills',['title' => $model->getTitle(),
+                    'description' => $model->getDescription(),'id' => $model->getId()])
+        @endcomponent
         @break
 
-        @default
-        @component('components.profile.editProfile', ['bio' => $userProfile->getBio(), 'location' => $userProfile->getLocation()]) @endcomponent
-        @break
+        @if(isset($bio) && isset($location))
+            @component('components.profile.editProfile') @endcomponent
+        @endif
     @endswitch
 
 @endsection
