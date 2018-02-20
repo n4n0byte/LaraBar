@@ -20,20 +20,32 @@ use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
 {
 
     private static $types = ['employmentHistory', 'education', 'skill'];
-    private $eduService, $empService, $skillService;
+    private $eduService, $empService, $skillService, $personalService;
 
     function __construct()
     {
         $this->eduService = new EducationBusinessService();
         $this->empService = new EmploymentHistoryBusinessService();
         $this->skillService = new SkillsBusinessService();
+        $this->personalService = new UserProfileBusinessService();
+    }
+
+    public function editPersonalInfo(){
+
+        $modelArr = $this->personalService->getProfileData();
+        return view("editPersonalInfo")->with($modelArr[0]);
+
+    }
+
+    public function updatePersonalInfo(){
+
+        return redirect()->action("UserProfileController@show");
     }
 
     /**
@@ -55,8 +67,6 @@ class UserProfileController extends Controller
 
     public function add(Request $request)
     {
-
-
         return redirect()->action("ProfileController@index");
     }
 
@@ -66,8 +76,7 @@ class UserProfileController extends Controller
      */
     function show()
     {
-        /* @var $user UserModel */
-        $user = session('user');
+        $user = session()->get("user");
         // get profile
         // general
         $profileService = new UserProfileBusinessService();
@@ -87,7 +96,7 @@ class UserProfileController extends Controller
         // put into $data and send to view
         $data = [
             'userProfile' => $profile['userProfile'],
-            'user' => $user,
+            'user' => $profile['user'],
             'education' => $education,
             'employment' => $employment,
             'skills' => $skills
@@ -103,7 +112,7 @@ class UserProfileController extends Controller
     function showEditor($category, $id)
     {
         /* @var $user UserModel */
-        $user = session('user');
+            $user = session('user');
 
         // get profile
         // general
@@ -123,10 +132,13 @@ class UserProfileController extends Controller
                 $model = $this->skillService->getSkill((int)$id, true);
                 $category = "skills";
                 break;
+            case "personal":
+                $model = $this->personalService->getProfileData()[1];
+                $category = "personal";
         }
 
         $data = [
-            'model' => $model[0],
+            'model' => $category === "personal" ? $model : $model[0],
             'category' => $category
         ];
 
