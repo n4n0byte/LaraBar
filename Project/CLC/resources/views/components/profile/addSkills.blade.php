@@ -1,4 +1,4 @@
-@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/add'])
+@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/add/skills'])
     @component('components.editTextInput',['id' => 'title', 'label' => 'Title',
                                                  'name' => 'institution'])
     @endcomponent
