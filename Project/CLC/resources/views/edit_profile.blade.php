@@ -31,8 +31,9 @@ We used source code from the following websites to complete this assignment: N/A
 
         @case('employment')
         @component('components.profile.editEmployment',['employer' => $model->getEmployer(),
-                    'level' => $model->getPosition(), 'duration' => $model->getDuration()
-                    ,'id' => $model->getId()] ) @endcomponent
+                    'level' => $model->getPosition(), 'duration' => $model->getDuration(),
+                    'position' => $model->getPosition(),
+                    'id' => $model->getId()] ) @endcomponent
         @break
 
         @case('skills')
