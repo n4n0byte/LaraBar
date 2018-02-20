@@ -104,7 +104,7 @@ class EducationDataAccessService
         $statement = $this->conn->prepare($query);
 
         if ($id !== -1){
-            $statement->bindParam(":uid", $id);
+            $statement->bindParam(":id", $id);
         }
 
         try {

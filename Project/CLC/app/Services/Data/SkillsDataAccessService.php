@@ -11,11 +11,10 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Data;
 
-use App\Model\SkillModel;
-use App\Model\SkillsModel;
 use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
+use App\Model\SkillsModel;
 
 class SkillsDataAccessService
 {
@@ -96,15 +95,21 @@ class SkillsDataAccessService
     }
 
 
-    public function getSkillRows($uid = -1)
+    public function getSkillRows($id = -1, $usePid = false)
     {
 
         $SkillArr = array();
-        $query = $uid === -1 ? $this->ini['Skill']['select.all'] : $this->ini['Skill']['select.id'];
+        $query = $id === -1 ? $this->ini['Skill']['select.all'] : $this->ini['Skill']['select.id'];
+
+        if ($usePid){
+            $query = $this->ini['Skill']['select.pid'];
+        }
+
         $statement = $this->conn->prepare($query);
 
-        if ($uid !== -1) {
-            $statement->bindParam(":uid", $uid);
+
+        if ($id !== -1) {
+            $statement->bindParam(":id", $id);
         }
 
         try {
