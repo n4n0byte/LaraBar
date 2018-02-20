@@ -18,16 +18,19 @@ use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Mockery\Exception;
 
-class AuthenticationController extends Controller {
+class AuthenticationController extends Controller
+{
 
-    public function ask() {
+    public function ask()
+    {
         // if user is logged in, return home
 
         // else, send to login form
         return view('Login');
     }
 
-    public function login_error() {
+    public function login_error()
+    {
         return view('login_error');
     }
 
@@ -36,7 +39,8 @@ class AuthenticationController extends Controller {
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         // validation
         $this->validateRegistration($request);
 
@@ -49,7 +53,7 @@ class AuthenticationController extends Controller {
         // create UserModel
         if ($inputPassword == "" || $inputEmail == "")
             return view("register")->with(['user' => -1]);
-        $user = new UserModel(0, $inputEmail,$inputPassword, $inputFirstName, $inputLastName);
+        $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
 
         // create a business service
         $service = new UserBusinessService($user);
@@ -74,7 +78,8 @@ class AuthenticationController extends Controller {
      * @param Request $request
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         // validation
         $this->validateLogin($request);
 
@@ -119,6 +124,9 @@ class AuthenticationController extends Controller {
         }
     }
 
+    /**
+     * @param Request $request
+     */
     public function validateRegistration(Request $request)
     {
 
