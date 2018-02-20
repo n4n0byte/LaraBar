@@ -10,6 +10,7 @@ We used source code from the following websites to complete this assignment: N/A
 */
 
 ?>
+
 @extends('layouts.master')
 @section('title','Admin')
 @component('components.security')@endcomponent
@@ -30,8 +31,6 @@ We used source code from the following websites to complete this assignment: N/A
 
 {{--inserts admin body--}}
 @section('content')
-
-
     <div class="container" style="background: #f8f9fa; border-radius: 8px 8px 0 0; margin: 0 auto">
         <h4 align="center">Manager</h4>
         <div class="row" style="margin: 0px auto;">
@@ -71,7 +70,7 @@ We used source code from the following websites to complete this assignment: N/A
 
     <div id="jobPosts" style="display: none;">
         <div class="container" style="background: #fff; text-align: right; font-size: 24px ; margin: 0 auto">
-            <span style="margin-right: 25%">@component('components.buttons.btn',
+            <span id="btn" style="margin-right: 25%">@component('components.buttons.btn',
             ['route' => '/CLC/addJobPost/',
             'class' => 'fa-plus'])
                 @endcomponent</span>
@@ -94,6 +93,7 @@ We used source code from the following websites to complete this assignment: N/A
         @endcomponent
     </div>
 
+
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -102,14 +102,16 @@ We used source code from the following websites to complete this assignment: N/A
             var jobList = $("#jobPosts");
             var user = $("#showUserList");
             var job = $("#showJobList");
+            var modal = $("#myModal");
+            var btn = $("#btn");
 
-            $(user).click(function () {
+            user.click(function () {
                 user.addClass('active');
                 job.removeClass('active');
                 adminList.show();
                 jobList.hide();
             });
-            $(job).click(function () {
+            job.click(function () {
                 user.removeClass('active');
                 job.addClass('active');
                 adminList.hide();

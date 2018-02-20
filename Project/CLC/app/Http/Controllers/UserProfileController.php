@@ -11,9 +11,6 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Http\Controllers;
 
-use App\Model\EducationModel;
-use App\Model\EmploymentHistoryModel;
-use App\Model\SkillsModel;
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
 use App\Services\Business\EducationBusinessService;
@@ -21,10 +18,8 @@ use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 use Illuminate\Http\Request;
-use App\Services\Data\UserProfileDataAccessService;
 
-class UserProfileController extends Controller
-{
+class UserProfileController extends Controller {
 
     private static $types = ['employmentHistory', 'education', 'skill'];
 
@@ -40,7 +35,7 @@ class UserProfileController extends Controller
 
         $data = ['type' => $type, 'name' => $name];
 
-        return $result === false ? redirect()->action('ProfileController@index') :
+        return $result === false ? redirect()->action('UserProfileController@show') :
             view("add")->with($data);
 
     }
