@@ -26,9 +26,10 @@ class UserProfileController extends Controller
 {
 
     private static $types = ['employmentHistory', 'education', 'skill'];
-    private  $eduService, $empService, $skillService;
+    private $eduService, $empService, $skillService;
 
-    function __construct() {
+    function __construct()
+    {
         $this->eduService = new EducationBusinessService();
         $this->empService = new EmploymentHistoryBusinessService();
         $this->skillService = new SkillsBusinessService();
@@ -94,6 +95,7 @@ class UserProfileController extends Controller
 
     /**
      * @param $category
+     * @param $id
      * @return $this
      */
     function showEditor($category, $id)
@@ -106,18 +108,18 @@ class UserProfileController extends Controller
         $model = null;
         $view = null;
 
-        switch ($category){
+        switch ($category) {
             case "education":
-                $model = $this->eduService->getEducation((int)$id,true);
+                $model = $this->eduService->getEducation((int)$id, true);
                 $category = "education";
                 $view = "Education";
                 break;
             case "employmentHistory":
-                $model = $this->empService->getEmploymentHistory((int)$id,true);
+                $model = $this->empService->getEmploymentHistory((int)$id, true);
                 $category = "Employment";
                 break;
             case "skill":
-                $model = $this->skillService->getSkill((int)$id,true);
+                $model = $this->skillService->getSkill((int)$id, true);
                 $category = "Skill";
                 break;
         }
@@ -127,7 +129,7 @@ class UserProfileController extends Controller
             'category' => $category
         ];
 
-        return view('edit_profile' )->with($data);
+        return view('edit_profile')->with($data);
     }
 
     function editMember()
@@ -302,6 +304,42 @@ class UserProfileController extends Controller
             'employment' => $empService->getEmploymentHistory()
         ];
         return view('add_profile')->with(['data' => $data]);
+    }
+
+    /**
+     * @param $category
+     * @param $id
+     * @return $this
+     */
+    function delete($category, $id)
+    {
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // get profile
+        // general
+        $message = null;
+
+        switch ($category) {
+            case "education":
+                $this->eduService->deleteEducation((int)$id);
+                $message = "Education record $id removed";
+                break;
+            case "employmentHistory":
+                $this->empService->removeEmploymentHistory((int)$id);
+                $message = "Employment record $id removed";
+                break;
+            case "skills":
+                $this->skillService->deleteSkill((int)$id);
+                $message = "Skill record $id removed";
+                break;
+            default:
+                $message = "Nothing has changed";
+        }
+
+        $data = ['confirmation' => $message];
+
+        return view('profile')->with($data);
     }
 
 }

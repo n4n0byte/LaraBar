@@ -52,6 +52,7 @@ Route::post("addJobPost", "AdminController@addJobPost");
 // --- Views/Forms
 Route::get('profile', 'UserProfileController@show');
 Route::get('profile/edit/{category}/{id}', 'UserProfileController@showEditor');
+Route::get('profile/delete/{category}/{id}', 'UserProfileController@delete');
 Route::get('profile/add/{category}', 'UserProfileController@addEditor');
 Route::post('profile/editProfile', 'UserProfileController@updateProfile');
 Route::post('profile/editEmployment', 'UserProfileController@updateEmployment');
