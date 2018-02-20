@@ -6,5 +6,5 @@ build.properties
 /vendor/*
 vendor
 /storage
-vendor.old/
 /node_modules
+vendor.old/
