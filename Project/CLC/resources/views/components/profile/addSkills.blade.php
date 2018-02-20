@@ -1,9 +1,9 @@
 @component('components.form',['method' => 'POST', 'action' => '/CLC/profile/addSkills'])
     @component('components.editTextInput',['id' => 'title', 'label' => 'Title',
-                                                 'name' => 'institution'])
+                                                 'name' => 'title'])
     @endcomponent
     @component('components.editTextInput',['id' => 'description', 'label' => 'Description',
-                                                 'name' => 'level'])
+                                                 'name' => 'description'])
     @endcomponent
     <div class="container">
         <div class="row">

@@ -33,10 +33,7 @@ class SkillsBusinessService
      */
     public function insertSkill(SkillsModel $model)
     {
-        /* @var $model SkillsModel */
-        $user = session()->get("user");
-        $SkillsModel = new SkillsModel(-1, $user->getID(), $model->getTitle(), $model->getDescription());
-        $this->SkillSvc->createSkillRow($SkillsModel);
+        $this->SkillSvc->createSkillRow($model);
     }
 
     /**
@@ -62,11 +59,7 @@ class SkillsBusinessService
      */
     public function updateSkill(SkillsModel $model)
     {
-
-        $user = session()->get("user");
-        $SkillsModel = new SkillsModel(-1, $user->getID(), $model->getTitle(), $model->getDescription());
-        $this->SkillSvc->updateSkillRow($SkillsModel);
-
+        $this->SkillSvc->updateSkillRow($model);
     }
 
 }

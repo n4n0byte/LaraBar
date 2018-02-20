@@ -255,7 +255,7 @@ class UserProfileController extends Controller
 
         // commit changes
         $profileSvc = new SkillsBusinessService();
-        $profileSvc->updateSkill($model);
+        $profileSvc->insertSkill($model);
         return redirect()->action("UserProfileController@show");
     }
 

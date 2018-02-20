@@ -54,7 +54,7 @@ Route::get('profile/add/{category}', 'UserProfileController@addEditor'); // crea
 Route::post('profile/editProfile', 'UserProfileController@updateProfile');
 Route::post('profile/editEmployment', 'UserProfileController@updateEmployment');
 Route::post('profile/editEducation', 'UserProfileController@updateEducation');
-Route::post('profile/addSkills', 'UserProfileController@updateSkills');
+Route::post('profile/addSkills', 'UserProfileController@createSkills');
 Route::post('profile/addEmployment', 'UserProfileController@createEmployment');
 Route::post('profile/addEducation', 'UserProfileController@createEducation');
 Route::post('profile/editSkills', 'UserProfileController@createSkills');

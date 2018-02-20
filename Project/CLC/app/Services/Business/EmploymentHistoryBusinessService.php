@@ -12,6 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Business;
 
+use App\Model\EducationModel;
 use App\Model\EmploymentHistoryModel;
 use App\Services\Data\EmploymentHistoryDataAccessService;
 
@@ -29,16 +30,13 @@ class EmploymentHistoryBusinessService
     }
 
     /**
-     * @param $employer
-     * @param $position
-     * @param $duration
+     * @param EmploymentHistoryModel $model
      */
-    public function addEmploymentHistory($employer, $position, $duration)
+    public function addEmploymentHistory(EmploymentHistoryModel $model)
     {
 
         $user = session()->get("user");
-        $employmentHistoryModel = new EmploymentHistoryModel(-1, $user->getID(), $employer, $position, $duration);
-        $this->employmentHistorySvc->createEmploymentHistoryRow($employmentHistoryModel);
+        $this->employmentHistorySvc->createEmploymentHistoryRow($model);
 
     }
 
@@ -69,7 +67,7 @@ class EmploymentHistoryBusinessService
         if ($model->getId() > 0)
             $this->employmentHistorySvc->updateEmploymentHistoryRow($model);
         else
-            $this->
+            $this->addEmploymentHistory($model);
 
     }
 
