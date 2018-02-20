@@ -10,6 +10,7 @@ We used source code from the following websites to complete this assignment: N/A
 /**
  * @var $user \App\Model\UserModel
  * @var $userProfile \App\Model\UserProfileModel
+ * @var $row \App\Model\EducationModel
  */
 ?>
 @extends('layouts.master')
@@ -46,6 +47,7 @@ We used source code from the following websites to complete this assignment: N/A
      'id' => $user->getId()])
         @component('components.generalTable', ['names' => \App\Model\EducationModel::getFields()])
             @foreach($education as $row)
+                <?php var_dump($row); exit();?>
                 @component('components.generalTableContent', ['row' => $row])
                 @endcomponent
             @endforeach
@@ -61,4 +63,14 @@ We used source code from the following websites to complete this assignment: N/A
             @endforeach
         @endcomponent
     @endcomponent
+
+    @component('components.profileCards',['title' => 'Skills', 'category' => 'skills' ,'id' => $user->getId()])
+        @component('components.generalTable', ['names' => \App\Model\SkillsModel::getFields()])
+            @foreach($skills as $row)
+                @component('components.generalTableContent', ['row' => $row])
+                @endcomponent
+            @endforeach
+        @endcomponent
+    @endcomponent
+
 @endsection
