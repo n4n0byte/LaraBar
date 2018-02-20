@@ -2,10 +2,10 @@
     <thead>
         <tr>
             @foreach($names as $name)
-                <td>{{$name}}</td>
+                <th>{{$name}}</th>
             @endforeach
             @if(isset($links))
-                <td>icons</td>
+                <th>icons</th>
             @endif
         </tr>
     </thead>

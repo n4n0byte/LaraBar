@@ -38,16 +38,10 @@ We used source code from the following websites to complete this assignment: N/A
                 <div class="col-md-12">
                     <ul class="nav nav-pills nav-fill">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" id="showUserList">Users</a>
+                            <a href="#" class="nav-link active" id="showUserList">Users</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link" id="showJobList">Job Posts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#">Disabled</a>
                         </li>
                     </ul>
                 </div>
@@ -110,11 +104,14 @@ We used source code from the following websites to complete this assignment: N/A
             var job = $("#showJobList");
 
             $(user).click(function () {
-                //user.
+                user.addClass('active');
+                job.removeClass('active');
                 adminList.show();
                 jobList.hide();
             });
-            $("job").click(function () {
+            $(job).click(function () {
+                user.removeClass('active');
+                job.addClass('active');
                 adminList.hide();
                 jobList.show();
             });

@@ -32,6 +32,7 @@ We used source code from the following websites to complete this assignment:
         ::-webkit-scrollbar {
             z-index: 100;
         }
+
         ::-webkit-scrollbar-track {
             background: blue;
         }
@@ -50,9 +51,8 @@ We used source code from the following websites to complete this assignment:
 </div>
 
 <script type="text/javascript">
-    particlesJS.load('particles','/CLC/public/js/particles.json');
+    particlesJS.load('particles', '/CLC/public/js/particles.json');
 </script>
-
 </body>
 
 
