@@ -87,12 +87,12 @@ class SkillsModel
 
     public static function getFields()
     {
-        return ['ID', 'UID', 'Title', 'Description'];
+        return ['Title', 'Description'];
     }
 
     public function getSkillFieldsArr()
     {
-        return [$this->id, $this->uid, $this->title, $this->description];
+        return [$this->title, $this->description];
     }
 
 

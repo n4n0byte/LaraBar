@@ -72,7 +72,6 @@ class SkillsDataAccessService
     public function updateSkillRow(SkillsModel $model)
     {
 
-        // TODO fix
         $modelArr = array($model->getId(), $model->getUid(), $model->getDescription(),
             $model->getTitle());
         $query = $this->ini['Skill']['update'];
