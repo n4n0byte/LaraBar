@@ -11,6 +11,8 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Http\Controllers;
 
+use App\Model\EducationModel;
+use App\Model\EmploymentHistoryModel;
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
 use App\Services\Business\EducationBusinessService;
@@ -19,7 +21,8 @@ use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 use Illuminate\Http\Request;
 
-class UserProfileController extends Controller {
+class UserProfileController extends Controller
+{
 
     private static $types = ['employmentHistory', 'education', 'skill'];
 
@@ -121,7 +124,7 @@ class UserProfileController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    function update(Request $request)
+    function updateProfile(Request $request)
     {
 
         // get inputs
@@ -139,6 +142,45 @@ class UserProfileController extends Controller {
         // commit changes
         $profileSvc = new UserProfileBusinessService();
         $profileSvc->updateUserProfile($model);
+        return redirect()->action("UserProfileController@show");
+    }
+
+    function updateEducation(Request $request)
+    {
+        // get inputs
+        $inputInstitution = $request->input('institution');
+        $inputLevel = $request->input('level');
+        $inputDegree = $request->input('degree');
+        $inputId = $request->input('id');
+
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // create model
+        /* $model = */
+        $model = new EducationModel($inputId, $user->getId(), $inputInstitution, $inputLevel, $inputDegree);
+
+        // commit changes
+        $profileSvc = new EducationBusinessService();
+        $profileSvc->updateEducation($model);
+        return redirect()->action("UserProfileController@show");
+    }
+
+    function updateEmployment(Request $request)
+    {
+        // get inputs
+        $inputInstitution = $request->input('institution');
+
+        /* @var $user UserModel */
+        $user = session('user');
+
+        // create model
+        /* $model = */
+        $model = new EmploymentHistoryModel();
+
+        // commit changes
+        $profileSvc = new EducationBusinessService();
+        $profileSvc->updateEducation($model);
         return redirect()->action("UserProfileController@show");
     }
 

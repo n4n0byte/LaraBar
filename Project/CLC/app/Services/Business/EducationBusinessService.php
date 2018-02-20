@@ -57,21 +57,17 @@ class EducationBusinessService
      */
     public function getEducation($id = -1, $usePostId = false)
     {
-        return $this->educationSvc->getEducationRows($id,$usePostId);
+        return $this->educationSvc->getEducationRows($id, $usePostId);
     }
 
     /**
-     * @param $id
-     * @param $institution
-     * @param $level
-     * @param $degree
+     * @param EducationModel $model
      */
-    public function updateEducation($id, $institution, $level, $degree)
+    public function updateEducation(EducationModel $model)
     {
 
         $user = session()->get("user");
-        $educationModel = new EducationModel($id, $user->getID(), $institution, $level, $degree);
-        $this->educationSvc->updateEducationRow($educationModel);
+        $this->educationSvc->updateEducationRow($model);
 
     }
 

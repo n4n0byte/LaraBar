@@ -1,4 +1,4 @@
-@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/edit'])
+@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/editProfile'])
     @component('components.editTextArea',['id' => 'biography', 'label' => 'Biography', 'data' => $bio,
                                                   'name' => 'bio'])
     @endcomponent

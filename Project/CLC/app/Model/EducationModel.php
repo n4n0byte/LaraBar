@@ -23,7 +23,7 @@ class EducationModel
      * @param $level
      * @param $degree
      */
-    public function __construct($id = -1, $uid, $institution, $level, $degree)
+    public function __construct($id = -1, $uid = -1, $institution = "", $level = "", $degree = "")
     {
         $this->id = $id;
         $this->uid = $uid;

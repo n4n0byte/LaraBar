@@ -50,7 +50,7 @@ Route::get("deleteJobPost/{id}","AdminController@deleteJobPost");
 Route::post("addJobPost","AdminController@addJobPost");
 Route::get('profile', 'UserProfileController@show');
 Route::get('profile/edit/{category}', 'UserProfileController@showEditor');
-Route::post('profile/edit', 'UserProfileController@update');
+Route::post('profile/editProfile', 'UserProfileController@updateProfile');
 Route::get('admin', 'AdminController@index');
 Route::get('admin/suspend/{id}', 'AdminController@suspend');
 Route::get('admin/reactivate/{id}', 'AdminController@reactivate');

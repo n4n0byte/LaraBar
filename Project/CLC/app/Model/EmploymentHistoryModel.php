@@ -25,7 +25,7 @@ class EmploymentHistoryModel
      * @param $position
      * @param $duration
      */
-    public function __construct($id, $uid, $employer, $position, $duration)
+    public function __construct($id = -1, $uid = -1, $employer = "", $position = "", $duration = "")
     {
         $this->id = $id;
         $this->uid = $uid;
