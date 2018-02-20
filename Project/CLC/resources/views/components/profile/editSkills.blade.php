@@ -1,10 +1,10 @@
-@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/edit'])
+@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/editSkills'])
     <input type="hidden" name="post-id" value="{{$id}}">
     @component('components.editTextInput',['id' => 'title', 'label' => 'Title', 'data' => $title,
-                                                 'name' => 'institution'])
+                                                 'name' => 'title'])
     @endcomponent
     @component('components.editTextInput',['id' => 'description', 'label' => 'Description', 'data' => $description,
-                                                 'name' => 'level'])
+                                                 'name' => 'description'])
     @endcomponent
     <div class="container">
         <div class="row">

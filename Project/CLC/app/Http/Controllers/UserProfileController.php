@@ -114,15 +114,14 @@ class UserProfileController extends Controller
             case "education":
                 $model = $this->eduService->getEducation((int)$id, true);
                 $category = "education";
-                $view = "Education";
                 break;
             case "employmentHistory":
-                $model = $this->empService->getEmploymentHistory((int)$id, true);
-                $category = "Employment";
+                $model = $this->empService->getEmploymentHistory((int)$id,true);
+                $category = "employment";
                 break;
-            case "skill":
-                $model = $this->skillService->getSkill((int)$id, true);
-                $category = "Skill";
+            case "skills":
+                $model = $this->skillService->getSkill((int)$id,true);
+                $category = "skills";
                 break;
         }
 
@@ -131,7 +130,7 @@ class UserProfileController extends Controller
             'category' => $category
         ];
 
-        return view('edit_profile')->with($data);
+            return view('edit_profile')->with($data);
     }
 
     function editMember()
@@ -244,7 +243,7 @@ class UserProfileController extends Controller
 
     function updateSkills(Request $request)
     {
-        // get inputs
+        // ` inputs
         $inputTitle = $request->input('title');
         $inputDescription = $request->input('description');
         $inputId = $request->input('post-id');
@@ -255,8 +254,7 @@ class UserProfileController extends Controller
         $model = new SkillsModel($inputId, $user->getId(), $inputTitle, $inputDescription);
 
         // commit changes
-        $profileSvc = new SkillsBusinessService();
-        $profileSvc->updateSkill($model);
+        $this->skillService->updateSkill($model);
         return redirect()->action("UserProfileController@show");
     }
 

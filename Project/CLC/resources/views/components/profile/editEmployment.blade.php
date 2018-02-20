@@ -1,4 +1,4 @@
-@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/edit'])
+@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/updateEmployment'])
     <input type="hidden" name="post-id" value="{{$id}}">
     @component('components.editTextInput',['id' => 'employer', 'label' => 'Employer', 'data' => $employer,
                                                  'name' => 'employer'])
