@@ -4,7 +4,7 @@
     @endforeach
     @if(isset($btns))
         <td>
-            <nav>
+            <nav style="background: 0">
                 <div class="nav nav-justified">
                     {{$btns}}
                 </div>

@@ -31,7 +31,7 @@ $user = session('user');
 
 @section('content')
 
-    @if(isset($confirmation) && strlen($confirmation) > 0)
+    @if(isset($confirmation))
         <div class="badge badge-success">
             <h5>{{$confirmation}}</h5>
         </div>
@@ -103,7 +103,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/profile/add/skills','class' => 'fa-plus','color' => 'inherit'])
+            @component('components.buttons.btn',['route' => '/CLC/profile/add/skills','class' => 'fa-plus'])
             @endcomponent
         @endslot
 
