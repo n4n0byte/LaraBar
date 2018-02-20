@@ -3,6 +3,12 @@
         <td>{{$data}}</td>
     @endforeach
     @if(isset($btns))
-        <td>{{$btns}}</td>
+        <td>
+            <nav>
+                <div class="nav nav-justified">
+                    {{$btns}}
+                </div>
+            </nav>
+        </td>
     @endif
 </tr>

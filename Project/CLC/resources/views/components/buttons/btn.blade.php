@@ -1,3 +1,6 @@
-<a href="{{$route}}" @if(strpos($class, "remove")) onclick="return confirm('Are you sure?');" @endif>
+<a class="nav-item" style="background: rgba(255,255,255,.8)" href="{{$route}}"
+   @if(strpos($class, "remove"))
+   onclick="return confirm('Are you sure you want to remove this?');" @endif
+>
     <span style="font-size: 24px" class="fa {{$class or ""}}"></span>
 </a>
