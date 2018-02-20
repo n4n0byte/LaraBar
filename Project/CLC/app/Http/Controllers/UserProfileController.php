@@ -113,11 +113,11 @@ class UserProfileController extends Controller
                 $category = "education";
                 break;
             case "employment":
-                $model = $this->empService->getEmploymentHistory((int)$id,true);
+                $model = $this->empService->getEmploymentHistory((int)$id, true);
                 $category = "employment";
                 break;
             case "skills":
-                $model = $this->skillService->getSkill((int)$id,true);
+                $model = $this->skillService->getSkill((int)$id, true);
                 $category = "skills";
                 break;
         }
@@ -127,7 +127,7 @@ class UserProfileController extends Controller
             'category' => $category
         ];
 
-            return view('edit_profile')->with($data);
+        return view('edit_profile')->with($data);
     }
 
     function editMember()
@@ -302,6 +302,37 @@ class UserProfileController extends Controller
             'employment' => $empService->getEmploymentHistory()
         ];
         return view('add_profile')->with(['data' => $data]);
+    }
+
+    /**
+     * @param $category
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    function delete($category, $id)
+    {
+        /* @var $user UserModel */
+        $user = session('user');
+        // get profile
+        // general
+        $message = null;
+        switch ($category) {
+            case "education":
+                $this->eduService->deleteEducation((int)$id);
+                $message = "Education record $id removed";
+                break;
+            case "employment":
+                $this->empService->removeEmploymentHistory((int)$id);
+                $message = "Employment record $id removed";
+                break;
+            case "skills":
+                $this->skillService->deleteSkill((int)$id);
+                $message = "Skill record $id removed";
+                break;
+            default:
+                $message = "Nothing has changed";
+        }
+        return redirect()->action("UserProfileController@show")->with(['confirmation' => $message]);
     }
 
 }

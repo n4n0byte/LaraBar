@@ -103,7 +103,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/profile/add/skills','class' => 'fa-plus'])
+            @component('components.buttons.btn',['route' => '/CLC/profile/add/skills','class' => 'fa-plus','color' => 'inherit'])
             @endcomponent
         @endslot
 
