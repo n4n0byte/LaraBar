@@ -29,17 +29,14 @@ class SkillsBusinessService
     }
 
     /**
-     * @param $institution
-     * @param $level
-     * @param $degree
+     * @param SkillsModel $model
      */
-    public function insertSkill($institution, $level, $degree)
+    public function insertSkill(SkillsModel $model)
     {
-
+        /* @var $model SkillsModel */
         $user = session()->get("user");
-        $SkillsModel = new SkillsModel(-1, $user->getID(), $institution, $level, $degree);
+        $SkillsModel = new SkillsModel(-1, $user->getID(), $model->getTitle(), $model->getDescription());
         $this->SkillSvc->createSkillRow($SkillsModel);
-
     }
 
     /**
@@ -60,16 +57,13 @@ class SkillsBusinessService
     }
 
     /**
-     * @param $id
-     * @param $institution
-     * @param $level
-     * @param $degree
+     * @param SkillsModel $model
      */
-    public function updateSkill($id, $institution, $level, $degree)
+    public function updateSkill(SkillsModel $model)
     {
 
         $user = session()->get("user");
-        $SkillsModel = new SkillsModel($id, $user->getID(), $institution, $level, $degree);
+        $SkillsModel = new SkillsModel(-1, $user->getID(), $model->getTitle(), $model->getDescription());
         $this->SkillSvc->updateSkillRow($SkillsModel);
 
     }

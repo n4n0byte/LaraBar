@@ -31,8 +31,27 @@ We used source code from the following websites to complete this assignment: N/A
 {{--inserts admin body--}}
 @section('content')
 
-    <div>
-        <a href="#" id="toggle"><label class="btn btn-outline-info"><h5>Toggle</h5></label></a>
+
+    <div class="container" style="background: #f8f9fa; border-radius: 8px; margin: 25px auto">
+            <h4 align="center">Toolbar</h4>
+            <div class="row" style="margin: 15px auto;">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills nav-fill">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="showUserList">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="showJobList">Job Posts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Disabled</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
     </div>
 
     <div id="adminTableDiv">
@@ -83,18 +102,25 @@ We used source code from the following websites to complete this assignment: N/A
 
     <script type="text/javascript">
 
-        $( document ).ready(function() {
+        $(document).ready(function () {
             var showUsers = true;
             var adminList = $("#adminTableDiv");
             var jobList = $("#jobPosts");
+            var user =  $("#showUserList");
+            var job = $("#showJobList");
 
-            $("#toggle").click(function () {
-                adminList.toggle();
-                jobList.toggle();
+            $(user).click(function () {
+                //user.
+                adminList.show();
+                jobList.hide();
+            });
+            $("job").click(function () {
+                adminList.hide();
+                jobList.show();
             });
 
         });
 
     </script>
-    
+
 @endsection
