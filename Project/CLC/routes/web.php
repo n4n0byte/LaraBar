@@ -42,7 +42,6 @@ Route::get("addJobPost", function () {
     return view("addJobPost");
 });
 
-
 Route::post("updateJobPostData/", "AdminController@updateJobPostData");
 Route::get("updateJobPost/{id}", "AdminController@updateJobPost");
 Route::get("deleteJobPost/{id}", "AdminController@deleteJobPost");
@@ -55,6 +54,7 @@ Route::get('profile/edit/{category}/{id}', 'UserProfileController@showEditor');
 Route::get('profile/delete/{category}/{id}', 'UserProfileController@delete');
 Route::get('profile/add/{category}', 'UserProfileController@addEditor');
 Route::post('profile/editProfile', 'UserProfileController@updateProfile');
+Route::post('profile/editPersonalInfo', 'UserProfileController@updatePersonalInfo');
 Route::post('profile/editEmployment', 'UserProfileController@updateEmployment');
 Route::post('profile/editEducation', 'UserProfileController@updateEducation');
 Route::post('profile/editSkills', 'UserProfileController@updateSkills');

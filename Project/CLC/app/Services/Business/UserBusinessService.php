@@ -44,6 +44,7 @@ class UserBusinessService
      */
     public function getUser()
     {
+
         return $this->user;
     }
 
@@ -134,6 +135,11 @@ class UserBusinessService
             $users[$i++]->setAdmin($item["ADMIN"]);
         }
         return $users;
+    }
+
+    public function updateUserInfo(UserModel $model){
+        $svc = new UserDataAccessService(DatabaseAccess::connect());
+        $svc->update($model);
     }
 
     public function deleteUser()

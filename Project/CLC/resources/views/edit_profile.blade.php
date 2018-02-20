@@ -42,9 +42,11 @@ We used source code from the following websites to complete this assignment: N/A
         @endcomponent
         @break
 
-        @if(isset($bio) && isset($location))
-            @component('components.profile.editProfile') @endcomponent
-        @endif
+        @case('personal')
+        @component('components.profile.editPersonalInfo',['id' => $model->getId()])
+        @endcomponent
+        @break
+
     @endswitch
 
 @endsection

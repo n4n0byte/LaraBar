@@ -19,6 +19,7 @@ use App\Model\UserProfileModel;
 use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
+use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 use Illuminate\Http\Request;
 
@@ -26,24 +27,31 @@ class UserProfileController extends Controller
 {
 
     private static $types = ['employmentHistory', 'education', 'skill'];
-    private $eduService, $empService, $skillService, $personalService;
+    private $eduService, $empService, $skillService, $userProfileService, $userService;
+
 
     function __construct()
     {
         $this->eduService = new EducationBusinessService();
         $this->empService = new EmploymentHistoryBusinessService();
         $this->skillService = new SkillsBusinessService();
-        $this->personalService = new UserProfileBusinessService();
+        $this->userProfileService = new UserProfileBusinessService();
     }
 
-    public function editPersonalInfo(){
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePersonalInfo(Request $request){
 
-        $modelArr = $this->personalService->getProfileData();
-        return view("editPersonalInfo")->with($modelArr[0]);
+        $user = session('user');
+        $this->userService = new UserBusinessService($user);
+        $model = new UserModel(
+            $user->getId(),$request->get('email'), $request->get('password'),
+            $request->get('firstName'), $request->get('lastName')
+        );
 
-    }
-
-    public function updatePersonalInfo(){
+        $this->userService->updateUserInfo($model);
 
         return redirect()->action("UserProfileController@show");
     }
@@ -96,7 +104,7 @@ class UserProfileController extends Controller
         // put into $data and send to view
         $data = [
             'userProfile' => $profile['userProfile'],
-            'user' => $profile['user'],
+            'user' => $user,
             'education' => $education,
             'employment' => $employment,
             'skills' => $skills
@@ -133,12 +141,17 @@ class UserProfileController extends Controller
                 $category = "skills";
                 break;
             case "personal":
-                $model = $this->personalService->getProfileData()[1];
+                $model = $user;
                 $category = "personal";
+                break;
+            case "location":
+                $model = $this->userProfileService->getProfileData();
+                $category = "location";
+                break;
         }
 
         $data = [
-            'model' => $category === "personal" ? $model : $model[0],
+            'model' => $model,
             'category' => $category
         ];
 

@@ -39,7 +39,7 @@ $user = session('user');
     @component('components.personalInfoCard',['firstName' => $user->getFirstName(),
                                               'lastName' => $user->getLastName(),
                                               'email' => $user->getEmail() ])
-        @component('components.buttons.btn',["route" => "#TODO", 'class' => 'fa-edit' ])@endcomponent
+        @component('components.buttons.btn',["route" => "/CLC/profile/edit/personal/0", 'class' => 'fa-edit' ])@endcomponent
 
     @endcomponent
 
