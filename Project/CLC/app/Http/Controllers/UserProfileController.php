@@ -20,6 +20,7 @@ use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
@@ -65,6 +66,8 @@ class UserProfileController extends Controller
      */
     function show()
     {
+        /* @var $user UserModel */
+        $user = session('user');
         // get profile
         // general
         $profileService = new UserProfileBusinessService();
@@ -72,19 +75,19 @@ class UserProfileController extends Controller
 
         // education
         $eduService = new EducationBusinessService();
-        $education = $eduService->getEducation();
+        $education = $eduService->getEducation($user->getId(), true);
 
         // employment history
         $empService = new EmploymentHistoryBusinessService();
-        $employment = $empService->getEmploymentHistory();
+        $employment = $empService->getEmploymentHistory($user->getId(), true);
 
         $skillsSvc = new SkillsBusinessService();
-        $skills = $skillsSvc->getSkill();
+        $skills = $skillsSvc->getSkill($user->getId(), true);
 
         // put into $data and send to view
         $data = [
             'userProfile' => $profile['userProfile'],
-            'user' => $profile['user'],
+            'user' => $user,
             'education' => $education,
             'employment' => $employment,
             'skills' => $skills
@@ -335,4 +338,82 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show")->with(['confirmation' => $message]);
     }
 
+    /**
+     * @param Request $request
+     */
+    function validateProfile(Request $request)
+    {
+        // Define rules
+        $rules = [
+            'bio' => 'Between:0,50',
+            'location' => 'Between:0,50'
+        ];
+
+        // Run checks
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    function validateEmployment(Request $request)
+    {
+        // Define rules
+        $rules = [
+            'employer' => 'Required|Between:1,50',
+            'position' => 'Required|Between:1,50',
+            'duration' => 'Required|Between:0,50'
+        ];
+
+        // Run checks
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    function validateEducation(Request $request)
+    {
+        // Define rules
+        $rules = [
+            'institution' => 'Required|Between:1,50',
+            'level' => 'Required|Between:1,50',
+            'degree' => 'Required|Between:0,50'
+        ];
+
+
+        // Run checks
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    function validateSkills(Request $request)
+    {
+        // Define rules
+        $rules = [
+            'title' => 'Required|Between:1,50',
+            'description' => 'Required|Between:1,50'
+        ];
+
+        // Run checks
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        }
+    }
 }
