@@ -7,7 +7,13 @@ January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+$user = $data['user'];
 /* @var $userProfile \App\Model\UserProfileModel */
+$userProfile = $data['userProfile'];
+$education = $data['education'];
+$employment = $data['employment'];
+$category = $data['category'];
+
 ?>
 @extends('layouts.master')
 @section('title','Profile')
@@ -22,8 +28,18 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('content')
 
-    @component('components.form','')
+    @switch($category)
+        @case('education')
+        @component('components.profile.editEducation', ['institution' => '', 'level' => '', 'degree' => '']) @endcomponent
+        @break
 
-    @endcomponent
+        @case('employment')
+        @component('components.profile.editEmployment') @endcomponent
+        @break
+
+        @default
+        @component('components.profile.editProfile', ['bio' => $userProfile->getBio(), 'location' => $userProfile->getLocation()]) @endcomponent
+        @break
+    @endswitch
 
 @endsection

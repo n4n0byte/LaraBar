@@ -12,6 +12,7 @@
 namespace App\Services\Data;
 
 use App\Model\UserModel;
+use App\Model\UserProfileModel;
 use App\Services\Data\Utilities\DataEdit;
 use App\Services\Data\Utilities\DataRetrieval;
 use App\Services\DatabaseAccess;
@@ -39,9 +40,11 @@ class UserProfileDataAccessService
         return DataRetrieval::getUserProfileById();
     }
 
-    public function update($employmentHistory, $location, $education, $bio)
+    public function update(UserProfileModel $model)
     {
-        DataEdit::updateProfile($employmentHistory, $location, $education, $bio);
+        $location = $model->getLocation();
+        $bio = $model->getBio();
+        DataEdit::updateProfile($location, $bio);
     }
 
     /**

@@ -15,6 +15,7 @@ use App\Model\EducationModel;
 use App\Model\EmploymentHistoryModel;
 use App\Model\SkillsModel;
 use App\Model\UserModel;
+use App\Model\UserProfileModel;
 use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
@@ -25,16 +26,17 @@ use App\Services\Data\UserProfileDataAccessService;
 class UserProfileController extends Controller
 {
 
-    private static $types = ['employmentHistory','education','skill'];
+    private static $types = ['employmentHistory', 'education', 'skill'];
 
     /**
      * @param $type
      * @param $name
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function viewAdd($type,$name){
+    public function viewAdd($type, $name)
+    {
 
-        $result = array_search($type,self::$types);
+        $result = array_search($type, self::$types);
 
         $data = ['type' => $type, 'name' => $name];
 
@@ -43,13 +45,12 @@ class UserProfileController extends Controller
 
     }
 
-    public function add(Request $request){
+    public function add(Request $request)
+    {
 
 
         return redirect()->action("ProfileController@index");
     }
-
-
 
 
     /**
@@ -116,21 +117,34 @@ class UserProfileController extends Controller
         return view('edit_profile')->with(['data' => $data]);
     }
 
+    function editMember()
+    {
+
+    }
+
     /**
      * @param Request $request
-     * @return $this
+     * @return \Illuminate\Http\RedirectResponse
      */
     function update(Request $request)
     {
-        $profileSvc = new UserProfileDataAccessService();
 
-        $inputEmploymentHistory = $request->input('employmentHistory');
+        // get inputs
         $inputLocation = $request->input('location');
-        $inputEducation = $request->input('education');
         $inputBio = $request->input('bio');
-        $profileSvc->update($inputEmploymentHistory, $inputLocation, $inputEducation, $inputBio);
-        return view('profile')->with(['data' => $profileSvc->read()]);
+        /* @var $user UserModel */
+        $user = session('user');
 
+        // create model
+        $model = new UserProfileModel();
+        $model->setBio($inputBio);
+        $model->setLocation($inputLocation);
+        $model->setUid($user->getId());
+
+        // commit changes
+        $profileSvc = new UserProfileBusinessService();
+        $profileSvc->updateUserProfile($model);
+        return redirect()->action("UserProfileController@show");
     }
 
 }

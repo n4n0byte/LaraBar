@@ -12,6 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Business;
 
+use App\Model\UserProfileModel;
 use App\Services\Data\UserProfileDataAccessService;
 
 class UserProfileBusinessService
@@ -23,6 +24,12 @@ class UserProfileBusinessService
     {
         $profile = new UserProfileDataAccessService();
         return $profile->read();
+    }
+
+    public function updateUserProfile(UserProfileModel $model)
+    {
+        $service = new UserProfileDataAccessService();
+        $service->update($model);
     }
 
 }

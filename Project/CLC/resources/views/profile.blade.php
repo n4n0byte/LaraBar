@@ -12,6 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
  * @var $userProfile \App\Model\UserProfileModel
  * @var $row \App\Model\EducationModel
  */
+$user = session('user');
 ?>
 @extends('layouts.master')
 @section('title','Profile')
