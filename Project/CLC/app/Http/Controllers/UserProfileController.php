@@ -81,13 +81,15 @@ class UserProfileController extends Controller
         $skillsSvc = new SkillsBusinessService();
         $skills = $skillsSvc->getSkill();
 
+        $message = isset($confirmation) ? $confirmation : "";
         // put into $data and send to view
         $data = [
             'userProfile' => $profile['userProfile'],
             'user' => $profile['user'],
             'education' => $education,
             'employment' => $employment,
-            'skills' => $skills
+            'skills' => $skills,
+            'confirmation' => $message
         ];
 
         return view('profile')->with($data);
@@ -325,7 +327,7 @@ class UserProfileController extends Controller
                 $this->eduService->deleteEducation((int)$id);
                 $message = "Education record $id removed";
                 break;
-            case "employmentHistory":
+            case "employment":
                 $this->empService->removeEmploymentHistory((int)$id);
                 $message = "Employment record $id removed";
                 break;
@@ -337,9 +339,7 @@ class UserProfileController extends Controller
                 $message = "Nothing has changed";
         }
 
-        $data = ['confirmation' => $message];
-
-        return view('profile')->with($data);
+        return redirect()->action("UserProfileController@show")->with(['confirmation' => $message]);
     }
 
 }

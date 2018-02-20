@@ -31,7 +31,11 @@ $user = session('user');
 
 @section('content')
 
-
+    @if(isset($confirmation) && strlen($confirmation) > 0)
+        <div class="badge badge-success">
+            <h5>{{$confirmation}}</h5>
+        </div>
+    @endif
     @component('components.personalInfoCard',['firstName' => $user->getFirstName(),
                                               'lastName' => $user->getLastName(),
                                               'email' => $user->getEmail() ])
@@ -58,7 +62,7 @@ $user = session('user');
             @foreach($education as $row)
                 @component('components.generalTableContent', ['row' => $row->getEducationFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/profile/delete/education/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
                         @component('components.buttons.btn',['route' => '/CLC/profile/edit/education/' . $row->getId(),
@@ -83,7 +87,7 @@ $user = session('user');
             @foreach($employment as $row)
                 @component('components.generalTableContent', ['row' => $row->getEmploymentFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/profile/delete/employment/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
                         @component('components.buttons.btn',['route' => '/CLC/profile/edit/employment/' . $row->getId(),
@@ -107,7 +111,7 @@ $user = session('user');
             @foreach($skills as $row)
                 @component('components.generalTableContent', ['row' => $row->getSkillFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => '/CLC/profile/delete/skills/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
                         @component('components.buttons.btn',['route' => '/CLC/profile/edit/skills/' . $row->getId(),
