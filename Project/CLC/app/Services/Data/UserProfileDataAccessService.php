@@ -48,22 +48,22 @@ class UserProfileDataAccessService
     }
 
     /**
-     * @param UserModel $user
-     * @return bool
+     * @param UserProfileModel $model
+     * @return bool|int
      */
-    public function create(UserModel $user)
+    public function create(UserProfileModel $model)
     {
-        // define params
-        $email = $user->getEmail();
-        $password = $user->getPassword();
-        $firstName = $user->getFirstName();
-        $lastName = $user->getLastName();
-        $avatar = $user->getAvatar();
-
         // Check for unique email
-        $query = $this->ini['User']['select'] . " EMAIL = :email ;";
+        $query = $this->ini['UserProfile']['insert'];
+        $uid = session('UID');
+        $location = "";
+        $bio = "";
+
         $statement = $this->conn->prepare($query);
-        $statement->bindParam(":email", $email);
+        $statement->bindParam(":id", $uid);
+        $statement->bindParam(":location", $location);
+        $statement->bindParam(":bio", $bio);
+
         try {
             $statement->execute();
             if ($statement->rowCount() > 0)

@@ -68,6 +68,7 @@ class UserProfileController extends Controller
     {
         /* @var $user UserModel */
         $user = session('user');
+
         // get profile
         // general
         $profileService = new UserProfileBusinessService();

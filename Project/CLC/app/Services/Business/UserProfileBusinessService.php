@@ -14,6 +14,7 @@ namespace App\Services\Business;
 
 use App\Model\UserProfileModel;
 use App\Services\Data\UserProfileDataAccessService;
+use App\User;
 
 class UserProfileBusinessService
 {
@@ -30,6 +31,12 @@ class UserProfileBusinessService
     {
         $service = new UserProfileDataAccessService();
         $service->update($model);
+    }
+
+    public function initializeProfile(UserProfileModel $model)
+    {
+        $service = new UserProfileDataAccessService();
+        $service->create($model);
     }
 
 }

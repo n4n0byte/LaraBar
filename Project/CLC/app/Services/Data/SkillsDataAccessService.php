@@ -33,14 +33,15 @@ class SkillsDataAccessService
     {
         $user = session()->get('user');
         $uid = $user->getID();
-        // TODO getters
+        $title = $model->getTitle();
+        $description = $model->getDescription();
 
         $query = $this->ini['Skill']['insert'];
         $statement = $this->conn->prepare($query);
 
         $statement->bindParam(":uid", $uid);
-        $statement->bindParam(":title", $model->getTitle());
-        $statement->bindParam(":description", $level);
+        $statement->bindParam(":title", $title );
+        $statement->bindParam(":description", $description);
 
         try {
 

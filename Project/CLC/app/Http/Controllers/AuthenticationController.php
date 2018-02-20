@@ -12,8 +12,10 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Http\Controllers;
 
 use App\Model\UserModel;
+use App\Model\UserProfileModel;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
+use App\Services\Business\UserProfileBusinessService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Mockery\Exception;
@@ -57,10 +59,17 @@ class AuthenticationController extends Controller
 
         // create a business service
         $service = new UserBusinessService($user);
+
         // attempt registration
         if ($user = $service->register()) {
             session()->put(['UID' => $user->getId()]);
             session()->save();
+
+            // create default profile
+            $profile = new UserProfileModel();
+            $profileService = new UserProfileBusinessService();
+            $profileService->initializeProfile($profile);
+
             return view("home")->with(['user' => $user]);
         } else {
             $data = [
