@@ -51,7 +51,7 @@ Route::post("addJobPost", "AdminController@addJobPost");
 /* ==== PROFILE ==== */
 // --- Views/Forms
 Route::get('profile', 'UserProfileController@show');
-Route::get('profile/edit/{category}', 'UserProfileController@showEditor'); // update form view
+Route::get('profile/edit/{category}/{id}', 'UserProfileController@showEditor'); // update form view
 Route::get('profile/add/{category}', 'UserProfileController@addEditor'); // create form view
 // --- Update
 Route::post('profile/editProfile', 'UserProfileController@updateProfile');
