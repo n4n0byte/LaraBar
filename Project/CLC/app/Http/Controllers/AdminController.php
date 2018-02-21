@@ -122,7 +122,6 @@ class AdminController extends Controller
 
         // Define rules
         $rules = [
-            'id' => 'Required|Numeric',
             'title' => 'Required|Between:4,20',
             'author' => 'Required|Between:5,50',
             'location' => 'Required|Between:2,40',
