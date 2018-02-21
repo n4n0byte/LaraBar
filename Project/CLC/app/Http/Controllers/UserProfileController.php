@@ -159,15 +159,15 @@ class UserProfileController extends Controller
 
         switch ($category) {
             case "education":
-                $model = $this->eduService->getEducation((int)$id, true);
+                $model = $this->eduService->getEducation((int)$id, true)[0];
                 $category = "education";
                 break;
             case "employment":
-                $model = $this->empService->getEmploymentHistory((int)$id, true);
+                $model = $this->empService->getEmploymentHistory((int)$id, true)[0];
                 $category = "employment";
                 break;
             case "skills":
-                $model = $this->skillService->getSkill((int)$id, true);
+                $model = $this->skillService->getSkill((int)$id, true)[0];
                 $category = "skills";
                 break;
             case "personal":

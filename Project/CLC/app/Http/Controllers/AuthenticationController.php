@@ -16,7 +16,6 @@ use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
-use Mockery\Exception;
 
 class AuthenticationController extends Controller
 {
@@ -61,6 +60,7 @@ class AuthenticationController extends Controller
         if ($user = $service->register()) {
             session()->put(['UID' => $user->getId()]);
             session()->save();
+            //TODO initialize db
             return view("home")->with(['user' => $user]);
         } else {
             $data = [
