@@ -142,8 +142,8 @@ class AuthenticationController extends Controller
         $rules = [
             'email' => 'Required|Between:5,60|E-Mail',
             'password' => 'Required|Between:4,25',
-            'firstName' => 'Required|Between:2,25',
-            'lastName' => 'Required|Between:2,25',
+            'firstName' => 'Required|Alpha|Between:2,25',
+            'lastName' => 'Required|Alpha|Between:2,25',
         ];
 
         // Run checks

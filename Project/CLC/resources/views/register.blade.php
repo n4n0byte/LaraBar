@@ -22,8 +22,7 @@ We used source code from the following websites to complete this assignment: N/A
 @section('content')
 
     @if(isset($message) && !is_null($message))
-        @if($message == "")
-        @else
+        @if(trim($message) != "")
             <div class="badge-warning center-message-small">
                 <div class="title">
                     <h5>Registration Failed</h5>

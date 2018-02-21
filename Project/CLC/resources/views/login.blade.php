@@ -22,19 +22,18 @@
 @endsection
 
 @section('content')
-    {{-- @if(isset($message) && !is_null($message))
-         @if($message == "")
-         @else
-             <div class="badge-warning center-message-small">
-                 <div class="title">
-                     <h5>Login Failed</h5>
-                 </div>
-                 <div class="content">
-                     <p>{{$message}}</p>
-                 </div>
-             </div>
-         @endif
-     @endif--}}
+    @if(isset($message) && !is_null($message))
+        @if(trim($message)!= "")
+            <div class="badge-warning center-message-small">
+                <div class="title">
+                    <h5>Login Failed</h5>
+                </div>
+                <div class="content">
+                    <p>{{$message}}</p>
+                </div>
+            </div>
+        @endif
+    @endif
     @component('components.form',['method' => 'POST', 'action' => 'login', 'status' => isset($status) ? $status : null])
         @component('components.emailTextInput')@endcomponent
         @if($errors->first('email'))
