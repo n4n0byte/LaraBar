@@ -33,6 +33,7 @@ class SkillsDataAccessService
     {
         $user = session()->get('user');
         $uid = $user->getID();
+
         $title = $model->getTitle();
         $description = $model->getDescription();
 
@@ -40,7 +41,7 @@ class SkillsDataAccessService
         $statement = $this->conn->prepare($query);
 
         $statement->bindParam(":uid", $uid);
-        $statement->bindParam(":title", $title );
+        $statement->bindParam(":title", $title);
         $statement->bindParam(":description", $description);
 
         try {

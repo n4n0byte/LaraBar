@@ -14,7 +14,6 @@ namespace App\Services\Data;
 use App\Model\UserModel;
 use PDO;
 use PDOException;
-use PDOStatement;
 
 class UserDataAccessService
 {
@@ -72,7 +71,6 @@ class UserDataAccessService
             // make sure values were returned
             $user->setId($assoc_array["ID"]);
             session()->put(['UID' => $user->getId()]);
-            session()->save();
             $user->setEmail($assoc_array["EMAIL"]);
             $user->setPassword($assoc_array["PASSWORD"]);
             if (!is_null($assoc_array["FIRSTNAME"]))
@@ -84,7 +82,8 @@ class UserDataAccessService
             if (!is_null($assoc_array["ADMIN"]))
                 $user->setAdmin($assoc_array["ADMIN"]);
             // TODO return warning if information is missing
-
+            session()->put(['user' => $user]);
+            session()->save();
             return $user;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
@@ -102,6 +101,37 @@ class UserDataAccessService
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
         }
+    }
+
+    public function update(UserModel $user){
+
+        // define params
+        $email = $user->getEmail();
+        $password = $user->getPassword();
+        $firstName = $user->getFirstName();
+        $lastName = $user->getLastName();
+        $id = $user->getId();
+
+        $query = $this->ini["Users"]["update.id"];
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindParam(':email',$email);
+        $statement->bindParam(':password',$password);
+        $statement->bindParam(':firstName',$firstName);
+        $statement->bindParam(':lastName',$lastName);
+        $statement->bindParam(':id',$id);
+
+
+        try {
+            $statement->execute();
+            session()->forget('user');
+            session()->put('user',$user);
+            session()->save();
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+        }
+
+
     }
 
     /**

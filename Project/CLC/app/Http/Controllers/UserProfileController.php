@@ -19,21 +19,42 @@ use App\Model\UserProfileModel;
 use App\Services\Business\EducationBusinessService;
 use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
+use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
 {
 
     private static $types = ['employmentHistory', 'education', 'skill'];
-    private $eduService, $empService, $skillService;
+    private $eduService, $empService, $skillService, $userProfileService, $userService;
+
 
     function __construct()
     {
         $this->eduService = new EducationBusinessService();
         $this->empService = new EmploymentHistoryBusinessService();
         $this->skillService = new SkillsBusinessService();
+        $this->userProfileService = new UserProfileBusinessService();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePersonalInfo(Request $request)
+    {
+
+        $user = session('user');
+        $this->userService = new UserBusinessService($user);
+        $model = new UserModel(
+            $user->getId(), $request->get('email'), $request->get('password'),
+            $request->get('firstName'), $request->get('lastName')
+        );
+
+        $this->userService->updateUserInfo($model);
+
+        return redirect()->action("UserProfileController@show");
     }
 
     /**
@@ -55,8 +76,6 @@ class UserProfileController extends Controller
 
     public function add(Request $request)
     {
-
-
         return redirect()->action("ProfileController@index");
     }
 
@@ -67,8 +86,8 @@ class UserProfileController extends Controller
     function show()
     {
         /* @var $user UserModel */
-        $user = session('user');
-
+        $user = session()->get("user");
+        
         // get profile
         // general
         $profileService = new UserProfileBusinessService();
@@ -98,6 +117,38 @@ class UserProfileController extends Controller
     }
 
     /**
+     * @param Request $request
+     */
+    function updateBiography(Request $request)
+    {
+
+        $bio = $request->get('biography');
+        $location = $this->userProfileService->getProfileData()['userProfile']->getLocation();
+
+        $model = new UserProfileModel("", $bio, $location);
+        $this->userProfileService->updateUserProfile($model);
+
+        return redirect()->action('UserProfileController@show');
+
+    }
+
+    /**
+     * @param Request $request
+     */
+    function updateLocation(Request $request)
+    {
+
+        $location = $request->get('location');
+        $bio = $this->userProfileService->getProfileData()['userProfile']->getBio();
+
+        $model = new UserProfileModel("", $bio, $location);
+        $this->userProfileService->updateUserProfile($model);
+
+        return redirect()->action('UserProfileController@show');
+
+    }
+
+    /**
      * @param $category
      * @return $this
      */
@@ -113,21 +164,37 @@ class UserProfileController extends Controller
 
         switch ($category) {
             case "education":
-                $model = $this->eduService->getEducation((int)$id, true);
+                $model = $this->eduService->getEducation((int)$id, true)[0];
                 $category = "education";
                 break;
             case "employment":
-                $model = $this->empService->getEmploymentHistory((int)$id, true);
+                $model = $this->empService->getEmploymentHistory((int)$id, true)[0];
                 $category = "employment";
                 break;
             case "skills":
-                $model = $this->skillService->getSkill((int)$id, true);
+                $model = $this->skillService->getSkill((int)$id, true)[0];
                 $category = "skills";
+                break;
+            case "personal":
+                $model = $user;
+                $category = "personal";
+                break;
+            case "location":
+                //get profile model
+                $model = $this->userProfileService->getProfileData();
+                $model = $model['userProfile'];
+                $category = "location";
+                break;
+            case "biography":
+                //get profile model
+                $model = $this->userProfileService->getProfileData();
+                $model = $model['userProfile'];
+                $category = "biography";
                 break;
         }
 
         $data = [
-            'model' => $model[0],
+            'model' => $model,
             'category' => $category
         ];
 

@@ -18,7 +18,6 @@ use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
-use Mockery\Exception;
 
 class AuthenticationController extends Controller
 {

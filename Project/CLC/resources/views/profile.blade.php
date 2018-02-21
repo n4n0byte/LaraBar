@@ -39,14 +39,22 @@ $user = session('user');
     @component('components.personalInfoCard',['firstName' => $user->getFirstName(),
                                               'lastName' => $user->getLastName(),
                                               'email' => $user->getEmail() ])
+        @component('components.buttons.btn',["route" => "/CLC/profile/edit/personal/0", 'class' => 'fa-edit' ])@endcomponent
+
     @endcomponent
 
     @component('components.profileCards',['title' => 'Location', 'category' => 'location' ,'info' => $userProfile->getlocation() ,
      'id' => $user->getId()])
+        @slot('btns')
+            @component('components.buttons.btn',["route" => "/CLC/profile/edit/location/0", 'class' => 'fa-edit' ])@endcomponent
+        @endslot
     @endcomponent
 
     @component('components.profileCards',['title' => 'Biography', 'category' => 'biography' ,'info' => $userProfile->getBio() ,
      'id' => $user->getId()])
+        @slot('btns')
+            @component('components.buttons.btn',["route" => "/CLC/profile/edit/biography/0", 'class' => 'fa-edit' ])@endcomponent
+        @endslot
     @endcomponent
 
     @component('components.profileCards',['title' => 'Education', 'category' => 'education'  ,
