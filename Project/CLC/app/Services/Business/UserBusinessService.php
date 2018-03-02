@@ -122,7 +122,7 @@ class UserBusinessService
                 if (str_contains($param, $c)) {
                     $this->status = "Invalid characters: <pre>\" ' \\ * / =</pre>. " .
                         "Please make sure you do not use these in your password, email, or name.";
-                    LarabarLogger::warning("UserBusinessService: invalid input");
+                    LarabarLogger::warning("UserBusinessService: invalid input ($param->$c)");
 
                     return -1;
                 }
