@@ -35,11 +35,9 @@ class EducationBusinessService
      */
     public function insertEducation($institution, $level, $degree)
     {
-
         $user = session()->get("user");
         $educationModel = new EducationModel(-1, $user->getID(), $institution, $level, $degree);
         $this->educationSvc->createEducationRow($educationModel);
-
     }
 
     /**
@@ -65,13 +63,11 @@ class EducationBusinessService
      */
     public function updateEducation(EducationModel $model)
     {
-
         $user = session()->get("user");
         if ($model->getId() > 0)
             $this->educationSvc->updateEducationRow($model);
         else
             $this->educationSvc->createEducationRow($model);
-
     }
 
 }

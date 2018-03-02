@@ -16,6 +16,7 @@ use App\Model\UserProfileModel;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
+use App\Services\Utility\LarabarLogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
@@ -52,8 +53,6 @@ class AuthenticationController extends Controller
         $inputLastName = $request->input('lastName');
 
         // create UserModel
-        if ($inputPassword == "" || $inputEmail == "")
-            return view("register")->with(['user' => -1]);
         $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
 
         // create a business service
@@ -88,6 +87,8 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request)
     {
+        LarabarLogger::info("-> Authentication::login", $request->input());
+
         // validation
         $this->validateLogin($request);
 
@@ -99,6 +100,7 @@ class AuthenticationController extends Controller
         if ($inputPassword == "" || $inputEmail == "")
             return view("login")->with(['message' => "Please fill out all forms."]);
         $user = new UserModel(0, $inputEmail, $inputPassword);
+        LarabarLogger::info("User successfully created");
 
         // create a business service
         $service = new UserBusinessService($user);
@@ -117,6 +119,7 @@ class AuthenticationController extends Controller
 
     public function validateLogin(Request $request)
     {
+        LarabarLogger::info("-> Authentication::validateLogin");
 
         // Define rules
         $rules = [

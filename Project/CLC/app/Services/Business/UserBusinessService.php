@@ -1,10 +1,10 @@
 <?php
 /**
- * version 1.0
+ * version 2.0
  *
  * Student Name: Connor
  * Course Number: CST-256
- * Date: 1/31/2018
+ * Date: 3/1/2018
  * This assignment was completed in collaboration with Connor Low, Ali Cooper.
  * We used source code from the following websites to complete this assignment: N/A
  */
@@ -14,6 +14,7 @@ namespace App\Services\Business;
 use App\Model\UserModel;
 use App\Services\Data\UserDataAccessService;
 use App\Services\DatabaseAccess;
+use App\Services\Utility\LarabarLogger;
 use PDOException;
 
 /**
@@ -28,7 +29,10 @@ use PDOException;
 class UserBusinessService
 {
 
-    private $user, $status = "";
+    /**
+     * @var UserModel
+     */
+    private $user, $service, $status = "";
 
     /**
      * UserBusinessService constructor.
@@ -36,7 +40,9 @@ class UserBusinessService
      */
     public function __construct(UserModel $user)
     {
+        LarabarLogger::info("UserBusinessService constructed", (array)$user);
         $this->user = $user;
+        $this->service = new UserDataAccessService();
     }
 
     /**
@@ -44,7 +50,6 @@ class UserBusinessService
      */
     public function getUser()
     {
-
         return $this->user;
     }
 
@@ -56,24 +61,24 @@ class UserBusinessService
         $this->user = $user;
     }
 
-
     /**
-     * @return mixed
+     * @return UserModel|bool|int
      */
     public function login()
     {
-        try {
-            $das = new UserDataAccessService(DatabaseAccess::connect());
-            $user = $das->read($this->user);
-            if($user) {
-                return $user;
-            }
-            $this->status = "Invalid credentials. Please try again";
-            return FALSE;
-        } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityBSO::login {\n" .
-                $e->getMessage() . "\n}");
+        LarabarLogger::info("-> UserBusinessService::login");
+
+        // select user from data source
+        $user = $this->service->read($this->user);
+
+        // check for success.
+        if ($user) {
+            LarabarLogger::info("UserBusinessService: Login success");
+            return $user;
         }
+        LarabarLogger::info("UserBusinessService: Login fail");
+        $this->status = "Invalid credentials. Please try again";
+        return FALSE;
     }
 
     /**
@@ -81,25 +86,24 @@ class UserBusinessService
      */
     public function register()
     {
+        LarabarLogger::info("-> UserBusinessService::register");
+
+        // check for illegal characters
         if (!$this->inputIsValid()) {
             return FALSE;
         }
-        try {
 
-            // Data Access Service
-            $das = new UserDataAccessService(DatabaseAccess::connect());
-
-            // update user with defaults (ID, ADMIN)
-            $result = $das->create($this->user);
-            if (!$result) {
-                $this->status = "Username taken";
-                return FALSE;
-            }
-            return $das->read($this->user);
-        } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityBSO::login {\n" .
-                $e->getMessage() . "\n}");
+        // insert user with defaults (ID, ADMIN)
+        $result = $this->service->create($this->user);
+        if (!$result) {
+            LarabarLogger::info("UserBusinessService: Register fail");
+            $this->status = "Username taken";
+            return false;
         }
+
+        // login
+        LarabarLogger::info("UserBusinessService: Register success");
+        return $this->login();
     }
 
     /**
@@ -107,6 +111,8 @@ class UserBusinessService
      */
     public function inputIsValid()
     {
+        LarabarLogger::info("-> UserBusinessService::inputIsValid");
+
         // define characters that are not allowed
         $invalidChars = array("\"", "'", "\\", "*", "/", "=");
 
@@ -116,37 +122,49 @@ class UserBusinessService
                 if (str_contains($param, $c)) {
                     $this->status = "Invalid characters: <pre>\" ' \\ * / =</pre>. " .
                         "Please make sure you do not use these in your password, email, or name.";
-                    return -1;
+                    LarabarLogger::warning("UserBusinessService: invalid input");
 
+                    return -1;
                 }
             }
         return TRUE;
     }
 
+    /**
+     * @return array
+     */
     public function listUsers()
     {
-        $conn = DatabaseAccess::connect();
-        $das = new UserDataAccessService($conn);
-        $list = $das->readAll();
+        // get all from data source
+        $list = $this->service->readAll();
+
+        // convert to UserModel array
         $users = array();
         $i = 0;
         foreach ($list as $item) {
             $users[$i] = new UserModel($item["ID"], $item["EMAIL"]);
             $users[$i++]->setAdmin($item["ADMIN"]);
         }
+
+        // return array
         return $users;
     }
 
-    public function updateUserInfo(UserModel $model){
-        $svc = new UserDataAccessService(DatabaseAccess::connect());
+    /**
+     * @param UserModel $model
+     */
+    public function updateUserInfo(UserModel $model)
+    {
+        $svc = new UserDataAccessService();
         $svc->update($model);
     }
 
+    /**
+     * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function deleteUser()
     {
-        $conn = DatabaseAccess::connect();
-        $das = new UserDataAccessService($conn);
-        $result = $das->delete($this->user);
+        $result = $this->service->delete($this->user);
         $this->status = $result ? "Successfully deleted " : "Failed to delete ";
         return $result;
     }

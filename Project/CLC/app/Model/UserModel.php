@@ -12,9 +12,14 @@
 namespace App\Model;
 
 use App\Services\DatabaseAccess;
+use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOStatement;
 
+/**
+ * Class UserModel
+ * @package App\Model
+ */
 class UserModel
 {
     private $id;
@@ -40,13 +45,20 @@ class UserModel
         $this->password = $password;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        LarabarLogger::info("UserModel constructed: [$id, $email, $password, $firstName, $lastName]");
     }
 
+    /**
+     * @return array
+     */
     public static function getFields()
     {
         return ['ID', 'Email', 'First Name', 'Last Name', 'Admin'];
     }
 
+    /**
+     * @return array
+     */
     public function getJobFieldsArr()
     {
         return [$this->id, $this->email, $this->firstName, $this->lastName, $this->admin];
