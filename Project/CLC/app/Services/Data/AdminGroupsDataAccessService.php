@@ -1,10 +1,10 @@
 <?php
 /**
- * version 1.0
+ * version 1.1
  *
  * Student Name: Connor
  * Course Number: CST-256
- * Date: 3/2/2018
+ * Date: 3/3/2018
  * This assignment was completed in collaboration with Connor Low, Ali Cooper.
  * We used source code from the following websites to complete this assignment: N/A
  */
@@ -21,23 +21,20 @@ use PDOException;
  */
 class AdminGroupsDataAccessService
 {
-    private static $ini, $instance;
+    private static $ini;
 
     /**
-     * AdminGroupsDataAccessService constructor.
+     * @return mixed
      */
-    public static function getInstance()
+    public static function getIni()
     {
-        if (self::$instance == null) {
+        if (self::$ini == null) {
             LarabarLogger::info("Init AdminGroupsDataAccessService");
 
-            // init service
-            self::$instance = new AdminGroupsDataAccessService();
-
-            // configuration for queries
+            // parse the db.ini file for queries
             self::$ini = parse_ini_file("db.ini", true);
         }
-        return self::$instance;
+        return self::$ini;
     }
 
     /**
@@ -49,7 +46,7 @@ class AdminGroupsDataAccessService
         LarabarLogger::info("Enter AdminGroupsDataAccessService::create", $details);
 
         // select query statement
-        $query = self::$ini['Groups']['insert'];
+        $query = self::getIni()['Groups']['insert'];
         $statement = DatabaseAccess::connect()->prepare($query);
 
         // bind parameters
@@ -67,12 +64,16 @@ class AdminGroupsDataAccessService
         }
     }
 
+    /**
+     * @param $id
+     * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function delete($id)
     {
         LarabarLogger::info("Enter AdminGroupsDataAccessService::delete", $id);
 
         // select query statement
-        $query = self::$ini['Groups']['delete'];
+        $query = self::getIni()['Groups']['delete'];
         $statement = DatabaseAccess::connect()->prepare($query);
 
         // bind parameters
@@ -88,12 +89,16 @@ class AdminGroupsDataAccessService
         }
     }
 
+    /**
+     * @param $details
+     * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function update($details)
     {
         LarabarLogger::info("Enter AdminGroupsDataAccessService::update", $details);
 
         // select query statement
-        $query = self::$ini['Groups']['update'];
+        $query = self::getIni()['Groups']['update'];
         $statement = DatabaseAccess::connect()->prepare($query);
 
         // bind parameters
@@ -112,12 +117,16 @@ class AdminGroupsDataAccessService
         }
     }
 
+    /**
+     * @param int $id
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function read($id = -1)
     {
         LarabarLogger::info("Enter AdminGroupsDataAccessService::read using method: " . ($id > 0 ? "where id = $id" : "no where"));
 
         // select query statement
-        $query = $id < 1 ? self::$ini['Groups']['select.all'] : self::$ini['Groups']['select.id'];
+        $query = $id < 1 ? self::getIni()['Groups']['select.all'] : self::getIni()['Groups']['select.id'];
         $statement = DatabaseAccess::connect()->prepare($query);
 
         // bind parameters

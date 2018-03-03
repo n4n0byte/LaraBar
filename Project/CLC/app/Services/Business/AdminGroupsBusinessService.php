@@ -8,14 +8,13 @@
 
 namespace App\Services\Business;
 
-
 use App\Model\GroupModel;
 use App\Services\BusinessInterfaces\IAdminGroupsBusinessService;
 use App\Services\Data\AdminGroupsDataAccessService;
 
 class AdminGroupsBusinessService implements IAdminGroupsBusinessService
 {
-    private static $instance = null;
+    private static $instance;
 
     /**
      * @return IAdminGroupsBusinessService
@@ -25,7 +24,6 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
         if (self::$instance == null) {
             self::$instance = new AdminGroupsBusinessService();
         }
-
         return self::$instance;
     }
 
@@ -35,6 +33,7 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
      */
     public function createGroup(array $details): bool
     {
+        // create
         $success = AdminGroupsDataAccessService::create($details);
 
         // return success
@@ -47,12 +46,11 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
      */
     public function deleteGroup($groupId): bool
     {
-        // TODO: Implement deleteGroup() method.
         // call data service method
-        $success = false;
+        $success = AdminGroupsDataAccessService::delete($groupId);
 
-        // return success
-        return $success;
+        // return success using unnecessary conditional assignment instead of just returning the boolean
+        return $success ? true : false;
     }
 
     /**
@@ -60,15 +58,14 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
      */
     public function listAllGroups(): array
     {
-        // TODO: Implement listAllGroups() method.
         // call data service method
         $raw = array();
 
         // convert to array : GroupModel
         $groups = array();
         $i = 0;
-        foreach($raw as $row) {
-            $groups[$i] = new GroupModel($row["ID"],$row["TITLE"], $row["DESCRIPTION"], $row["SUMMARY"]);
+        foreach ($raw as $row) {
+            $groups[$i++] = new GroupModel($row["ID"], $row["TITLE"], $row["DESCRIPTION"], $row["SUMMARY"]);
         }
 
         // return array of GroupModel
@@ -81,11 +78,17 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
      */
     public function editGroupDetails(array $details): bool
     {
-        // TODO: Implement editGroupDetails() method.
         // call data service method
-        $success = false;
+        $success = AdminGroupsDataAccessService::update($details);
 
-        // return success
-        return $success;
+        // Return success using a convoluted series of comparisons to get a string of the
+        // original boolean and comparing that to the string, "true". This is bad design,
+        // and we don't recommend it. Use the method show in create group.
+        $successStr = "";
+        if ($success == true && $success != false)
+            $successStr = "true";
+        elseif ($success != true && $success == false)
+            $successStr = "false";
+        return $successStr == "true";
     }
 }

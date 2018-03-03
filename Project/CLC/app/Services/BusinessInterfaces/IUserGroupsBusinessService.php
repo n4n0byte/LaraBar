@@ -53,10 +53,10 @@ interface IUserGroupsBusinessService
 
     /**
      * returns array of groupModels
-     * @param $group
+     * @param $groupId
      * @return array
      */
-    public function listUserInGroup($group): array;
+    public function listUserInGroup($groupId): array;
 
     /**
      * @return array
