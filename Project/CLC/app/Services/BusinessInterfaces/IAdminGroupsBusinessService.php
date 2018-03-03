@@ -12,9 +12,6 @@
 namespace App\Services\Business;
 
 
-use App\Model\GroupModel;
-use App\Model\UserModel;
-
 /**
  * Interface IManageGroupsBusinessService
  * @package App\Services\Business
@@ -24,29 +21,29 @@ interface IAdminGroupsBusinessService
     /**
      * @return IAdminGroupsBusinessService
      */
-    static function getInstance();
+    public static function getInstance() : IAdminGroupsBusinessService;
 
     /**
      * @param array $details
      * @return bool
      */
-    public static function createGroup(array $details);
+    public function createGroup(array $details) : bool;
 
     /**
-     * @param $group
+     * @param $groupId
      * @return bool
      */
-    public static function deleteGroup($group);
+    public function deleteGroup($groupId) : bool;
 
     /**
-     * @return GroupModel array
+     * @return array
      */
-    public static function listAllGroups();
+    public function listAllGroups() : array ;
 
     /**
      * @param array $details
      * @return bool
      */
-    public static function editGroupDetails(array $details);
+    public  function editGroupDetails(array $details) : bool;
 
 }
