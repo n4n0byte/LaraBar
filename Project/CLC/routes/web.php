@@ -71,3 +71,6 @@ Route::get('admin', 'AdminController@index');
 Route::get('admin/suspend/{id}', 'AdminController@suspend');
 Route::get('admin/reactivate/{id}', 'AdminController@reactivate');
 Route::get('admin/delete/{id}', 'AdminController@deleteUser');
+
+/* ==== Admin Profile Management ==== */
+Route::get('manageGroups','AdminGroupController@index');

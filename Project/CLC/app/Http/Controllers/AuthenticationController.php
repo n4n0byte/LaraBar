@@ -13,7 +13,6 @@ namespace App\Http\Controllers;
 
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
-use App\Services\Business\AdminGroupsBusinessServiceSingletonDummy;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
@@ -111,7 +110,6 @@ class AuthenticationController extends Controller
             $susService = new SuspendUserBusinessService();
             session()->put(['user' => $user]);
             session()->save();
-            $x = AdminGroupsBusinessServiceSingletonDummy::getInstance();
             return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
         } else {
             return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);

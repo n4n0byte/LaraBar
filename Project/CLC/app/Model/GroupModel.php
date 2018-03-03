@@ -116,4 +116,11 @@ class GroupModel
         $this->id = $id;
     }
 
+    /**
+     * returns array containing field names
+     */
+    public static function getFieldNames(){
+        return ["ID","Name","Description","Summary","Owner"];
+    }
+
 }

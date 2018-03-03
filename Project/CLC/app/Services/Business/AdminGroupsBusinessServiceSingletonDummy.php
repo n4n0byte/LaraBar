@@ -12,6 +12,7 @@
 namespace App\Services\Business;
 
 use App\Model\GroupModel;
+use App\Model\UserModel;
 use App\Services\BusinessInterfaces\IAdminGroupsBusinessService;
 
 class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessService {
@@ -37,7 +38,8 @@ class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessSe
      * initializes instance and provides dummy data
      */
     private function __construct() {
-        $userSvc = new UserBusinessService(session()->get('user'));
+
+        $userSvc = new UserBusinessService(new UserModel(0));
 
         // store all users from db
         $users = $userSvc->listUsers();
