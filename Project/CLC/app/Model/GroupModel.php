@@ -12,6 +12,8 @@
 namespace App\Model;
 
 
+use App\Services\Utility\LarabarLogger;
+
 class GroupModel
 {
     private $name, $description, $summary, $owner, $id;
@@ -26,6 +28,7 @@ class GroupModel
      */
     public function __construct($name, $description, $summary, $owner, $id)
     {
+        LarabarLogger::info("GroupModel constructed");
         $this->name = $name;
         $this->description = $description;
         $this->summary = $summary;
