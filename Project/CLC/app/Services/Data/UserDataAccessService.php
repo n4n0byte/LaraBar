@@ -28,7 +28,7 @@ class UserDataAccessService
     {
         $this->conn = DatabaseAccess::Connect();
         $this->ini = parse_ini_file("db.ini", true);
-        LarabarLogger::info("UserDataAccessService constructed",[]);
+        LarabarLogger::info("UserDataAccessService constructed", []);
     }
 
     /**
@@ -80,8 +80,6 @@ class UserDataAccessService
                 $user->setFirstName($assoc_array["FIRSTNAME"]);
             if (!is_null($assoc_array["LASTNAME"]))
                 $user->setLastName($assoc_array["LASTNAME"]);
-            if (!is_null($assoc_array["AVATAR"]))
-                $user->setAvatar($assoc_array["AVATAR"]);
             if (!is_null($assoc_array["ADMIN"]))
                 $user->setAdmin($assoc_array["ADMIN"]);
             // TODO return warning if information is missing
@@ -106,7 +104,8 @@ class UserDataAccessService
         }
     }
 
-    public function update(UserModel $user){
+    public function update(UserModel $user)
+    {
 
         // define params
         $email = $user->getEmail();
@@ -118,17 +117,17 @@ class UserDataAccessService
         $query = $this->ini["Users"]["update.id"];
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam(':email',$email);
-        $statement->bindParam(':password',$password);
-        $statement->bindParam(':firstName',$firstName);
-        $statement->bindParam(':lastName',$lastName);
-        $statement->bindParam(':id',$id);
+        $statement->bindParam(':email', $email);
+        $statement->bindParam(':password', $password);
+        $statement->bindParam(':firstName', $firstName);
+        $statement->bindParam(':lastName', $lastName);
+        $statement->bindParam(':id', $id);
 
 
         try {
             $statement->execute();
             session()->forget('user');
-            session()->put('user',$user);
+            session()->put('user', $user);
             session()->save();
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
@@ -139,10 +138,13 @@ class UserDataAccessService
 
     /**
      * @param UserModel $user
-     * @return bool
+     * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(UserModel $user)
     {
+        LarabarLogger::info("Entering UserDataAccessService::create", (array)$user);
+
+        // First, check that a user with the entered email does not exist
         // define params
         $email = $user->getEmail();
         $password = $user->getPassword();
@@ -150,31 +152,35 @@ class UserDataAccessService
         $lastName = $user->getLastName();
 
         // Check for unique email
-        $query = $this->ini['Users']['select'] . " EMAIL = :email ;";
+        $query = $this->ini['Users']['select.email'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         try {
+            LarabarLogger::info("UserDataAccessService::create executing statement (select.email)");
             $statement->execute();
-            if ($statement->rowCount() > 0) {
+            if ($statement->rowCount() >= 1) {
+                LarabarLogger::warning("UserDataAccessService::create email already used for an account");
                 return FALSE;
             }
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+            LarabarLogger::error("Exception in SecurityDAO::create\n" . $e->getMessage());
+            return view("error");
         }
 
+        // Second, if email is unique, insert user.
         // build insert query
+        LarabarLogger::info("UserDataAccessService::create preparing insert statement");
         $query = $this->ini['Users']['create'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":email", $email);
         $statement->bindParam(":password", $password);
         $statement->bindParam(":firstname", $firstName);
         $statement->bindParam(":lastname", $lastName);
-        $statement->bindParam(":avatar", $avatar);
 
         // attempt to insert a user
         try {
-            $statement->execute();
-            return true;
+            LarabarLogger::info("UserDataAccessService::create executing statement (insert)");
+            return $statement->execute();
         } catch (PDOException $e) {
             LarabarLogger::error("Exception in SecurityDAO::findByUser\n" . $e->getMessage());
             return view("error");

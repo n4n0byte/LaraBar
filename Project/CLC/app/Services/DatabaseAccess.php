@@ -1,18 +1,19 @@
 <?php
 /**
- * version 1.0
+ * version 1.1s
  *
  * Student Name: Connor
  * Course Number: CST-256
- * Date: 3/2/2018
+ * Date: 3/3/2018
  * This assignment was completed in collaboration with Connor Low, Ali Cooper.
  * We used source code from the following websites to complete this assignment: N/A
  */
 
+// TODO move to \Utility
+// TODO add ini getter function
 namespace App\Services;
 
 use PDO;
-use DebugBar\DataCollector\PDO\TraceablePDO;
 
 class DatabaseAccess
 {

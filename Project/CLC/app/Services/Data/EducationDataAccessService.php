@@ -101,39 +101,27 @@ class EducationDataAccessService
      */
     public function getEducationRows($id = -1, $usePostId = false)
     {
-
         $educationArr = array();
         $query = $id === -1 ? $this->ini['Education']['select.all'] : $this->ini['Education']['select.id'];
-
         if ($usePostId) {
             $query = $this->ini['Education']['select.pid'];
         }
-
         $statement = $this->conn->prepare($query);
-
         if ($id !== -1) {
             $statement->bindParam(":id", $id);
         }
-
         try {
-
             $statement->execute();
-
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
                 $educationRow = new EducationModel($row["ID"], $row["UID"], $row["INSTITUTION"], $row["LEVEL"], $row["DEGREE"]);
                 array_push($educationArr, $educationRow);
             }
-
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
         }
-
         return $educationArr;
-
     }
-
 
 }

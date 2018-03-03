@@ -40,7 +40,7 @@ class DataRetrieval
         $conn = DatabaseAccess::connect();
 
         // build query
-        $query = self::getParsedIni()['Users']['select'] . " ID = :id;";
+        $query = self::getParsedIni()['Users']['select.id'];
         $statement = $conn->prepare($query);
         $statement->bindParam(":id", $id);
         $user = new UserModel(0, "", "");
@@ -55,7 +55,7 @@ class DataRetrieval
         $conn = DatabaseAccess::connect();
 
         // build query
-        $query = self::getParsedIni()['Users']['select'] . " ID = :id;";
+        $query = self::getParsedIni()['Users']['select.id'];
         $statement = $conn->prepare($query);
         $statement->bindParam(":id", $id);
         $user = new UserModel(0, "", "");
@@ -71,7 +71,6 @@ class DataRetrieval
                 $user->setPassword($assoc_array["PASSWORD"]);
                 $user->setFirstName($assoc_array["FIRSTNAME"]);
                 $user->setLastName($assoc_array["LASTNAME"]);
-                $user->setAvatar($assoc_array["AVATAR"]);
                 return $user;
             } else {
                 return new UserModel(session('UID'));
@@ -109,7 +108,6 @@ class DataRetrieval
                 $user->setPassword($assoc_array["PASSWORD"]);
                 $user->setFirstName($assoc_array["FIRSTNAME"]);
                 $user->setLastName($assoc_array["LASTNAME"]);
-                $user->setAvatar($assoc_array["AVATAR"]);
                 return $user;
             } else {
                 exit("Error");
@@ -142,7 +140,7 @@ class DataRetrieval
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
-            $userProfile = new UserProfileModel($assoc_array["AVATAR"], $assoc_array["BIO"], $assoc_array["LOCATION"]);
+            $userProfile = new UserProfileModel($assoc_array["IMGURL"], $assoc_array["BIO"], $assoc_array["LOCATION"]);
             $user = self::getModelByUID($id);
             return array('user' => $user, 'userProfile' => $userProfile);
 
