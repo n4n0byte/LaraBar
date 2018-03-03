@@ -11,25 +11,8 @@
 
 namespace App\Services\Business;
 
-use App\Model\GroupModel;
-use App\Model\UserModel;
 
 interface IGroupBusinessService
 {
-    /**
-     * @return IGroupBusinessService
-     */
-    static function getService();
-
-    /**
-     * @param null $criteria
-     * @return GroupModel array
-     */
-    public static function listGroups($criteria = null);
-
-    /**
-     * @param $group
-     * @return UserModel array
-     */
-    public static function listUsersFor($group);
+    // EMPTY
 }
