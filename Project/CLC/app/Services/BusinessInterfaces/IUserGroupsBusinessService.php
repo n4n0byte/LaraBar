@@ -13,50 +13,54 @@ namespace App\Services\BusinessInterfaces;
 
 use App\Model\GroupModel;
 
+/**
+ * Interface IUserGroupsBusinessService
+ * @package App\Services\BusinessInterfaces
+ */
 interface IUserGroupsBusinessService
 {
+
     /**
      * @return IUserGroupsBusinessService
      */
-    static function getInstance() : IUserGroupsBusinessService;
+    static function getInstance(): IUserGroupsBusinessService;
 
     /**
      * @param $user
      * @return array
      */
-    public function listGroupsForUser($user) : array;
+    public function listGroupsForUser($user): array;
 
     /**
      * @param $userId
      * @param $groupId
      * @return bool
      */
-    public function addUserToGroup($userId, $groupId) : bool;
+    public function addUserToGroup($userId, $groupId): bool;
 
     /**
      * @param $userId
      * @param $groupId
      * @return bool
      */
-    public function removeUserFromGroup($userId, $groupId) : bool;
+    public function removeUserFromGroup($userId, $groupId): bool;
 
     /**
      * return array of GroupModels
      * @return array
      */
-    public function listAllAvailableGroups() : array;
+    public function listAllAvailableGroups(): array;
 
     /**
      * returns array of groupModels
      * @param $group
      * @return array
      */
-    public function listUserInGroup($group) : array;
+    public function listUserInGroup($group): array;
 
     /**
-     * @return GroupModel array
+     * @return array
      */
-    public function listAllGroups() : array;
-
+    public function listAllGroups(): array;
 
 }
