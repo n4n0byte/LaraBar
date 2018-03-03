@@ -28,7 +28,7 @@ class UserDataAccessService
     {
         $this->conn = DatabaseAccess::Connect();
         $this->ini = parse_ini_file("db.ini", true);
-        LarabarLogger::info("UserDataAccessService constructed");
+        LarabarLogger::info("UserDataAccessService constructed",[]);
     }
 
     /**

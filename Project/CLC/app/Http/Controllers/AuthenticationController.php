@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
+use App\Services\Business\AdminGroupsBusinessServiceSingletonDummy;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
@@ -101,6 +102,8 @@ class AuthenticationController extends Controller
             return view("login")->with(['message' => "Please fill out all forms."]);
         $user = new UserModel(0, $inputEmail, $inputPassword);
         LarabarLogger::info("User successfully created");
+
+        $x = AdminGroupsBusinessServiceSingletonDummy::getInstance();
 
         // create a business service
         $service = new UserBusinessService($user);

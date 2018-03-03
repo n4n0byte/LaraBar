@@ -23,15 +23,13 @@ use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 use Illuminate\Http\Request;
 
-class UserProfileController extends Controller
-{
+class UserProfileController extends Controller {
 
     private static $types = ['employmentHistory', 'education', 'skill'];
     private $eduService, $empService, $skillService, $userProfileService, $userService;
 
 
-    function __construct()
-    {
+    function __construct() {
         $this->eduService = new EducationBusinessService();
         $this->empService = new EmploymentHistoryBusinessService();
         $this->skillService = new SkillsBusinessService();
@@ -42,8 +40,7 @@ class UserProfileController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updatePersonalInfo(Request $request)
-    {
+    public function updatePersonalInfo(Request $request) {
 
         $user = session('user');
         $this->userService = new UserBusinessService($user);
@@ -62,8 +59,7 @@ class UserProfileController extends Controller
      * @param $name
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function viewAdd($type, $name)
-    {
+    public function viewAdd($type, $name) {
 
         $result = array_search($type, self::$types);
 
@@ -74,8 +70,7 @@ class UserProfileController extends Controller
 
     }
 
-    public function add(Request $request)
-    {
+    public function add(Request $request) {
         return redirect()->action("ProfileController@index");
     }
 
@@ -83,11 +78,10 @@ class UserProfileController extends Controller
     /**
      * @return $this
      */
-    function show()
-    {
+    function show() {
         /* @var $user UserModel */
         $user = session()->get("user");
-        
+
         // get profile
         // general
         $profileService = new UserProfileBusinessService();
@@ -119,8 +113,7 @@ class UserProfileController extends Controller
     /**
      * @param Request $request
      */
-    function updateBiography(Request $request)
-    {
+    function updateBiography(Request $request) {
 
         $bio = $request->get('biography');
         $location = $this->userProfileService->getProfileData()['userProfile']->getLocation();
@@ -135,8 +128,7 @@ class UserProfileController extends Controller
     /**
      * @param Request $request
      */
-    function updateLocation(Request $request)
-    {
+    function updateLocation(Request $request) {
 
         $location = $request->get('location');
         $bio = $this->userProfileService->getProfileData()['userProfile']->getBio();
@@ -152,8 +144,7 @@ class UserProfileController extends Controller
      * @param $category
      * @return $this
      */
-    function showEditor($category, $id)
-    {
+    function showEditor($category, $id) {
         /* @var $user UserModel */
         $user = session('user');
 
@@ -201,8 +192,7 @@ class UserProfileController extends Controller
         return view('edit_profile')->with($data);
     }
 
-    function editMember()
-    {
+    function editMember() {
 
     }
 
@@ -210,8 +200,7 @@ class UserProfileController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    function updateProfile(Request $request)
-    {
+    function updateProfile(Request $request) {
 
         // get inputs
         $inputLocation = $request->input('location');
@@ -231,8 +220,7 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
-    function updateEducation(Request $request)
-    {
+    function updateEducation(Request $request) {
         // get inputs
         $inputInstitution = $request->input('institution');
         $inputLevel = $request->input('level');
@@ -252,8 +240,7 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
-    function createEducation(Request $request)
-    {
+    function createEducation(Request $request) {
         // get inputs
         $inputInstitution = $request->input('institution');
         $inputLevel = $request->input('level');
@@ -272,8 +259,7 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
-    function updateEmployment(Request $request)
-    {
+    function updateEmployment(Request $request) {
         // get inputs
         $inputEmployer = $request->input('employer');
         $inputPosition = $request->input('position');
@@ -291,8 +277,7 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
-    function createEmployment(Request $request)
-    {
+    function createEmployment(Request $request) {
         // get inputs
         $inputEmployer = $request->input('employer');
         $inputPosition = $request->input('position');
@@ -309,8 +294,7 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
-    function updateSkills(Request $request)
-    {
+    function updateSkills(Request $request) {
         // get inputs
         $inputTitle = $request->input('title');
         $inputDescription = $request->input('description');
@@ -327,8 +311,7 @@ class UserProfileController extends Controller
         return redirect()->action("UserProfileController@show");
     }
 
-    function createSkills(Request $request)
-    {
+    function createSkills(Request $request) {
         // get inputs
         $inputTitle = $request->input('title');
         $inputDescription = $request->input('description');
@@ -348,8 +331,7 @@ class UserProfileController extends Controller
      * @param $category
      * @return $this
      */
-    function addEditor($category)
-    {
+    function addEditor($category) {
         /* @var $user UserModel */
         $user = session('user');
 
@@ -380,8 +362,7 @@ class UserProfileController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    function delete($category, $id)
-    {
+    function delete($category, $id) {
         /* @var $user UserModel */
         $user = session('user');
         // get profile
@@ -409,11 +390,10 @@ class UserProfileController extends Controller
     /**
      * @param Request $request
      */
-    function validateProfile(Request $request)
-    {
+    function validateProfile(Request $request) {
         // Define rules
         $rules = [
-            'bio' => 'Between:0,50',
+            'bio' => 'Between:0,50|',
             'location' => 'Between:0,50'
         ];
 
@@ -428,8 +408,7 @@ class UserProfileController extends Controller
     /**
      * @param Request $request
      */
-    function validateEmployment(Request $request)
-    {
+    function validateEmployment(Request $request) {
         // Define rules
         $rules = [
             'employer' => 'Required|Between:1,50',
@@ -448,8 +427,7 @@ class UserProfileController extends Controller
     /**
      * @param Request $request
      */
-    function validateEducation(Request $request)
-    {
+    function validateEducation(Request $request) {
         // Define rules
         $rules = [
             'institution' => 'Required|Between:1,50',
@@ -469,8 +447,7 @@ class UserProfileController extends Controller
     /**
      * @param Request $request
      */
-    function validateSkills(Request $request)
-    {
+    function validateSkills(Request $request) {
         // Define rules
         $rules = [
             'title' => 'Required|Between:1,50',

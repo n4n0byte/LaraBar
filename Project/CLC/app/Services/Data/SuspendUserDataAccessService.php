@@ -46,7 +46,7 @@ class SuspendUserDataAccessService
 
         // suspend user
         $id = $user->getId();
-        $query = $this->ini["Suspended_users"]["create"];
+        $query = $this->ini["SuspendedUsers"]["create"];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $id);
         try {
@@ -64,7 +64,7 @@ class SuspendUserDataAccessService
     public function reactivate(UserModel $user)
     {
         $id = $user->getId();
-        $query = $this->ini["Suspended_users"]["delete"];
+        $query = $this->ini["SuspendedUsers"]["delete"];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $id);
         try {
@@ -82,7 +82,7 @@ class SuspendUserDataAccessService
     public function checkSuspended(UserModel $user)
     {
         $id = $user->getId();
-        $query = $this->ini["Suspended_users"]["select.id"];
+        $query = $this->ini["SuspendedUsers"]["select.id"];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $id);
         try {
