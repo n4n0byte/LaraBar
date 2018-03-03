@@ -38,7 +38,7 @@ class SuspendUserDataAccessService
         // TODO check for existing suspended record
 
         // make sure user is not an admin
-        $userDAS = new UserDataAccessService($this->conn);
+        $userDAS = new UserDataAccessService();
         $result = $userDAS->selectUserById($user);
 
         if ($result["ADMIN"] == 1)

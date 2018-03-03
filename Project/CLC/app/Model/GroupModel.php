@@ -26,7 +26,7 @@ class GroupModel
      * @param $owner
      * @param $id
      */
-    public function __construct($name, $description, $summary, $owner, $id)
+    public function __construct($id = -1, $name = "", $description = "", $summary = "", $owner = "")
     {
         LarabarLogger::info("GroupModel constructed");
         $this->name = $name;

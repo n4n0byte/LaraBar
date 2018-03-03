@@ -8,6 +8,7 @@ January 31, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+
 namespace App\Services\Data;
 
 use App\Model\EducationModel;
@@ -21,7 +22,6 @@ class EducationDataAccessService
 
     /**
      * UserDataAccessService constructor.
-     * @param $conn
      */
     public function __construct()
     {
@@ -29,7 +29,8 @@ class EducationDataAccessService
         $this->ini = parse_ini_file("db.ini", true);
     }
 
-    public function createEducationRow(EducationModel $model){
+    public function createEducationRow(EducationModel $model)
+    {
         $user = session()->get('user');
         $uid = $user->getID();
         $institution = $model->getInstitution();
@@ -54,11 +55,12 @@ class EducationDataAccessService
 
     }
 
-    public function deleteEducationRow(int $id){
+    public function deleteEducationRow(int $id)
+    {
         $query = $this->ini['Education']['delete'];
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam("id",$id);
+        $statement->bindParam("id", $id);
 
         try {
 
@@ -70,10 +72,11 @@ class EducationDataAccessService
 
     }
 
-    public function updateEducationRow(EducationModel $model){
+    public function updateEducationRow(EducationModel $model)
+    {
 
-        $modelArr = array($model->getId(),$model->getUid(),$model->getInstitution(),
-            $model->getLevel(),$model->getDegree());
+        $modelArr = array($model->getId(), $model->getUid(), $model->getInstitution(),
+            $model->getLevel(), $model->getDegree());
         $query = $this->ini['Education']['update'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $modelArr[0]);
@@ -96,18 +99,19 @@ class EducationDataAccessService
      * @param bool $usePostId
      * @return array
      */
-    public function getEducationRows($id = -1, $usePostId = false){
+    public function getEducationRows($id = -1, $usePostId = false)
+    {
 
         $educationArr = array();
         $query = $id === -1 ? $this->ini['Education']['select.all'] : $this->ini['Education']['select.id'];
 
-        if ($usePostId){
+        if ($usePostId) {
             $query = $this->ini['Education']['select.pid'];
         }
 
         $statement = $this->conn->prepare($query);
 
-        if ($id !== -1){
+        if ($id !== -1) {
             $statement->bindParam(":id", $id);
         }
 
@@ -115,11 +119,11 @@ class EducationDataAccessService
 
             $statement->execute();
 
-            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
-                $educationRow = new EducationModel($row["ID"],$row["UID"],$row["INSTITUTION"],$row["LEVEL"],$row["DEGREE"]);
-                array_push($educationArr,$educationRow);
+                $educationRow = new EducationModel($row["ID"], $row["UID"], $row["INSTITUTION"], $row["LEVEL"], $row["DEGREE"]);
+                array_push($educationArr, $educationRow);
             }
 
 
@@ -130,7 +134,6 @@ class EducationDataAccessService
         return $educationArr;
 
     }
-
 
 
 }

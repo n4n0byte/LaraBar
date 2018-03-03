@@ -9,17 +9,24 @@
 namespace App\Services\Business;
 
 
+use App\Model\GroupModel;
 use App\Services\BusinessInterfaces\IAdminGroupsBusinessService;
+use App\Services\Data\AdminGroupsDataAccessService;
 
 class AdminGroupsBusinessService implements IAdminGroupsBusinessService
 {
+    private static $instance = null;
 
     /**
      * @return IAdminGroupsBusinessService
      */
     public static function getInstance(): IAdminGroupsBusinessService
     {
-        // TODO: Implement getInstance() method.
+        if (self::$instance == null) {
+            self::$instance = new AdminGroupsBusinessService();
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -28,8 +35,10 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
      */
     public function createGroup(array $details): bool
     {
-        // make sure object has been instantiated
-        // TODO: Implement createGroup() method.
+        $success = AdminGroupsDataAccessService::create($details);
+
+        // return success
+        return $success;
     }
 
     /**
@@ -39,6 +48,11 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
     public function deleteGroup($groupId): bool
     {
         // TODO: Implement deleteGroup() method.
+        // call data service method
+        $success = false;
+
+        // return success
+        return $success;
     }
 
     /**
@@ -47,6 +61,18 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
     public function listAllGroups(): array
     {
         // TODO: Implement listAllGroups() method.
+        // call data service method
+        $raw = array();
+
+        // convert to array : GroupModel
+        $groups = array();
+        $i = 0;
+        foreach($raw as $row) {
+            $groups[$i] = new GroupModel($row["ID"],$row["TITLE"], $row["DESCRIPTION"], $row["SUMMARY"]);
+        }
+
+        // return array of GroupModel
+        return $groups;
     }
 
     /**
@@ -56,5 +82,10 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
     public function editGroupDetails(array $details): bool
     {
         // TODO: Implement editGroupDetails() method.
+        // call data service method
+        $success = false;
+
+        // return success
+        return $success;
     }
 }
