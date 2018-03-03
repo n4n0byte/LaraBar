@@ -9,9 +9,8 @@
  * We used source code from the following websites to complete this assignment: N/A
  */
 
-namespace App\Services\Business;
 
-
+namespace App\Services\BusinessInterfaces;
 /**
  * Interface IManageGroupsBusinessService
  * @package App\Services\Business
