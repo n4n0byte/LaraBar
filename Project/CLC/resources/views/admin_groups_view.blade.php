@@ -22,8 +22,20 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('content')
 
-    @component('components.generalTable')
+    @component('components.generalTable',['names' => \App\Model\GroupModel::getFieldNames()])
 
+        @foreach($groups as $row)
+
+            @component('components.generalTableContent',['row' => $row->getFields()])
+
+                @slot('btns')
+                    @component('components.buttons.btn',['route' => '/CLC/#' . $row->getId(),
+                                                         'class' => 'fa-edit'])
+                    @endcomponent
+                @endslot
+
+            @endcomponent
+        @endforeach
 
     @endcomponent
 
