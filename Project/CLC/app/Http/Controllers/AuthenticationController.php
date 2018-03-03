@@ -103,8 +103,6 @@ class AuthenticationController extends Controller
         $user = new UserModel(0, $inputEmail, $inputPassword);
         LarabarLogger::info("User successfully created");
 
-        $x = AdminGroupsBusinessServiceSingletonDummy::getInstance();
-
         // create a business service
         $service = new UserBusinessService($user);
 
@@ -113,6 +111,7 @@ class AuthenticationController extends Controller
             $susService = new SuspendUserBusinessService();
             session()->put(['user' => $user]);
             session()->save();
+            $x = AdminGroupsBusinessServiceSingletonDummy::getInstance();
             return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
         } else {
             return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
