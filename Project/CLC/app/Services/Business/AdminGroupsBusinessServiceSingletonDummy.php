@@ -18,6 +18,7 @@ use App\Services\BusinessInterfaces\IAdminGroupsBusinessService;
 class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessService {
 
     private static $instance = null;
+    private static $instId = 20;
     private $groups = array();
     private $users = array();
 
@@ -41,16 +42,22 @@ class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessSe
 
         $userSvc = new UserBusinessService(new UserModel(0));
 
-        // store all users from db
-        $users = $userSvc->listUsers();
-        $groupName = "group ";
+        if(session('groups') == null){
+            // store all users from db
+            $users = $userSvc->listUsers();
+            $groupName = "group ";
 
-        // creates groups and stores users in each
-        for ($i = 0; $i < 10; $i++){
-            $group = new GroupModel($groupName . $i, "Lorum Ipsum", "Description",
-                "Owner Name",$i);
-            array_push($this->groups, $group);
+            // creates groups and stores users in each
+            for ($i = 0; $i < 10; $i++){
+                $group = new GroupModel($groupName . $i, "Lorum Ipsum", "Description",
+                    "Owner Name",$i);
+                array_push($this->groups, $group);
+            }
+
+            session(['groups' => $this->groups]);
+            session()->save();
         }
+
     }
 
 
@@ -59,8 +66,11 @@ class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessSe
      * @return bool
      */
     public function createGroup(array $details): bool {
-        array_push($this->groups, new GroupModel("New Group","None",
-                                            "None","None","99"));
+        $groups = session('groups');
+        array_push($groups, new GroupModel(self::$instId++,$details["name"],
+                                            $details["description"],$details["summary"],
+                                            $details["owner"]));
+        session(['groups'=>$groups]);
         return true;
     }
 
@@ -77,7 +87,7 @@ class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessSe
      * @return array
      */
     public function listAllGroups(): array {
-        return $this->groups;
+        return session('groups');
     }
 
     /**
@@ -90,10 +100,17 @@ class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessSe
         $description = $details["description"];
         $owner = $details["owner"];
 
-        $item = array_search($id, $this->groups);
-        $item->setName($name);
-        $item->setDescription($description);
-        $item->setOwner($owner);
+        $groups = session('groups');
+        foreach ($groups as $item){
+            if ($item->getId() == $id){
+                $item->setId($id);
+                $item->setName($name);
+                $item->setDescription($description);
+                $item->setOwner($owner);
+                break;
+            }
+        }
+
         return true;
     }
 
