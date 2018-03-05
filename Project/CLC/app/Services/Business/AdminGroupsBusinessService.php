@@ -92,7 +92,7 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
         return $successStr == "true";
     }
 
-    public function getGroup(array $id): GroupModel
+    public function getGroupById(array $id): GroupModel
     {
         $raw = AdminGroupsDataAccessService::read($id);
         return new GroupModel($raw[0]["ID"], $raw[0]["TITLE"], $raw[0]["DESCRIPTION"], $raw[0]["SUMMARY"]);

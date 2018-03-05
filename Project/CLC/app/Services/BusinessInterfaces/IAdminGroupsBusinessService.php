@@ -49,6 +49,6 @@ interface IAdminGroupsBusinessService
      */
     public function editGroupDetails(array $details): bool;
 
-    public function getGroup(array $id): GroupModel;
+    public function getGroupById(array $id): GroupModel;
 
 }
