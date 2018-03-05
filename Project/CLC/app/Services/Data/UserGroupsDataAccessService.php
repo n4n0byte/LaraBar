@@ -112,7 +112,7 @@ class UserGroupsDataAccessService
             return $statement->fetchAll();
         } catch (PDOException $e) {
             LarabarLogger::error("Error in UserGroupsDataAccessService::readForUser while trying to execute statement",
-                $statement->queryString);
+                [$statement->queryString]);
             return view("error");
         }
     }

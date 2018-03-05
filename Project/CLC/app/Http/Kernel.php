@@ -4,6 +4,8 @@ namespace App\Http;
 
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckedLoggedIn;
+use App\Http\Middleware\CheckUserInGroup;
+use App\Http\Middleware\CheckGroupExists;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -55,6 +57,8 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => CheckedLoggedIn::class,
         'admin' => CheckAdmin::class,
+        'equalId' => CheckUserInGroup::class,
+        'group' => CheckGroupExists::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
