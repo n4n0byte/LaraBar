@@ -15,6 +15,11 @@ use App\Model\GroupModel;
 use App\Model\UserModel;
 use App\Services\BusinessInterfaces\IAdminGroupsBusinessService;
 
+/**
+ * Uses session for persistence, works without backend
+ * Class AdminGroupsBusinessServiceSingletonDummy
+ * @package App\Services\Business
+ */
 class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessService {
 
     private static $instance = null;

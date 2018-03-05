@@ -1,7 +1,7 @@
 <?php
 
 namespace app\Http\Controllers;
-use App\Services\Business\AdminGroupsBusinessServiceSingletonDummy as AdminGroupService;
+use App\Services\Business\AdminGroupsBusinessService as AdminGroupService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -36,7 +36,7 @@ class AdminGroupController {
 
     /**
      * Request variables passed in should be
-     * groupName, groupDescription, owner, groupSummary
+     * groupName, groupDescription, groupSummary
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */

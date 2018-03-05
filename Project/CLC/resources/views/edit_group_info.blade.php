@@ -21,19 +21,12 @@ We used source code from the following websites to complete this assignment: N/A
 @endsection
 
 @section('content')
-    private 'name' => string 'gg' (length=2)
-    private 'description' => string 'gg' (length=2)
-    private 'summary' => string 'gg' (length=2)
-    private 'owner' => string 'gg' (length=2)
-    private 'id' => int 20
 
     @component('components.form', ['action' => '/CLC/editGroup'])
         <input type="hidden" value="{{$group->getId()}}" name="id"/>
 
-        @component('components.editTextInput',['name' => 'name',
+        @component('components.editTextInput',['name' => 'title',
                     'label' => "Group Name", 'data' => $group->getName() ])@endcomponent
-        @component('components.editTextInput',['name' => 'owner',
-            'label' => "Group Owner", 'data' => $group->getOwner() ])@endcomponent
         @component('components.editTextArea',['name' => 'description',
                     'label' => "Group Description", 'data' => $group->getDescription() ])@endcomponent
         @component('components.editTextArea',['name' => 'summary',

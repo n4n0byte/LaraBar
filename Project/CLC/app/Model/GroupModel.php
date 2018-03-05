@@ -16,7 +16,7 @@ use App\Services\Utility\LarabarLogger;
 
 class GroupModel
 {
-    private $name, $description, $summary, $owner, $id;
+    private $name, $description, $summary, $id;
 
     /**
      * GroupModel constructor.
@@ -26,13 +26,12 @@ class GroupModel
      * @param $owner
      * @param $id
      */
-    public function __construct($id = -1, $name = "", $description = "", $summary = "", $owner = "")
+    public function __construct($id = -1, $name = "", $description = "", $summary = "")
     {
         LarabarLogger::info("GroupModel constructed");
         $this->name = $name;
         $this->description = $description;
         $this->summary = $summary;
-        $this->owner = $owner;
         $this->id = $id;
     }
 
@@ -87,22 +86,6 @@ class GroupModel
     /**
      * @return mixed
      */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * @param mixed $owner
-     */
-    public function setOwner($owner)
-    {
-        $this->owner = $owner;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
@@ -117,14 +100,14 @@ class GroupModel
     }
 
     public function getFields() : array{
-        return [$this->id,$this->name,$this->description,$this->summary,$this->owner];
+        return [$this->id,$this->name,$this->description,$this->summary];
     }
 
     /**
      * returns array containing field names
      */
     public static function getFieldNames() : array {
-        return ["ID","Name","Description","Summary","Owner"];
+        return ["ID","Name","Description","Summary"];
     }
 
 }

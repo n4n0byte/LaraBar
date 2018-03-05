@@ -73,7 +73,8 @@ Route::get('admin/reactivate/{id}', 'AdminController@reactivate');
 Route::get('admin/delete/{id}', 'AdminController@deleteUser');
 
 /* ==== Admin Profile Management ==== */
-// main view
+
+// main admin view
 Route::get('manageGroups','AdminGroupController@index');
 
 // add groups
@@ -84,3 +85,16 @@ Route::post('addGroup','AdminGroupController@addGroup');
 Route::get('editGroup/{id}','AdminGroupController@showEditGroupView');
 Route::post('editGroup','AdminGroupController@updateGroupDetails');
 
+/* ==== User Group Management ==== */
+
+// shows user group ui
+Route::get('userGroups',"UserGroupController@index");
+
+// add user to group
+Route::get('addUserToGroup/{userId}/{groupId}','UserGroupController@addUserToGroup');
+
+// remove user from group
+Route::get('removeUserFromGroup/{userId}/{groupId}','UserGroupController@removeUserFromGroup');
+
+// show users in group
+Route::get('viewUsersInGroup/{groupId}','UserGroupController@viewUsersInGroup');

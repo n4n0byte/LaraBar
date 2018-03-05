@@ -25,10 +25,7 @@ We used source code from the following websites to complete this assignment: N/A
     @component('components.form',['action' => "/CLC/addGroup"])
 
         @component('components.editTextInput',['label' => "Group Name",
-                                                'name' => "name"])
-        @endcomponent
-        @component('components.editTextInput',['label' => "Owner",
-                                         'name' => "owner"])
+                                                'name' => "title"])
         @endcomponent
         @component('components.editTextArea',['label' => "Group Description",
                                                 'name' => "description"])

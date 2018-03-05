@@ -59,7 +59,7 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
     public function listAllGroups(): array
     {
         // call data service method
-        $raw = array();
+        $raw = AdminGroupsDataAccessService::read();
 
         // convert to array : GroupModel
         $groups = array();

@@ -15,14 +15,17 @@ We used source code from the following websites to complete this assignment: N/A
 @section('navbar')
 
     @component('components.navbar')
+
         @component('components.navItem', ['title' => 'Home', 'uri' => 'home'])@endcomponent
         @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Groups', 'uri' => 'userGroups'])@endcomponent
 
         @if(session()->get('user') && session()->get('user')->getAdmin())
             @component('components.navItem', ['title' => 'Manage Groups', 'uri' => 'manageGroups'])@endcomponent
             @component('components.navItem', ['title' => 'Administrator', 'uri' => 'admin'])@endcomponent
         @endif
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
+
     @endcomponent
 @endsection
 
