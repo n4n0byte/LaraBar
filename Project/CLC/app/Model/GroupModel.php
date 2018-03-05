@@ -23,7 +23,6 @@ class GroupModel
      * @param $name
      * @param $description
      * @param $summary
-     * @param $owner
      * @param $id
      */
     public function __construct($id = -1, $name = "", $description = "", $summary = "")
@@ -99,15 +98,16 @@ class GroupModel
         $this->id = $id;
     }
 
-    public function getFields() : array{
-        return [$this->name,$this->description,$this->summary];
+    public function getFields(): array
+    {
     }
 
     /**
      * returns array containing field names
      */
-    public static function getFieldNames() : array {
-        return ["ID","Name","Description","Summary"];
+    public static function getFieldNames(): array
+    {
+        return ["Group Name", "Description", "Summary", "Edit"];
     }
 
 }
