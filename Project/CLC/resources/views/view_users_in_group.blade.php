@@ -35,11 +35,6 @@ We used source code from the following websites to complete this assignment: N/A
 
         @foreach($users as $row)
             @component('components.generalTableContent',['row' => $row->getJobFieldsArr()])
-                @slot('btns')
-                    @component('components.buttons.btn',['title' => "edit",
-                                'route' => '/CLC/viewUsersInGroup/' . $row->getId(),'class' => 'fa fa-edit'])
-                    @endcomponent
-                @endslot
             @endcomponent
         @endforeach
 
