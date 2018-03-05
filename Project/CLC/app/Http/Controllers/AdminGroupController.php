@@ -5,6 +5,10 @@ use App\Services\Business\AdminGroupsBusinessService as AdminGroupService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Class AdminGroupController
+ * @package app\Http\Controllers
+ */
 class AdminGroupController {
 
     private $adminSvc;
@@ -65,17 +69,8 @@ class AdminGroupController {
      * @return $this
      */
     public function showEditGroupView($id) {
-
-        $groups = $this->adminSvc->listAllGroups();
-        $curGroup = null;
-
-        foreach ($groups as $group){
-            if ($group->getId() == $id){
-                $curGroup = $group;
-            }
-        }
-
-        return view('edit_group_info')->with(['group' => $curGroup]);
+        $group = $this->adminSvc->getGroupById($id);
+        return view('edit_group_info')->with(['group' => $group]);
     }
 
 

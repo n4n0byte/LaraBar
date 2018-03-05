@@ -23,9 +23,11 @@ We used source code from the following websites to complete this assignment: N/A
 @section('content')
 
     {{-- shows list of groups without showingId --}}
-    @component('components.generalTable',['names' => array_slice(\App\Model\GroupModel::getFieldNames(), 1, 4)])
+    @component('components.generalTable',['names' => array_slice(\App\Model\GroupModel::getFieldNames(), 1, 3)])
 
-
+        @foreach($groups as $row)
+            @component('components.generalTableContent',['row' => $row->getFields()])@endcomponent
+        @endforeach
 
     @endcomponent
 
