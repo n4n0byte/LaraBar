@@ -29,14 +29,14 @@ Route::get('login', function () {
 });
 
 Route::get('logout', function () {
-    session()->forget('UID');
+    session()->forget(['UID', 'user']);
     return view('welcome');
 });
 Route::post('login', 'AuthenticationController@login');
 
 Route::get('home', function () {
     return view('home');
-}); //TODO change to ask when implemented
+})->middleware('auth'); //TODO change to ask when implemented
 
 Route::get("addJobPost", function () {
     return view("addJobPost");
@@ -49,41 +49,41 @@ Route::post("addJobPost", "AdminController@addJobPost");
 
 /* ==== PROFILE ==== */
 // --- Views/Forms
-Route::get('profile', 'UserProfileController@show');
-Route::get('profile/edit/{category}/{id}', 'UserProfileController@showEditor');
-Route::get('profile/delete/{category}/{id}', 'UserProfileController@delete');
-Route::get('profile/add/{category}', 'UserProfileController@addEditor');
-Route::post('profile/editProfile', 'UserProfileController@updateProfile');
-Route::post('profile/editPersonalInfo', 'UserProfileController@updatePersonalInfo');
-Route::post('profile/editEmployment', 'UserProfileController@updateEmployment');
-Route::post('profile/editEducation', 'UserProfileController@updateEducation');
-Route::post('profile/editSkills', 'UserProfileController@updateSkills');
-Route::post('profile/editLocation', 'UserProfileController@updateLocation');
-Route::post('profile/editBiography', 'UserProfileController@updateBiography');
+Route::get('profile', 'UserProfileController@show')->middleware('auth');
+Route::get('profile/edit/{category}/{id}', 'UserProfileController@showEditor')->middleware('auth');
+Route::get('profile/delete/{category}/{id}', 'UserProfileController@delete')->middleware('auth');
+Route::get('profile/add/{category}', 'UserProfileController@addEditor')->middleware('auth');
+Route::post('profile/editProfile', 'UserProfileController@updateProfile')->middleware('auth');
+Route::post('profile/editPersonalInfo', 'UserProfileController@updatePersonalInfo')->middleware('auth');
+Route::post('profile/editEmployment', 'UserProfileController@updateEmployment')->middleware('auth');
+Route::post('profile/editEducation', 'UserProfileController@updateEducation')->middleware('auth');
+Route::post('profile/editSkills', 'UserProfileController@updateSkills')->middleware('auth');
+Route::post('profile/editLocation', 'UserProfileController@updateLocation')->middleware('auth');
+Route::post('profile/editBiography', 'UserProfileController@updateBiography')->middleware('auth');
 
 // --- Insert
-Route::post('profile/addSkills', 'UserProfileController@createSkills');
-Route::post('profile/addEmployment', 'UserProfileController@createEmployment');
-Route::post('profile/addEducation', 'UserProfileController@createEducation');
+Route::post('profile/addSkills', 'UserProfileController@createSkills')->middleware('auth');
+Route::post('profile/addEmployment', 'UserProfileController@createEmployment')->middleware('auth');
+Route::post('profile/addEducation', 'UserProfileController@createEducation')->middleware('auth');
 
 /* ==== ADMIN ==== */
-Route::get('admin', 'AdminController@index');
-Route::get('admin/suspend/{id}', 'AdminController@suspend');
-Route::get('admin/reactivate/{id}', 'AdminController@reactivate');
-Route::get('admin/delete/{id}', 'AdminController@deleteUser');
+Route::get('admin', 'AdminController@index')->middleware('auth','admin');
+Route::get('admin/suspend/{id}', 'AdminController@suspend')->middleware('auth','admin');
+Route::get('admin/reactivate/{id}', 'AdminController@reactivate')->middleware('auth','admin');
+Route::get('admin/delete/{id}', 'AdminController@deleteUser')->middleware('auth','admin');
 
 /* ==== Admin Profile Management ==== */
 
 // main admin view
-Route::get('manageGroups','AdminGroupController@index');
+Route::get('manageGroups','AdminGroupController@index')->middleware('auth','admin');
 
 // add groups
-Route::get('addGroup','AdminGroupController@showAddGroupView');
-Route::post('addGroup','AdminGroupController@addGroup');
+Route::get('addGroup','AdminGroupController@showAddGroupView')->middleware('auth','admin');
+Route::post('addGroup','AdminGroupController@addGroup')->middleware('auth','admin');
 
 // edit groups
-Route::get('editGroup/{id}','AdminGroupController@showEditGroupView');
-Route::post('editGroup','AdminGroupController@updateGroupDetails');
+Route::get('editGroup/{id}','AdminGroupController@showEditGroupView')->middleware('auth','admin');
+Route::post('editGroup','AdminGroupController@updateGroupDetails')->middleware('auth','admin');
 
 /* ==== User Group Management ==== */
 
@@ -91,10 +91,10 @@ Route::post('editGroup','AdminGroupController@updateGroupDetails');
 Route::get('userGroups',"UserGroupController@index");
 
 // add user to group
-Route::get('addUserToGroup/{userId}/{groupId}','UserGroupController@addUserToGroup');
+Route::get('addUserToGroup/{userId}/{groupId}','UserGroupController@addUserToGroup')->middleware('auth');
 
 // remove user from group
-Route::get('removeUserFromGroup/{userId}/{groupId}','UserGroupController@removeUserFromGroup');
+Route::get('removeUserFromGroup/{userId}/{groupId}','UserGroupController@removeUserFromGroup')->middleware('auth');
 
 // show users in group
-Route::get('viewUsersInGroup/{groupId}','UserGroupController@viewUsersInGroup');
+Route::get('viewUsersInGroup/{groupId}','UserGroupController@viewUsersInGroup')->middleware('auth');

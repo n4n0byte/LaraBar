@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Model\UserModel;
 use Closure;
 
 class CheckedLoggedIn
@@ -15,6 +16,8 @@ class CheckedLoggedIn
      */
     public function handle($request, Closure $next)
     {
+        if(is_null(session("user")) || !session("user") instanceof UserModel)
+            return response("Session ended", 403);
         return $next($request);
     }
 }
