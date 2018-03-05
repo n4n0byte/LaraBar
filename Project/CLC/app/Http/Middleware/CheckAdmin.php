@@ -16,10 +16,16 @@ class CheckAdmin
     public function handle($request, Closure $next)
     {
         /* @var $user \App\Model\UserModel */
+
+        // get user from session
         $user = session('user');
+
+        // check user admin status
         if (!$user->getAdmin()) {
             return response('Forbidden', 403);
         }
+
+        // continue on to route action
         return $next($request);
     }
 }

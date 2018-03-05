@@ -67,34 +67,34 @@ Route::post('profile/addEmployment', 'UserProfileController@createEmployment')->
 Route::post('profile/addEducation', 'UserProfileController@createEducation')->middleware('auth');
 
 /* ==== ADMIN ==== */
-Route::get('admin', 'AdminController@index')->middleware('auth','admin');
-Route::get('admin/suspend/{id}', 'AdminController@suspend')->middleware('auth','admin');
-Route::get('admin/reactivate/{id}', 'AdminController@reactivate')->middleware('auth','admin');
-Route::get('admin/delete/{id}', 'AdminController@deleteUser')->middleware('auth','admin');
+Route::get('admin', 'AdminController@index')->middleware('auth', 'admin');
+Route::get('admin/suspend/{id}', 'AdminController@suspend')->middleware('auth', 'admin');
+Route::get('admin/reactivate/{id}', 'AdminController@reactivate')->middleware('auth', 'admin');
+Route::get('admin/delete/{id}', 'AdminController@deleteUser')->middleware('auth', 'admin');
 
 /* ==== Admin Profile Management ==== */
 
 // main admin view
-Route::get('manageGroups','AdminGroupController@index')->middleware('auth','admin');
+Route::get('manageGroups', 'AdminGroupController@index')->middleware('auth', 'admin');
 
 // add groups
-Route::get('addGroup','AdminGroupController@showAddGroupView')->middleware('auth','admin');
-Route::post('addGroup','AdminGroupController@addGroup')->middleware('auth','admin');
+Route::get('addGroup', 'AdminGroupController@showAddGroupView')->middleware('auth', 'admin');
+Route::post('addGroup', 'AdminGroupController@addGroup')->middleware('auth', 'admin');
 
 // edit groups
-Route::get('editGroup/{id}','AdminGroupController@showEditGroupView')->middleware('auth','admin');
-Route::post('editGroup','AdminGroupController@updateGroupDetails')->middleware('auth','admin');
+Route::get('editGroup/{id}', 'AdminGroupController@showEditGroupView')->middleware('auth', 'admin');
+Route::post('editGroup', 'AdminGroupController@updateGroupDetails')->middleware('auth', 'admin');
 
 /* ==== User Group Management ==== */
 
 // shows user group ui
-Route::get('userGroups',"UserGroupController@index");
+Route::get('userGroups', "UserGroupController@index")->middleware('auth');
 
 // add user to group
-Route::get('addUserToGroup/{userId}/{groupId}','UserGroupController@addUserToGroup')->middleware('auth');
+Route::get('addUserToGroup/{userId}/{groupId}', 'UserGroupController@addUserToGroup')->middleware('auth', 'group');
 
 // remove user from group
-Route::get('removeUserFromGroup/{userId}/{groupId}','UserGroupController@removeUserFromGroup')->middleware('auth');
+Route::get('removeUserFromGroup/{userId}/{groupId}', 'UserGroupController@removeUserFromGroup')->middleware('auth', 'group');
 
 // show users in group
-Route::get('viewUsersInGroup/{groupId}','UserGroupController@viewUsersInGroup')->middleware('auth');
+Route::get('viewUsersInGroup/{groupId}', 'UserGroupController@viewUsersInGroup')->middleware('auth', 'group');
