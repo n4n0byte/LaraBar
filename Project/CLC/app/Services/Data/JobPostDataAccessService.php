@@ -33,7 +33,6 @@ class JobPostDataAccessService {
         $query = $this->ini['Job']['insert'];
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam(":uid", $uid);
         $statement->bindParam(":title",$data[0]);
         $statement->bindParam(":author",$author);
         $statement->bindParam(":location",$data[1]);
@@ -41,11 +40,8 @@ class JobPostDataAccessService {
         $statement->bindParam(":requirements",$data[3]);
         $statement->bindParam(":salary",$data[4]);
 
-
-
         try {
-
-            $result = $statement->execute();
+            return $statement->execute();
 
         } catch (PDOException $e) {
             throw new PDOException("Exception in JobPostDAO::create\n" . $e->getMessage());
@@ -71,22 +67,21 @@ class JobPostDataAccessService {
 
     public function updateJobPost(JobModel $model){
 
-        $modelArr = array($model->getId(),$model->getUid(),$model->getTitle(),
+        $modelArr = array($model->getId(),$model->getTitle(),
                           $model->getAuthor(),$model->getLocation(),$model->getDescription(),
                           $model->getRequirements(),(int)$model->getSalary());
         $query = $this->ini['Job']['update'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $modelArr[0]);
-        $statement->bindParam(":title",$modelArr[2]);
-        $statement->bindParam(":author",$modelArr[3]);
-        $statement->bindParam(":location",$modelArr[4]);
-        $statement->bindParam(":description",$modelArr[5]);
-        $statement->bindParam(":requirements",$modelArr[6]);
-        $statement->bindParam(":salary",$modelArr[7]);
+        $statement->bindParam(":title",$modelArr[1]);
+        $statement->bindParam(":author",$modelArr[2]);
+        $statement->bindParam(":location",$modelArr[3]);
+        $statement->bindParam(":description",$modelArr[4]);
+        $statement->bindParam(":requirements",$modelArr[5]);
+        $statement->bindParam(":salary",$modelArr[6]);
 
         try {
-
-            $result = $statement->execute();
+            return $statement->execute();
 
         } catch (PDOException $e) {
             throw new PDOException("Exception in JobPostDAO::update\n" . $e->getMessage());
@@ -111,11 +106,10 @@ class JobPostDataAccessService {
         }
         try {
 
-            $statement->execute();
-            $x = $statement->rowCount();
+                $statement->execute();
             while($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
-                $job = new JobModel($row["ID"],$row["UID"],$row["TITLE"],$row["AUTHOR"],
+                $job = new JobModel($row["ID"],$row["TITLE"],$row["AUTHOR"],
                     $row["LOCATION"],$row["DESCRIPTION"], $row["REQUIREMENTS"],$row["SALARY"]);
                 array_push($jobs,$job);
             }

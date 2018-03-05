@@ -11,15 +11,15 @@
 
 namespace App\Model;
 
-class JobModel {
+class JobModel
+{
 
-    private $id, $uid, $title, $author, $location;
+    private $id, $title, $author, $location;
     private $description, $requirements, $salary;
 
     /**
      * JobModel constructor.
      * @param $id
-     * @param $uid
      * @param $title
      * @param $author
      * @param $location
@@ -27,9 +27,9 @@ class JobModel {
      * @param $requirements
      * @param $salary
      */
-    public function __construct($id, $uid, $title, $author, $location, $description, $requirements, $salary) {
+    public function __construct($id, $title, $author, $location, $description, $requirements, $salary)
+    {
         $this->id = $id;
-        $this->uid = $uid;
         $this->title = $title;
         $this->author = $author;
         $this->location = $location;
@@ -42,122 +42,124 @@ class JobModel {
     /**
      * @return mixed
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @param mixed $id
      */
-    public function setId($id): void {
+    public function setId($id): void
+    {
         $this->id = $id;
     }
 
     /**
      * @return mixed
      */
-    public function getUid() {
-        return $this->uid;
-    }
-
-    /**
-     * @param mixed $uid
-     */
-    public function setUid($uid): void {
-        $this->uid = $uid;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
     /**
      * @param mixed $title
      */
-    public function setTitle($title): void {
+    public function setTitle($title): void
+    {
         $this->title = $title;
     }
 
     /**
      * @return mixed
      */
-    public function getAuthor() {
+    public function getAuthor()
+    {
         return $this->author;
     }
 
     /**
      * @param mixed $author
      */
-    public function setAuthor($author): void {
+    public function setAuthor($author): void
+    {
         $this->author = $author;
     }
 
     /**
      * @return mixed
      */
-    public function getLocation() {
+    public function getLocation()
+    {
         return $this->location;
     }
 
     /**
      * @param mixed $location
      */
-    public function setLocation($location): void {
+    public function setLocation($location): void
+    {
         $this->location = $location;
     }
 
     /**
      * @return mixed
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
     /**
      * @param mixed $description
      */
-    public function setDescription($description): void {
+    public function setDescription($description): void
+    {
         $this->description = $description;
     }
 
     /**
      * @return mixed
      */
-    public function getRequirements() {
+    public function getRequirements()
+    {
         return $this->requirements;
     }
 
     /**
      * @param mixed $requirements
      */
-    public function setRequirements($requirements): void {
+    public function setRequirements($requirements): void
+    {
         $this->requirements = $requirements;
     }
 
     /**
      * @return mixed
      */
-    public function getSalary() {
+    public function getSalary()
+    {
         return $this->salary;
     }
 
     /**
      * @param mixed $salary
      */
-    public function setSalary($salary): void {
+    public function setSalary($salary): void
+    {
         $this->salary = $salary;
     }
 
-    public static function getFields(){
-        return ['ID','UID','Title','Author','Location','Description','Requirements','Salary'];
+    public static function getFields()
+    {
+        return ['ID', 'Title', 'Author', 'Location', 'Description', 'Requirements', 'Salary'];
     }
 
-    public function getJobFieldsArr(){
-        return [$this->id,$this->uid,$this->title,$this->author,$this->location,
-                $this->description,$this->requirements,$this->salary];
+    public function getJobFieldsArr()
+    {
+        return [$this->id, $this->title, $this->author, $this->location,
+            $this->description, $this->requirements, $this->salary];
     }
 
 }
