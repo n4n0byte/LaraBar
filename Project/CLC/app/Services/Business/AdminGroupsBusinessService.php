@@ -85,7 +85,7 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
         // original boolean and comparing that to the string, "true". This is bad design,
         // and we don't recommend it. Use the method show in create group.
         $successStr = "";
-        if ($success == true && $success != false)
+        if ($success == true | $success != false)
             $successStr = "true";
         elseif ($success != true && $success == false)
             $successStr = "false";

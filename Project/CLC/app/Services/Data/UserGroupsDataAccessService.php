@@ -150,7 +150,7 @@ class UserGroupsDataAccessService
 
     public static function delete($userId, $groupId)
     {
-        LarabarLogger::info("Enter UserGroupsDataAccessService::delete", $groupId);
+//        LarabarLogger::info("Enter UserGroupsDataAccessService::delete", $groupId);
 
         // get query string
         $query = self::getIni()["JoinUsersGroups"]["delete.user"];
