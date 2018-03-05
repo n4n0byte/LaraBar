@@ -33,7 +33,7 @@ class UserGroupsDataAccessService
 
     public static function create($userId, $groupId)
     {
-        LarabarLogger::info("Enter UserGroupsDataAccessService::create", $groupId);
+//        LarabarLogger::info("Enter UserGroupsDataAccessService::create", $groupId);
 
         // get query string
         $query = self::getIni()["JoinUsersGroups"]["insert.user"];

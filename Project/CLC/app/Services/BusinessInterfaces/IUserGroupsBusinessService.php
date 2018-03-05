@@ -11,8 +11,6 @@
 
 namespace App\Services\BusinessInterfaces;
 
-use App\Model\GroupModel;
-
 /**
  * Interface IUserGroupsBusinessService
  * @package App\Services\BusinessInterfaces
@@ -56,7 +54,7 @@ interface IUserGroupsBusinessService
      * @param $groupId
      * @return array
      */
-    public function listUserInGroup($groupId): array;
+    public function listUsersInGroup($groupId): array;
 
     /**
      * @return array

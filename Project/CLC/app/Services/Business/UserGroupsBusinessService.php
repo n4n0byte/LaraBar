@@ -94,7 +94,7 @@ class UserGroupsBusinessService implements IUserGroupsBusinessService
      * @param $groupId
      * @return array
      */
-    public function listUserInGroup($groupId): array
+    public function listUsersInGroup($groupId): array
     {
         $raw = UserGroupsDataAccessService::readForGroup($groupId);
 
@@ -102,7 +102,7 @@ class UserGroupsBusinessService implements IUserGroupsBusinessService
         $userList = array();
         $i = 0;
         foreach ($raw as $row) {
-            $userList[$i] = new UserModel($row["ID"], $row["USER"],
+            $userList[$i] = new UserModel($row["ID"], $row["EMAIL"],
                 $row["PASSWORD"], $row["FIRSTNAME"], $row["LASTNAME"]);
             $userList[$i++]->setAdmin($row["ADMIN"]);
         }

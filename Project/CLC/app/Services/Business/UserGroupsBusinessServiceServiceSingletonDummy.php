@@ -66,7 +66,7 @@ class UserGroupsBusinessServiceServiceSingletonDummy implements IUserGroupsBusin
         // TODO: Implement listAllAvailableGroups() method.
     }
 
-    public function listUserInGroup($groupId): array {
+    public function listUsersInGroup($groupId): array {
         // TODO: Implement listUserInGroup() method.
     }
 
