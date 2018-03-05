@@ -44,6 +44,11 @@ class UserGroupController extends Controller {
                                                 'groupId' => $groupId]);
     }
 
+    function removeUserFromGroup($userId,$groupId){
+        $this->userGroupSvc->removeUserFromGroup($userId,$groupId);
+        return redirect()->action('UserGroupController@viewUsersInGroup')->with($groupId);
+    }
+
     function addUserToGroup($userId,$groupId){
         $this->userGroupSvc->addUserToGroup($userId, $groupId);
         return redirect()->action('UserGroupController@viewUsersInGroup')->with(['groupId' => $groupId]);
