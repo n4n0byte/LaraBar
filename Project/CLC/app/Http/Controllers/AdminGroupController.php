@@ -51,6 +51,16 @@ class AdminGroupController {
 
     }
 
+    /**
+     * @param $groupId
+     * @return RedirectResponse
+     */
+    public function removeGroup($groupId){
+
+        $this->adminSvc->deleteGroup($groupId);
+        return redirect()->action("AdminGroupController@index");
+
+    }
 
     /**
      * @param Request $request

@@ -1,7 +1,7 @@
 <?php
 /*
 version 1.0
-Ali / Connor
+Ali
 CST-256
 January 24, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.

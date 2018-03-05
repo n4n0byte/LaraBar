@@ -35,6 +35,10 @@ We used source code from the following websites to complete this assignment: N/A
                     @component('components.buttons.btn',['route' => '/CLC/editGroup/' . $row->getId(),
                                                          'class' => 'fa-edit'])
                     @endcomponent
+                    @component('components.buttons.btn',['route' => '/CLC/removeGroup/' . $row->getId(),
+                                     'class' => 'fa-minus'])
+                    @endcomponent
+
                 @endslot
 
             @endcomponent

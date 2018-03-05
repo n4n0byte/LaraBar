@@ -70,7 +70,7 @@ class AdminGroupsDataAccessService
      */
     public static function delete($id)
     {
-        LarabarLogger::info("Enter AdminGroupsDataAccessService::delete", $id);
+//        LarabarLogger::info("Enter AdminGroupsDataAccessService::delete", $id);
 
         // select query statement
         $query = self::getIni()['Groups']['delete'];
@@ -81,10 +81,10 @@ class AdminGroupsDataAccessService
 
         // execute
         try {
-            LarabarLogger::info("AdminGroupsDataAccessService::delete executing statement", $id);
+//            LarabarLogger::info("AdminGroupsDataAccessService::delete executing statement", $id);
             return $statement->execute();
         } catch (PDOException $e) {
-            LarabarLogger::error("Error in AdminGroupsDataAccessService::delete while trying to execute statement", $statement->queryString);
+//            LarabarLogger::error("Error in AdminGroupsDataAccessService::delete while trying to execute statement", $statement->queryString);
             return view("error");
         }
     }
@@ -95,7 +95,7 @@ class AdminGroupsDataAccessService
      */
     public static function update($details)
     {
-        LarabarLogger::info("Enter AdminGroupsDataAccessService::update", $details);
+//        LarabarLogger::info("Enter AdminGroupsDataAccessService::update", $details);
 
         // select query statement
         $query = self::getIni()['Groups']['update'];

@@ -85,6 +85,9 @@ Route::post('addGroup', 'AdminGroupController@addGroup')->middleware('auth', 'ad
 Route::get('editGroup/{id}', 'AdminGroupController@showEditGroupView')->middleware('auth', 'admin');
 Route::post('editGroup', 'AdminGroupController@updateGroupDetails')->middleware('auth', 'admin');
 
+// delete groups
+Route::get('removeGroup/{id}','AdminGroupController@removeGroup');
+
 /* ==== User Group Management ==== */
 
 // shows user group ui
