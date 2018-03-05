@@ -22,6 +22,7 @@ interface IAdminGroupsBusinessService
      */
     public static function getInstance() : IAdminGroupsBusinessService;
 
+
     /**
      * @param array $details
      * @return bool
