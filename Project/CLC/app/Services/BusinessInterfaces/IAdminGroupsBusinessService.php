@@ -17,6 +17,7 @@ namespace App\Services\BusinessInterfaces;
  */
 interface IAdminGroupsBusinessService
 {
+
     /**
      * @return IAdminGroupsBusinessService
      */
