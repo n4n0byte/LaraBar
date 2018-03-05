@@ -26,7 +26,13 @@ We used source code from the following websites to complete this assignment: N/A
     @component('components.generalTable',['names' => array_slice(\App\Model\GroupModel::getFieldNames(), 1, 3)])
 
         @foreach($groups as $row)
-            @component('components.generalTableContent',['row' => $row->getFields()])@endcomponent
+            @component('components.generalTableContent',['row' => $row->getFields()])
+            @slot('btns')
+                @component('components.buttons.btn',['title' => "edit",
+                            'route' => '/CLC/viewUsersInGroup/' . $row->getId(),'class' => 'fa fa-edit'])
+                @endcomponent
+            @endslot
+            @endcomponent
         @endforeach
 
     @endcomponent
