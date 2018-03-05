@@ -119,4 +119,9 @@ class AdminGroupsBusinessServiceSingletonDummy implements IAdminGroupsBusinessSe
         return true;
     }
 
+    public function getGroup(array $id): GroupModel
+    {
+        // TODO: Implement getGroup() method.
+        return new GroupModel();
+    }
 }
