@@ -83,10 +83,11 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
     }
 
     /**
-     * @param $criteria (string)
-     * @param $page
+     * @param string $criteria request->input("criteria")
+     * @param integer $page
+     * @return array
      */
-    public function searchJobPost($criteria, $page)
+    public function searchJobPost(string $criteria, int $page) : array
     {
         $resultsPerPage = 2;
         $searchResults = [];
