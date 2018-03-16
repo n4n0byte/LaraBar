@@ -100,6 +100,7 @@ class GroupModel
 
     public function getFields(): array
     {
+        return [$this->name, $this->description, $this->summary];
     }
 
     /**
