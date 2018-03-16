@@ -11,12 +11,29 @@ namespace App\Services\BusinessInterfaces;
 
 use App\Model\JobModel;
 
+/**
+ * Interface for Job Post Business Services
+ * Interface IJobPostBusinessService
+ * @package App\Services\BusinessInterfaces
+ */
 interface IJobPostBusinessService
 {
+
+    /**
+     * @return IJobPostBusinessService
+     */
     public static function getInstance(): IJobPostBusinessService;
 
+    /**
+     * @param $data
+     * @return bool
+     */
     public function createJobPost($data): bool;
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function deleteJobPost($id): bool;
 
     /**
@@ -33,8 +50,16 @@ interface IJobPostBusinessService
     public function getJobPostByDetails($criteria): array;
 
     // user to get search results
-    public function searchJobPost(string $criteria, int $page): array;
+    /**
+     * @param string $criteria
+     * @param string $filter
+     * @param int $page
+     * @return array
+     */
+    public function searchJobPost(string $criteria, string $filter, int $page): array;
 
-    // selects all job posts
+    /**
+     * @return array
+     */
     public function getJobPosts(): array;
 }
