@@ -13,17 +13,23 @@ use App\Model\JobModel;
 
 interface IJobPostBusinessService
 {
-    public static function getInstance() : IJobPostBusinessService;
+    public static function getInstance(): IJobPostBusinessService;
 
-    public function createJobPost($data) : bool;
+    public function createJobPost($data): bool;
 
-    public function deleteJobPost($id) : bool;
+    public function deleteJobPost($id): bool;
 
-    public function updateJobPost($data) : bool;
+    public function updateJobPost($data): bool;
 
-    public function getJobPostById($id) : JobModel;
+    // selects one job post
+    public function getJobPostById($id): JobModel;
 
-    public function getJobPostByDetails($criteria) : array;
+    // used to match jobs to a user
+    public function getJobPostByDetails($criteria): array;
 
-    public function getJobPosts() : array;
+    // user to get search results
+    public function searchJobPost($criteria, $page);
+
+    // selects all job posts
+    public function getJobPosts(): array;
 }
