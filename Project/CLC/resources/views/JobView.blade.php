@@ -1,17 +1,19 @@
 <?php
 /*
-version 0.4
+version 1.0
 
 Connor/Ali
 CST-256
-February 3, 2018
+March 16, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+/* @var $job \App\Model\JobModel */
 ?>
+
 @component('components.security')@endcomponent
 @extends('layouts.master')
-@section('title','Home')
+@section('title',"Job #" . $job->getId());
 @section('navbar')
 
     @component('components.navbar')
@@ -30,24 +32,14 @@ We used source code from the following websites to complete this assignment: N/A
 @endsection
 
 @section('content')
-    <div class="row" id="search-bar">
-        {{-- Search bar --}}
+    <div class="row">
+        <h2>{{$job->getTitle()}}</h2>
+        <h4>{{$job->getAuthor()}}</h4>
+        <h4>{{$job->getLocation()}}</h4>
+        <h4>{{$job->getSalary()}}</h4>
+        <p>{{$job->getDescription()}}</p>
         @component('components.form', ['action' => 'search', 'status' => isset($status) ? $status : null])
-            @component('components.editTextInput', ['id' => 'search-input',
-            'label' => "Search for positions", 'name' => 'criteria', 'placeholder' => "Search for a job..."])
-            @endcomponent
-            @component('components.submitButton', ['title' => "search"]) @endcomponent
+
         @endcomponent
     </div>
-    @if(!isset($searchResults))
-        @component('components.search.suggested') @endcomponent
-    @elseif(count($searchResults) == 0 )
-        <div class="row" id="results">
-            <h3>Sorry friend</h3>
-            <p>No results</p>
-        </div>
-        @component('components.search.suggested') @endcomponent
-    @else
-        @component("components.search.searchResult") @endcomponent
-    @endif
 @endsection

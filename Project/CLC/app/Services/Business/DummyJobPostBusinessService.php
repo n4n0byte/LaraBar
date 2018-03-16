@@ -1,10 +1,13 @@
 <?php
-/**
- * Student Name: Connor Low
- * Course Number: CST-256
- * Date: 3/16/2018
- * This is my own work.
- */
+/*
+version 1.0
+
+Connor/Ali
+CST-256
+March 16, 2018
+This assignment was completed in collaboration with Connor Low, Ali Cooper.
+We used source code from the following websites to complete this assignment: N/A
+*/
 
 namespace App\Services\Business;
 
@@ -97,5 +100,6 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
                 strpos($this->jobs[$i]->getAuthor(), $criteria))
                 array_push($result, $this->jobs[$i]);
         }
+        return $searchResults;
     }
 }
