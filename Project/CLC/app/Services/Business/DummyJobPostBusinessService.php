@@ -79,11 +79,22 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
 
     public function getJobPosts(): array
     {
-        // TODO: Implement getJobPosts() method.
+        return $this->jobs;
     }
 
+    /**
+     * @param $criteria (string)
+     * @param $page
+     */
     public function searchJobPost($criteria, $page)
     {
-        // TODO: Implement searchJobPost() method.
+        $resultsPerPage = 2;
+        $searchResults = [];
+        for ($i = $page++ * $resultsPerPage; count($searchResults) < $resultsPerPage; $i++) {
+            if (strpos($this->jobs[$i]->getDescription(), $criteria) ||
+                strpos($this->jobs[$i]->getTitle(), $criteria) ||
+                strpos($this->jobs[$i]->getAuthor(), $criteria))
+                array_push($result, $this->jobs[$i]);
+        }
     }
 }

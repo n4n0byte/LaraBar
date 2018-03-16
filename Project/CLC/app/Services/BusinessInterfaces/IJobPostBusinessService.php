@@ -28,7 +28,7 @@ interface IJobPostBusinessService
     public function getJobPostByDetails($criteria): array;
 
     // user to get search results
-    public function searchJobPost($criteria, $page);
+    public function searchJobPost($criteria, $page): array;
 
     // selects all job posts
     public function getJobPosts(): array;
