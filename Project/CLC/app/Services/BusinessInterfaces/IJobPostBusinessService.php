@@ -19,6 +19,11 @@ interface IJobPostBusinessService
 
     public function deleteJobPost($id): bool;
 
+    /**
+     * expects request->input() assoc array
+     * @param $data
+     * @return bool
+     */
     public function updateJobPost($data): bool;
 
     // selects one job post
