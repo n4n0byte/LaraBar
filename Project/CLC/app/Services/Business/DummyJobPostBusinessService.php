@@ -13,19 +13,19 @@ namespace App\Services\Business;
 
 
 use App\Model\JobModel;
-use App\Services\BusinessInterfaces\IJobPostBusinessService;
+use App\Services\BusinessInterfaces\IJobSearchBusinessService;
 
-class DummyJobPostBusinessService implements IJobPostBusinessService
+class DummyJobPostBusinessService implements IJobSearchBusinessService
 {
 
     private static $instance = null;
     private $jobs = [];
 
-    public static function getInstance(): DummyJobPostBusinessService
+    public static function getInstance(): IJobSearchBusinessService
     {
         if (self::$instance == null) {
             self::$instance = new DummyJobPostBusinessService();
-            $jobs = [new JobModel(0, "Computer", "Connor", "Boston",
+            self::$instance->jobs = [new JobModel(0, "Computer", "Connor", "Boston",
                 "Work with Computer", "Must know about computer", 30000),
                 new JobModel(1, "Construction", "Connor", "Boston",
                     "Work with Construction", "Must know about Construction", 30000),
@@ -38,12 +38,12 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
         return self::$instance;
     }
 
-    public function getJobPostById($id): JobModel
+    public function getJobPostById(int $id): JobModel
     {
         return $this->jobs[$id];
     }
 
-    public function getJobPostByDetails($criteria): array
+    public function getJobPostByDetails(string $criteria): array
     {
         $result = [];
         /* @var $job JobModel */
@@ -54,11 +54,6 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
                 array_push($result, $job);
         }
         return $result;
-    }
-
-    public function getJobPosts(): array
-    {
-        return $this->jobs;
     }
 
     /**
@@ -78,5 +73,13 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
                 array_push($result, $this->jobs[$i]);
         }
         return $searchResults;
+    }
+
+    /**
+     * @return array
+     */
+    public function getJobPosts(): array
+    {
+       return $this->jobs;
     }
 }

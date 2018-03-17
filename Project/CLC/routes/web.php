@@ -101,3 +101,10 @@ Route::get('removeUserFromGroup/{userId}/{groupId}', 'UserGroupController@remove
 
 // show users in group
 Route::get('viewUsersInGroup/{groupId}', 'UserGroupController@viewUsersInGroup')->middleware('auth', 'group');
+
+/* ==== Job Search ==== */
+// search for jobs
+Route::post('search', 'JobSearchController@search');//->middleware('auth');
+
+// view job description
+Route::get('view_job/{id}', 'JobSearchController@show');//->middleware('auth');
