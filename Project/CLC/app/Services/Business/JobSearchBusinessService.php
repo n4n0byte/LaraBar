@@ -1,33 +1,77 @@
 <?php
 namespace app\Services\Business;
 use App\Model\JobModel;
-use App\Services\BusinessInterfaces\IJobPostBusinessService;
 use App\Services\BusinessInterfaces\IJobSearchBusinessService;
-
+use app\Services\Data\JobSearchDataAccessService;
 
 /**
  * Class JobSearchBusinessService
  * @package app\Services\Business
  */
 class JobSearchBusinessService implements IJobSearchBusinessService {
-    public static function getInstance(): IJobPostBusinessService {
-        // TODO: Implement getInstance() method.
+
+    private static $instance = null;
+    private $jobSearchScv = null;
+
+    /**
+     * returns single instance of Job search serviec
+     * @return IJobSearchBusinessService
+     */
+    public static function getInstance(): IJobSearchBusinessService {
+
+        if (self::$instance == null) {
+            self::$instance = new JobSearchBusinessService();
+        }
+
+        return self::getInstance();
+
     }
 
+    /**
+     * initializes JobSearch data access service
+     * JobSearchBusinessService constructor.
+     */
+    private function __construct() {
+
+        $this->jobSearchScv = new JobSearchDataAccessService();
+    }
+
+    /**
+     * returns a JobModel that is associated with a specific id
+     * @param int $id
+     * @return JobModel
+     */
     public function getJobPostById(int $id): JobModel {
-        // TODO: Implement getJobPostById() method.
+
+        return $this->jobSearchScv->getJobPostById($id);
+
     }
 
+    /**
+     * returns jon post content, filtered by a specific criteria
+     * @param string $criteria
+     * @return array
+     */
     public function getJobPostByDetails(string $criteria): array {
-        // TODO: Implement getJobPostByDetails() method.
+        return $this->jobSearchScv->getJobPostByDetails($criteria);
     }
 
+    /**
+     * returns
+     * @param string $criteria
+     * @param string $filter
+     * @param int $page
+     * @return array
+     */
     public function searchJobPost(string $criteria, string $filter, int $page): array {
-        // TODO: Implement searchJobPost() method.
+        return $this->jobSearchScv->searchJobPost($criteria,$filter,$page);
     }
 
+    /**
+     * @return array
+     */
     public function getJobPosts(): array {
-        // TODO: Implement getJobPosts() method.
+        return $this->jobSearchScv->getJobPosts();
     }
 
 
