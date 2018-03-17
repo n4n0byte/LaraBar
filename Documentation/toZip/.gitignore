@@ -1,0 +1,10 @@
+.idea
+/.idea
+/.vagrant
+build.properties
+/vendor
+/vendor/*
+vendor
+/storage
+/node_modules
+vendor.old/

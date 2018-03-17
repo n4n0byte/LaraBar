@@ -1,0 +1,16 @@
+start;
+login:
+login page;
+if (hasValidCredentials){
+  homepage:
+  homepage;
+}
+else{
+  if (register){
+    register;
+    goto homepage:
+  }
+  else{
+     loop login:
+  }
+}

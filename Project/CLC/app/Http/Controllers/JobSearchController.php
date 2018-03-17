@@ -24,8 +24,13 @@ class JobSearchController extends Controller
         // check input validity
         $this->validation($request);
 
+        $map = ["Job Title" => "TITLE",
+                "Description" => "DESCRIPTION",
+                "Company" => "AUTHOR"
+               ];
+
         // pass request->input to business service
-        $jobs = $this->service->searchJobPost($request->input("term"), $request->input("filter"),0);
+        $jobs = $this->service->searchJobPost($request->input("term"), $map[$request->input("filter")],0);
         $data = ["searchResults" => $jobs];
 
         return view("home")->with($data);
@@ -33,8 +38,7 @@ class JobSearchController extends Controller
 
     public function show($id)
     {
-        $this->service = JobService::getInstance();
-        
+        $this->service = JobSearchBusinessService::getInstance();
         // select job by ID
         $job = $this->service->getJobPostById($id);
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace app\Services\Business;
+namespace App\Services\Business;
 
 use App\Model\JobModel;
 use App\Services\BusinessInterfaces\IJobSearchBusinessService;
-use app\Services\Data\JobSearchDataAccessService;
+use App\Services\Data\JobSearchDataAccessService;
 
 /**
  * Class JobSearchBusinessService
@@ -27,7 +27,7 @@ class JobSearchBusinessService implements IJobSearchBusinessService
             self::$instance = new JobSearchBusinessService();
         }
 
-        return self::getInstance();
+        return self::$instance;
 
     }
 
@@ -39,6 +39,7 @@ class JobSearchBusinessService implements IJobSearchBusinessService
     {
 
         $this->jobSearchScv = new JobSearchDataAccessService();
+
     }
 
     /**
