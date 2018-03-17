@@ -31,7 +31,7 @@ class JobSearchDataAccessService {
 
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam(":userId", $id);
+        $statement->bindParam(':userId', $id);
 
         try {
 
@@ -58,7 +58,7 @@ class JobSearchDataAccessService {
      */
     public function getJobPostByDetails(string $criteria): array {
 
-        return [];
+        return $this->searchJobPost($criteria,"DESCRIPTION");
 
     }
 
