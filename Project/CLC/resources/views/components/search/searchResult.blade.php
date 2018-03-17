@@ -14,7 +14,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 ?>
 <div class="row" id="results">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" style="background-color: rgba(255,255,255,.8); ">
         <tr>
             <th>What</th>
             <th>Who</th>
@@ -38,11 +38,11 @@ We used source code from the following websites to complete this assignment: N/A
                 </td>
                 <td>
                     @component("components.buttons.btn", ["title" => "apply",
-                     "route" => "View_Job/" . $job->getId(),
+                     "route" => "view_job/" . $job->getId(),
                       "class" => "fa-arrow-circle-right"])
                     @endcomponent
                     @component("components.buttons.btn", ["title" => "save",
-                     "route" => "View_Job/" . $job->getId(),
+                     "route" => "view_job/" . $job->getId(),
                       "class" => "fa-bookmark-o"])
                     @endcomponent
                 </td>

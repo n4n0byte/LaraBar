@@ -42,7 +42,7 @@ class JobSearchController extends Controller
         return view()->with($data);
     }
 
-    public function jobDescription($id)
+    public function show($id)
     {
         $this->service = DummyJobPostBusinessService::getInstance();
         // select job by ID
@@ -54,7 +54,7 @@ class JobSearchController extends Controller
         ];
 
         // go to job view page with job
-        return view()->with($data);
+        return view("view_job")->with($data);
     }
 
     private function validation(Request $request)

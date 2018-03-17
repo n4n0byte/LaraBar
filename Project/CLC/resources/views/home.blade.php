@@ -52,17 +52,18 @@ We used source code from the following websites to complete this assignment: N/A
             @component('components.submitButton', ['title' => "search"]) @endcomponent
         @endcomponent
     </div>
-    @if(isset($searchResults))
-        @component("components.search.searchResult", ['searchResults' => $searchResults]) @endcomponent
+    @if(!isset($searchResults))
+        <div class="row" id="results">
+            <h3>Job search</h3>
+            <p>Click "search" to search available job postings.</p>
+        </div>
     @elseif(count($searchResults) == 0)
         <div class="row" id="results">
             <h3>Sorry friend</h3>
             <p>No results</p>
         </div>
     @else
-        <div class="row" id="results">
-            <h3>Job search</h3>
-            <p>Click "search" to search available job postings.</p>
-        </div>
+        @component("components.search.searchResult", ['searchResults' => $searchResults]) @endcomponent
+
     @endif
 @endsection

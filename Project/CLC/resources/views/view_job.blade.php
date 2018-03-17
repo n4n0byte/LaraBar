@@ -33,13 +33,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('content')
     <div class="row">
-        <h2>{{$job->getTitle()}}</h2>
-        <h4>{{$job->getAuthor()}}</h4>
-        <h4>{{$job->getLocation()}}</h4>
-        <h4>{{$job->getSalary()}}</h4>
-        <p>{{$job->getDescription()}}</p>
-        @component('components.form', ['action' => 'search', 'status' => isset($status) ? $status : null])
-
+        @component ('components.search.jobCard', ['job' => $job])
         @endcomponent
     </div>
 @endsection
