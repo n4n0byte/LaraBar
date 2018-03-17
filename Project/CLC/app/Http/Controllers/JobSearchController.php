@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Business\DummyJobPostBusinessService;
-use App\Services\BusinessInterfaces\IJobSearchBusinessService;
+use App\Services\Business\JobSearchBusinessService as JobSearchBusinessService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
@@ -19,12 +18,17 @@ class JobSearchController extends Controller
      */
     public function search(Request $request)
     {
-        $this->service = DummyJobPostBusinessService::getInstance();
+        $this->service = JobSearchBusinessService::getInstance();
         // check input validity
         $this->validation($request);
 
+        $map = ["Job Title" => "TITLE",
+                "Description" => "DESCRIPTION",
+                "Company" => "AUTHOR"
+               ];
+
         // pass request->input to business service
-        $jobs = $this->service->searchJobPost($request->input("term"), $request->input("filter"),0);
+        $jobs = $this->service->searchJobPost($request->input("term"), $map[$request->input("filter")],0);
         $data = ["searchResults" => $jobs];
 
         return view("home")->with($data);
@@ -35,7 +39,7 @@ class JobSearchController extends Controller
      */
     public function suggested()
     {
-        $this->service = DummyJobPostBusinessService::getInstance();
+        $this->service = JobSearchBusinessService::getInstance();
         // TODO
         // get jobs based on user profile
         $data = [];
@@ -44,7 +48,7 @@ class JobSearchController extends Controller
 
     public function show($id)
     {
-        $this->service = DummyJobPostBusinessService::getInstance();
+        $this->service = JobSearchBusinessService::getInstance();
         // select job by ID
         $job = $this->service->getJobPostById($id);
 
