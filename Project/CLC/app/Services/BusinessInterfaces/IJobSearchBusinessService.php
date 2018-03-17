@@ -16,7 +16,7 @@ use App\Model\JobModel;
  * Interface IJobPostBusinessService
  * @package App\Services\BusinessInterfaces
  */
-interface IJobPostBusinessService
+interface IJobSearchBusinessService
 {
 
     /**
