@@ -21,7 +21,7 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
     private static $instance = null;
     private $jobs = [];
 
-    public static function getInstance(): IJobPostBusinessService
+    public static function getInstance(): DummyJobPostBusinessService
     {
         if (self::$instance == null) {
             self::$instance = new DummyJobPostBusinessService();
@@ -36,30 +36,6 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
         }
 
         return self::$instance;
-    }
-
-    public function createJobPost($data): bool
-    {
-        return array_push($this->jobs, new JobModel($data["id"], $data["title"], $data["author"], $data["location"],
-            $data["description"], $data["requirements"], $data["salary"]));
-    }
-
-    public function deleteJobPost($id): bool
-    {
-        $len = count($this->jobs);
-        $this->jobs[$id] = null;
-        while ($id < $len) {
-            $this->jobs[$id] = $this->jobs[++$id];
-            $this->jobs[$id] = null;
-        }
-        return count($this->jobs) == $len - 1;
-    }
-
-    public function updateJobPost($data): bool
-    {
-        $this->jobs[$data["id"]] = new JobModel($data["id"], $data["title"], $data["author"],
-            $data["location"], $data["description"], $data["requirements"], $data["salary"]);
-        return true;
     }
 
     public function getJobPostById($id): JobModel
@@ -86,11 +62,12 @@ class DummyJobPostBusinessService implements IJobPostBusinessService
     }
 
     /**
-     * @param string $criteria request->input("criteria")
-     * @param integer $page
+     * @param string $criteria $criteria request->input("criteria")
+     * @param string $filter
+     * @param int $page
      * @return array
      */
-    public function searchJobPost(string $criteria, int $page) : array
+    public function searchJobPost(string $criteria, string $filter, int $page): array
     {
         $resultsPerPage = 2;
         $searchResults = [];

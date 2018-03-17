@@ -40,8 +40,11 @@ We used source code from the following websites to complete this assignment: N/A
         @endcomponent
     </div>
     @if(!isset($searchResults))
-        @component('components.search.suggested') @endcomponent
-    @elseif(count($searchResults) == 0 )
+        <div class="row" id="results">
+            <h3>Job search</h3>
+            <p>Click "search" to search available job postings.</p>
+        </div>
+    @elseif(count($searchResults) == 0)
         <div class="row" id="results">
             <h3>Sorry friend</h3>
             <p>No results</p>
