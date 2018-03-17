@@ -20,11 +20,15 @@ interface IJobSearchBusinessService
 {
 
     /**
-     * @return IJobPostBusinessService
+     * @return IJobSearchBusinessService
      */
-    public static function getInstance(): IJobPostBusinessService;
+    public static function getInstance(): IJobSearchBusinessService;
 
-    // selects one job post
+    /**
+     * returns a job post by id
+     * @param int $id
+     * @return JobModel
+     */
     public function getJobPostById(int $id): JobModel;
 
     /**
