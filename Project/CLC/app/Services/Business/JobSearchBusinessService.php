@@ -1,5 +1,7 @@
 <?php
+
 namespace app\Services\Business;
+
 use App\Model\JobModel;
 use App\Services\BusinessInterfaces\IJobSearchBusinessService;
 use app\Services\Data\JobSearchDataAccessService;
@@ -8,7 +10,8 @@ use app\Services\Data\JobSearchDataAccessService;
  * Class JobSearchBusinessService
  * @package app\Services\Business
  */
-class JobSearchBusinessService implements IJobSearchBusinessService {
+class JobSearchBusinessService implements IJobSearchBusinessService
+{
 
     private static $instance = null;
     private $jobSearchScv = null;
@@ -17,7 +20,8 @@ class JobSearchBusinessService implements IJobSearchBusinessService {
      * returns single instance of Job search serviec
      * @return IJobSearchBusinessService
      */
-    public static function getInstance(): IJobSearchBusinessService {
+    public static function getInstance(): IJobSearchBusinessService
+    {
 
         if (self::$instance == null) {
             self::$instance = new JobSearchBusinessService();
@@ -31,7 +35,8 @@ class JobSearchBusinessService implements IJobSearchBusinessService {
      * initializes JobSearch data access service
      * JobSearchBusinessService constructor.
      */
-    private function __construct() {
+    private function __construct()
+    {
 
         $this->jobSearchScv = new JobSearchDataAccessService();
     }
@@ -41,7 +46,8 @@ class JobSearchBusinessService implements IJobSearchBusinessService {
      * @param int $id
      * @return JobModel
      */
-    public function getJobPostById(int $id): JobModel {
+    public function getJobPostById(int $id): JobModel
+    {
 
         return $this->jobSearchScv->getJobPostById($id);
 
@@ -52,7 +58,8 @@ class JobSearchBusinessService implements IJobSearchBusinessService {
      * @param string $criteria
      * @return array
      */
-    public function getJobPostByDetails(string $criteria): array {
+    public function getJobPostByDetails(string $criteria): array
+    {
         return $this->jobSearchScv->getJobPostByDetails($criteria);
     }
 
@@ -63,14 +70,16 @@ class JobSearchBusinessService implements IJobSearchBusinessService {
      * @param int $page
      * @return array
      */
-    public function searchJobPost(string $criteria, string $filter, int $page): array {
-        return $this->jobSearchScv->searchJobPost($criteria,$filter,$page);
+    public function searchJobPost(string $criteria, string $filter, int $page): array
+    {
+        return $this->jobSearchScv->searchJobPost($criteria, $filter, $page);
     }
 
     /**
      * @return array
      */
-    public function getJobPosts(): array {
+    public function getJobPosts(): array
+    {
         return $this->jobSearchScv->getJobPosts();
     }
 

@@ -54,8 +54,10 @@ We used source code from the following websites to complete this assignment: N/A
     </div>
     @if(!isset($searchResults))
         <div class="row" id="results">
-            <h3>Job search</h3>
-            <p>Click "search" to search available job postings.</p>
+            <div class="col" style="text-align: center">
+                <h3>Job search</h3>
+                <p>Click "search" to search available job postings.</p>
+            </div>
         </div>
     @elseif(count($searchResults) == 0)
         <div class="row" id="results">

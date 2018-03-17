@@ -20,8 +20,6 @@ class JobSearchDataAccessService {
 
     public function getJobPostById(int $id): JobModel {
 
-
-
     }
 
     public function getJobPostByDetails(string $criteria): array {
