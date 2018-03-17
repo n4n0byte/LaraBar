@@ -24,32 +24,17 @@ interface IJobPostBusinessService
      */
     public static function getInstance(): IJobPostBusinessService;
 
-    /**
-     * @param $data
-     * @return bool
-     */
-    public function createJobPost($data): bool;
-
-    /**
-     * @param $id
-     * @return bool
-     */
-    public function deleteJobPost($id): bool;
-
-    /**
-     * expects request->input() assoc array
-     * @param $data
-     * @return bool
-     */
-    public function updateJobPost($data): bool;
-
     // selects one job post
-    public function getJobPostById($id): JobModel;
+    public function getJobPostById(int $id): JobModel;
 
-    // used to match jobs to a user
-    public function getJobPostByDetails($criteria): array;
+    /**
+     * returns job search
+     * @param $criteria
+     * @return array
+     */
+    public function getJobPostByDetails(string $criteria): array;
 
-    // user to get search results
+
     /**
      * @param string $criteria
      * @param string $filter
