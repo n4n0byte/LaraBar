@@ -18,9 +18,9 @@ We used source code from the following websites to complete this assignment: N/A
 
     {{--inserts navbar component with links--}}
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => '/CLC/home'])@endcomponent
-        @component('components.navItem', ['title' => 'Profile', 'uri' => '/CLC/profile'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => 'home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
         @if(isset($user) && $user->getAdmin())
             @component('components.navItem', ['title' => 'Administrator', 'uri' => 'admin'])@endcomponent
         @endif
@@ -71,7 +71,7 @@ We used source code from the following websites to complete this assignment: N/A
     <div id="jobPosts" style="display: none;">
         <div class="container" style="background: #fff; text-align: right; font-size: 24px ; margin: 0 auto">
             <span id="btn" style="margin-right: 25%">@component('components.buttons.btn',
-            ['route' => '/CLC/addJobPost/',
+            ['route' => 'addJobPost/',
             'class' => 'fa-plus'])
                 @endcomponent</span>
         </div>
@@ -80,10 +80,10 @@ We used source code from the following websites to complete this assignment: N/A
             @foreach($jobData as $job)
                 @component('components.generalTableContent',['row' => $job->getJobFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/deleteJobPost/' . $job->getId(),
+                        @component('components.buttons.btn',['route' => 'deleteJobPost/' . $job->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/updateJobPost/' . $job->getId(),
+                        @component('components.buttons.btn',['route' => 'updateJobPost/' . $job->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot

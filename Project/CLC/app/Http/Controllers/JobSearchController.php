@@ -21,10 +21,10 @@ class JobSearchController extends Controller
     {
         $this->service = DummyJobPostBusinessService::getInstance();
         // check input validity
-        $this->valdiation($request);
+        $this->validation($request);
 
         // pass request->input to business service
-        $jobs = $this->service->searchJobPost($request->input("criteria"), $request->input("filter"),-1);
+        $jobs = $this->service->searchJobPost($request->input("term"), $request->input("filter"),0);
         $data = ["searchResults" => $jobs];
 
         return view("home")->with($data);
@@ -57,12 +57,12 @@ class JobSearchController extends Controller
         return view()->with($data);
     }
 
-    private function valdiation(Request $request)
+    private function validation(Request $request)
     {
         $rules = [
             'term' => 'Required|Between:1,30',
-            'option' => 'Required',
-            'page' => 'Required|Number'
+            'filter' => 'Required',
+            //'page' => 'Required|Number'
         ];
 
         // Run checks

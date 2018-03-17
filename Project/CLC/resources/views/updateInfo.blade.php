@@ -13,15 +13,15 @@ We used source code from the following websites to complete this assignment: N/A
 @component('components.security')@endcomponent
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => '/CLC/home'])@endcomponent
-        @component('components.navItem', ['title' => 'Profile', 'uri' => '/CLC/profile'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => 'home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
     @endcomponent
 @endsection
 
 @section('content')
 
-    @component('components.form',['method' => 'POST', 'action' => '/CLC/updateJobPostData'])
+    @component('components.form',['method' => 'POST', 'action' => 'updateJobPostData'])
         @component('components.editTextInput',['label' => 'Title', 'data' => $post->getTitle(),
                                                   'name' => 'title'])@endcomponent
         @if($errors->first('title'))

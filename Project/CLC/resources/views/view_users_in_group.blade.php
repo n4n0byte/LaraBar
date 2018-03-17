@@ -14,20 +14,20 @@ We used source code from the following websites to complete this assignment: N/A
 @component('components.security')@endcomponent
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => '/CLC/home'])@endcomponent
-        @component('components.navItem', ['title' => 'Profile', 'uri' => '/CLC/profile'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => 'home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
     @endcomponent
 @endsection
 
 @section('content')
 
     @if(!$inGroup)
-        @component('components.buttons.btn',['route' => '/CLC/addUserToGroup/' . $userId . "/" . $groupId ,'class' => 'fa-plus'])
+        @component('components.buttons.btn',['route' => 'addUserToGroup/' . $userId . "/" . $groupId ,'class' => 'fa-plus'])
         @endcomponent
     @endif
     @if($inGroup)
-        @component('components.buttons.btn',['route' => '/CLC/removeUserFromGroup/' . $userId . "/" . $groupId ,'class' => 'fa-minus'])@endcomponent
+        @component('components.buttons.btn',['route' => 'removeUserFromGroup/' . $userId . "/" . $groupId ,'class' => 'fa-minus'])@endcomponent
     @endif
 
     {{-- shows list of groups without showingId --}}

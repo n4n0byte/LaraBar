@@ -14,7 +14,7 @@ We used source code from the following websites to complete this assignment: N/A
 
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem',['title' => 'Go Back','uri' => '/CLC/logout'])@endcomponent
+        @component('components.navItem',['title' => 'Go Back','uri' => 'logout'])@endcomponent
     @endcomponent
 @endsection
 

@@ -1,4 +1,4 @@
-@component('components.form',['method' => 'POST', 'action' => '/CLC/profile/editLocation'])
+@component('components.form',['method' => 'POST', 'action' => 'profile/editLocation'])
     <input type="hidden" name="post-id" value="{{$id}}">
     @component('components.editTextInput',['id' => 'location', 'label' => 'location',
                                                  'name' => 'location', 'data' => $location])

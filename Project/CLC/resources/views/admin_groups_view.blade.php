@@ -14,15 +14,15 @@ We used source code from the following websites to complete this assignment: N/A
 @component('components.security')@endcomponent
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => '/CLC/home'])@endcomponent
-        @component('components.navItem', ['title' => 'Profile', 'uri' => '/CLC/profile'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => 'home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
     @endcomponent
 @endsection
 
 @section('content')
 
-    @component('components.buttons.btn',['route' => '/CLC/addGroup/','class' => 'fa-plus'])
+    @component('components.buttons.btn',['route' => 'addGroup/','class' => 'fa-plus'])
     @endcomponent
 
     @component('components.generalTable',['names' => \App\Model\GroupModel::getFieldNames()])
@@ -32,10 +32,10 @@ We used source code from the following websites to complete this assignment: N/A
             @component('components.generalTableContent',['row' => $row->getFields()])
 
                 @slot('btns')
-                    @component('components.buttons.btn',['route' => '/CLC/editGroup/' . $row->getId(),
+                    @component('components.buttons.btn',['route' => 'editGroup/' . $row->getId(),
                                                          'class' => 'fa-edit'])
                     @endcomponent
-                    @component('components.buttons.btn',['route' => '/CLC/removeGroup/' . $row->getId(),
+                    @component('components.buttons.btn',['route' => 'removeGroup/' . $row->getId(),
                                      'class' => 'fa-minus'])
                     @endcomponent
 

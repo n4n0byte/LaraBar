@@ -20,9 +20,9 @@ $category = $data['category'];
 @component('components.security')@endcomponent
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => '/CLC/home'])@endcomponent
-        @component('components.navItem', ['title' => 'Profile', 'uri' => '/CLC/profile'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => 'home'])@endcomponent
+        @component('components.navItem', ['title' => 'Profile', 'uri' => 'profile'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
     @endcomponent
 @endsection
 

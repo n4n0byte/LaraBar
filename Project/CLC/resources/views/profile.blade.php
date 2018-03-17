@@ -19,11 +19,11 @@ $user = session('user');
 @component('components.security')@endcomponent
 @section('navbar')
     @component('components.navbar')
-        @component('components.navItem', ['title' => 'Home', 'uri' => "/CLC/home"])@endcomponent
-        @component('components.navItem', ['title' => 'Edit', 'uri' => '/CLC/profile/edit'])@endcomponent
-        @component('components.navItem', ['title' => 'Log Out', 'uri' => '/CLC/logout'])@endcomponent
+        @component('components.navItem', ['title' => 'Home', 'uri' => "home"])@endcomponent
+        @component('components.navItem', ['title' => 'Edit', 'uri' => 'profile/edit'])@endcomponent
+        @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
         @if(session()->get('user')->getAdmin())
-            @component('components.navItem', ['title' => 'Administrator', 'uri' => '/CLC/admin'])@endcomponent
+            @component('components.navItem', ['title' => 'Administrator', 'uri' => 'admin'])@endcomponent
         @endif
     @endcomponent
 @endsection
@@ -39,21 +39,21 @@ $user = session('user');
     @component('components.personalInfoCard',['firstName' => $user->getFirstName(),
                                               'lastName' => $user->getLastName(),
                                               'email' => $user->getEmail() ])
-        @component('components.buttons.btn',["route" => "/CLC/profile/edit/personal/0", 'class' => 'fa-edit' ])@endcomponent
+        @component('components.buttons.btn',["route" => "profile/edit/personal/0", 'class' => 'fa-edit' ])@endcomponent
 
     @endcomponent
 
     @component('components.profileCards',['title' => 'Location', 'category' => 'location' ,'info' => $userProfile->getlocation() ,
      'id' => $user->getId()])
         @slot('btns')
-            @component('components.buttons.btn',["route" => "/CLC/profile/edit/location/0", 'class' => 'fa-edit' ])@endcomponent
+            @component('components.buttons.btn',["route" => "profile/edit/location/0", 'class' => 'fa-edit' ])@endcomponent
         @endslot
     @endcomponent
 
     @component('components.profileCards',['title' => 'Biography', 'category' => 'biography' ,'info' => $userProfile->getBio() ,
      'id' => $user->getId()])
         @slot('btns')
-            @component('components.buttons.btn',["route" => "/CLC/profile/edit/biography/0", 'class' => 'fa-edit' ])@endcomponent
+            @component('components.buttons.btn',["route" => "profile/edit/biography/0", 'class' => 'fa-edit' ])@endcomponent
         @endslot
     @endcomponent
 
@@ -62,7 +62,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/profile/add/education','class' => 'fa-plus'])
+            @component('components.buttons.btn',['route' => 'profile/add/education','class' => 'fa-plus'])
             @endcomponent
         @endslot
 
@@ -70,10 +70,10 @@ $user = session('user');
             @foreach($education as $row)
                 @component('components.generalTableContent', ['row' => $row->getEducationFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/profile/delete/education/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => 'profile/delete/education/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/profile/edit/education/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => 'profile/edit/education/' . $row->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot
@@ -87,7 +87,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/profile/add/employment','class' => 'fa-plus'])
+            @component('components.buttons.btn',['route' => 'profile/add/employment','class' => 'fa-plus'])
             @endcomponent
         @endslot
 
@@ -95,10 +95,10 @@ $user = session('user');
             @foreach($employment as $row)
                 @component('components.generalTableContent', ['row' => $row->getEmploymentFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/profile/delete/employment/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => 'profile/delete/employment/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/profile/edit/employment/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => 'profile/edit/employment/' . $row->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot
@@ -111,7 +111,7 @@ $user = session('user');
 
         {{--Adds item--}}
         @slot("btns")
-            @component('components.buttons.btn',['route' => '/CLC/profile/add/skills','class' => 'fa-plus'])
+            @component('components.buttons.btn',['route' => 'profile/add/skills','class' => 'fa-plus'])
             @endcomponent
         @endslot
 
@@ -119,10 +119,10 @@ $user = session('user');
             @foreach($skills as $row)
                 @component('components.generalTableContent', ['row' => $row->getSkillFieldsArr()])
                     @slot('btns')
-                        @component('components.buttons.btn',['route' => '/CLC/profile/delete/skills/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => 'profile/delete/skills/' . $row->getId(),
                                                              'class' => 'fa-remove'])
                         @endcomponent
-                        @component('components.buttons.btn',['route' => '/CLC/profile/edit/skills/' . $row->getId(),
+                        @component('components.buttons.btn',['route' => 'profile/edit/skills/' . $row->getId(),
                                          'class' => 'fa-edit'])
                         @endcomponent
                     @endslot

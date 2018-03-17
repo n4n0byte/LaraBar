@@ -62,15 +62,15 @@ class DummyJobPostBusinessService implements IJobSearchBusinessService
      * @param int $page
      * @return array
      */
-    public function searchJobPost(string $criteria, string $filter, int $page): array
+    public function searchJobPost(string $criteria, string $filter, int $page = 0): array
     {
         $resultsPerPage = 2;
         $searchResults = [];
-        for ($i = $page++ * $resultsPerPage; count($searchResults) < $resultsPerPage; $i++) {
+        for ($i = $page++ * $resultsPerPage; count($searchResults) < $resultsPerPage && $i < count($this->jobs); $i++) {
             if (strpos($this->jobs[$i]->getDescription(), $criteria) ||
                 strpos($this->jobs[$i]->getTitle(), $criteria) ||
                 strpos($this->jobs[$i]->getAuthor(), $criteria))
-                array_push($result, $this->jobs[$i]);
+                array_push($searchResults, $this->jobs[$i]);
         }
         return $searchResults;
     }

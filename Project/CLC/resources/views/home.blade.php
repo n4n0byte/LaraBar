@@ -32,25 +32,37 @@ We used source code from the following websites to complete this assignment: N/A
 @section('content')
     <div class="row" id="search-bar">
         {{-- Search bar --}}
+        @if($errors->any())
+            @foreach ($errors->all() as $error)
+                <div class="alert alert-warning">
+                    <p>{{$error}}</p>
+                </div>
+            @endforeach
+        @endif
         @component('components.form', ['action' => 'search', 'status' => isset($status) ? $status : null])
             @component('components.editTextInput', ['id' => 'search-input',
-            'label' => "Search for positions", 'name' => 'criteria', 'placeholder' => "Search for a job..."])
+            'label' => "Search for positions", 'name' => 'term', 'placeholder' => "Search for a job..."])
             @endcomponent
+            <label for="search-filter">Filter by</label>
+            <select name="filter" id="search-filter">
+                <option name="title" selected="selected">Job Title</option>
+                <option name="description">Description</option>
+                <option name="author">Company</option>
+            </select>
             @component('components.submitButton', ['title' => "search"]) @endcomponent
         @endcomponent
     </div>
-    @if(!isset($searchResults))
-        <div class="row" id="results">
-            <h3>Job search</h3>
-            <p>Click "search" to search available job postings.</p>
-        </div>
+    @if(isset($searchResults))
+        @component("components.search.searchResult", ['searchResults' => $searchResults]) @endcomponent
     @elseif(count($searchResults) == 0)
         <div class="row" id="results">
             <h3>Sorry friend</h3>
             <p>No results</p>
         </div>
-        @component('components.search.suggested') @endcomponent
     @else
-        @component("components.search.searchResult") @endcomponent
+        <div class="row" id="results">
+            <h3>Job search</h3>
+            <p>Click "search" to search available job postings.</p>
+        </div>
     @endif
 @endsection
