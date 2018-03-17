@@ -61,8 +61,10 @@ We used source code from the following websites to complete this assignment: N/A
         </div>
     @elseif(count($searchResults) == 0)
         <div class="row" id="results">
-            <h3>Sorry friend</h3>
-            <p>No results</p>
+            <div class="col" style="text-align: center">
+                <h3>Sorry friend</h3>
+                <p>No results</p>
+            </div>
         </div>
     @else
         @component("components.search.searchResult", ['searchResults' => $searchResults]) @endcomponent

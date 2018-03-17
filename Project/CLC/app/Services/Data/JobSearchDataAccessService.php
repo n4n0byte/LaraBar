@@ -69,18 +69,17 @@ class JobSearchDataAccessService
     {
 
         $JobArr = array();
-        $query = $this->ini['SearchUserGroups']['select.criteria'];
+        $query = $this->ini['SearchUserGroups']['select.criteria'] . " $filter like ?";
 
-        $query .= "${filter} = :criteria;";
 
         $statement = $this->conn->prepare($query);
 
 
-        $statement->bindParam(":criteria", $criteria);
+        // $statement->bindParam(":filter", $filter);
 
         try {
 
-            $statement->execute();
+            $statement->execute(array("%$criteria%"));
 
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
                 $job = new JobModel($row["ID"], $row["TITLE"], $row["AUTHOR"],

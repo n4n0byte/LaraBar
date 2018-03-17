@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Business\JobService as JobService;
+use App\Services\Business\JobSearchBusinessService as JobService;
 use App\Services\BusinessInterfaces\IJobSearchBusinessService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
@@ -38,7 +38,7 @@ class JobSearchController extends Controller
 
     public function show($id)
     {
-        $this->service = JobSearchBusinessService::getInstance();
+        $this->service = JobService::getInstance();
         // select job by ID
         $job = $this->service->getJobPostById($id);
 
