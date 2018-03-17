@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\UserModel;
 use App\Services\Business\JobPostBusinessService;
-use App\Services\Business\SkillsBusinessService;
+use App\Services\Business\JobSearchBusinessService as JobSearchBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use Dotenv\Exception\ValidationException;
@@ -15,6 +15,11 @@ class AdminController extends Controller
     //
     public function index($toolId = -1)
     {
+
+        $test = JobSearchBusinessService::getInstance();
+        $x = $test->searchJobPost("Description","DESCRIPTION",0);
+
+
         // TODO add page for insufficient role-access
         if (!$this->isAdmin())
             return "User does not have administrative privileges";

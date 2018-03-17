@@ -27,7 +27,7 @@ class JobModel
      * @param $requirements
      * @param $salary
      */
-    public function __construct($id, $title, $author, $location, $description, $requirements, $salary)
+    public function __construct(  $id, $title, $author, $location, $description, $requirements, $salary)
     {
         $this->id = $id;
         $this->title = $title;

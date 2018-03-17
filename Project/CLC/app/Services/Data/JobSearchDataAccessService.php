@@ -1,8 +1,10 @@
 <?php
 
-namespace app\Services\Data;
+namespace App\Services\Data;
 use App\Model\JobModel;
 use App\Services\DatabaseAccess;
+use PDO;
+use PDOException;
 
 class JobSearchDataAccessService {
 
@@ -18,22 +20,106 @@ class JobSearchDataAccessService {
     }
 
 
+    /**
+     * @param int $id
+     * @return JobModel
+     */
     public function getJobPostById(int $id): JobModel {
 
+        $JobArr = array();
+        $query = $this->ini['SearchUserGroups']['select.id'];
 
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindParam(":userId", $id);
+
+        try {
+
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $job = new JobModel($row["ID"],$row["TITLE"],$row["AUTHOR"],
+                    $row["LOCATION"],$row["DESCRIPTION"], $row["REQUIREMENTS"],$row["SALARY"]);
+                array_push($JobArr,$job);
+            }
+
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
+        }
+
+        return $JobArr[0];
 
     }
 
+    /**
+     * @param string $criteria
+     * @return array
+     */
     public function getJobPostByDetails(string $criteria): array {
-        // TODO: Implement getJobPostByDetails() method.
+
+        return [];
+
     }
 
-    public function searchJobPost(string $criteria, string $filter, int $page): array {
-        // TODO: Implement searchJobPost() method.
+    public function searchJobPost(string $criteria, string $filter, int $page = 0): array {
+
+        $JobArr = array();
+        $query = $this->ini['SearchUserGroups']['select.criteria'];
+
+        $query .= "${filter} = :criteria;";
+
+        $statement = $this->conn->prepare($query);
+
+
+
+        $statement->bindParam(":criteria", $criteria);
+
+        try {
+
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $job = new JobModel($row["ID"],$row["TITLE"],$row["AUTHOR"],
+                    $row["LOCATION"],$row["DESCRIPTION"], $row["REQUIREMENTS"],$row["SALARY"]);
+                array_push($JobArr,$job);
+            }
+
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
+        }
+
+        return $JobArr;
+
+
     }
 
     public function getJobPosts(): array {
-        // TODO: Implement getJobPosts() method.
+        $JobArr = array();
+        $query = $this->ini['SearchUserGroups']['select.all'];
+
+        $statement = $this->conn->prepare($query);
+
+        $statement->bindParam(":userId", $id);
+
+        try {
+
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                $job = new JobModel($row["ID"],$row["TITLE"],$row["AUTHOR"],
+                    $row["LOCATION"],$row["DESCRIPTION"], $row["REQUIREMENTS"],$row["SALARY"]);
+                array_push($JobArr,$job);
+            }
+
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
+        }
+
+        return $JobArr;
+
     }
 
 }
