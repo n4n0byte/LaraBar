@@ -43,6 +43,7 @@ class AuthenticationController extends Controller
      */
     public function register(Request $request)
     {
+        try{
         // validation
         $this->validateRegistration($request);
 
@@ -76,7 +77,13 @@ class AuthenticationController extends Controller
             ];
             return view("register")->with($data);
         }
-
+        }
+        catch (ValidationException $e){
+            throw $e;
+        }
+        catch (\PDOException $e){
+            return view("error");
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 namespace app\Http\Controllers;
+
 use App\Services\Business\AdminGroupsBusinessService as AdminGroupService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,7 +19,11 @@ class AdminGroupController {
      * stores service as member variable
      */
     public function __construct() {
-        $this->adminSvc = AdminGroupService::getInstance();
+        try {
+            $this->adminSvc = AdminGroupService::getInstance();
+        } catch (\PDOException $e) {
+            return view("error");
+        }
     }
 
     /**
@@ -26,8 +31,12 @@ class AdminGroupController {
      * shows view with list of groups
      */
     public function index() {
-        $groups = $this->adminSvc->listAllGroups();
-        return view('admin_groups_view')->with(["groups"  => $groups]);
+        try {
+            $groups = $this->adminSvc->listAllGroups();
+            return view('admin_groups_view')->with(["groups" => $groups]);
+        } catch (\PDOException $e) {
+            return view("error");
+        }
     }
 
     /**
@@ -44,34 +53,43 @@ class AdminGroupController {
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addGroup(Request $request) : RedirectResponse {
+    public function addGroup(Request $request): RedirectResponse {
 
-        $this->adminSvc->createGroup($request->input());
-        return redirect()->action("AdminGroupController@index");
-
+        try {
+            $this->adminSvc->createGroup($request->input());
+            return redirect()->action("AdminGroupController@index");
+        } catch (\PDOException $e) {
+            return view("error");
+        }
     }
 
     /**
      * @param $groupId
      * @return RedirectResponse
      */
-    public function removeGroup($groupId){
+    public function removeGroup($groupId) {
 
-        $this->adminSvc->deleteGroup($groupId);
-        return redirect()->action("AdminGroupController@index");
-
+        try {
+            $this->adminSvc->deleteGroup($groupId);
+            return redirect()->action("AdminGroupController@index");
+        } catch (\PDOException $e) {
+            return view("error");
+        }
     }
 
     /**
      * @param Request $request
      * @return RedirectResponse
      */
-    public function updateGroupDetails(Request $request) : RedirectResponse {
+    public function updateGroupDetails(Request $request): RedirectResponse {
 
-        $this->adminSvc->editGroupDetails($request->input());
+        try {
+            $this->adminSvc->editGroupDetails($request->input());
 
-        return redirect()->action('AdminGroupController@index');
-
+            return redirect()->action('AdminGroupController@index');
+        } catch (\PDOException $e) {
+            return view("error");
+        }
     }
 
     /**
@@ -79,8 +97,12 @@ class AdminGroupController {
      * @return $this
      */
     public function showEditGroupView($id) {
-        $group = $this->adminSvc->getGroupById($id);
-        return view('edit_group_info')->with(['group' => $group]);
+        try {
+            $group = $this->adminSvc->getGroupById($id);
+            return view('edit_group_info')->with(['group' => $group]);
+        } catch (\PDOException $e) {
+            return view("error");
+        }
     }
 
 

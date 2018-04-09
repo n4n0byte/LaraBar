@@ -15,101 +15,146 @@ class AdminController extends Controller
     public function index($toolId = -1)
     {
 
+        try{
+            // TODO add page for insufficient role-access
+            if (!$this->isAdmin())
+                return "User does not have administrative privileges";
 
-        // TODO add page for insufficient role-access
-        if (!$this->isAdmin())
-            return "User does not have administrative privileges";
+            // generate users list
+            $temp = new UserModel(0);
 
-        // generate users list
-        $temp = new UserModel(0);
-        $userService = new UserBusinessService($temp);
-        $userList = $userService->listUsers();
-        $jobData = new JobPostBusinessService();
+            $userService = new UserBusinessService($temp);
+            $userList = $userService->listUsers();
+            $jobData = new JobPostBusinessService();
 
-        $data = [
-            "userList" => $userList,
-            "toolId" => $toolId,
-            "jobData" => $jobData->getJobPosts()
-        ];
-        // return view with users list
-        return view("admin")->with($data);
+            $data = [
+                "userList" => $userList,
+                "toolId" => $toolId,
+                "jobData" => $jobData->getJobPosts()
+            ];
+            // return view with users list
+            return view("admin")->with($data);
+
+        } catch (\PDOException $e){
+            return view("error");
+        }
     }
 
     public function suspend($userId)
     {
-        // create suspended_user business service
-        $service = new SuspendUserBusinessService();
 
-        // call suspend user method
-        $user = new UserModel($userId);
-        $service->suspend($user);
+        try{
+            // create suspended_user business service
+            $service = new SuspendUserBusinessService();
 
-        // run index to generate updated user list
-        return $this->index("User [$userId] suspended.");
+            // call suspend user method
+            $user = new UserModel($userId);
+            $service->suspend($user);
+
+            // run index to generate updated user list
+            return $this->index("User [$userId] suspended.");
+        } catch (\PDOException $e){
+            return view("error");
+        }
     }
 
     public function reactivate($userId)
     {
-        // create suspended_user business service
-        $service = new SuspendUserBusinessService();
+        try{
+            // create suspended_user business service
+            $service = new SuspendUserBusinessService();
 
-        // call reactive user method
-        $user = new UserModel($userId);
-        $service->reactivate($user);
+            // call reactive user method
+            $user = new UserModel($userId);
+            $service->reactivate($user);
 
-        // run index to generate updated user list
-        return $this->index("User [$userId] suspended.");
+            // run index to generate updated user list
+            return $this->index("User [$userId] suspended.");
+        } catch(\PDOException $e){
+                return view("error");
+        }
     }
 
     public function deleteUser($userId)
     {
-        // create a user business service
-        $user = new UserModel($userId);
-        $service = new UserBusinessService($user);
+        try{
+            // create a user business service
+            $user = new UserModel($userId);
+            $service = new UserBusinessService($user);
 
-        // call reactive user method
-        $service->deleteUser();
+            // call reactive user method
+            $service->deleteUser();
 
-        // run index to generate updated user list
-        $message = "User $userId deleted";
-        return $this->index("User [$userId] suspended.")->with("message", $message);
+            // run index to generate updated user list
+            $message = "User $userId deleted";
+            return $this->index("User [$userId] suspended.")->with("message", $message);
+        } catch (\PDOException $e){
+            return view("error");
+        }
     }
 
     public function updateJobPost($id)
     {
-        $jobSvc = new JobPostBusinessService();
-        $jobPost = $jobSvc->getJobPosts($id, true)[0];
-        return view('updateInfo')->with(['post' => $jobPost]);
+        try{
+            $jobSvc = new JobPostBusinessService();
+            $jobPost = $jobSvc->getJobPosts($id, true)[0];
+            return view('updateInfo')->with(['post' => $jobPost]);
+        } catch (\PDOException $e){
+            return view("error");
+        }
 
     }
 
     public function updateJobPostData(Request $request)
     {
-        $this->validateJobPost($request);
-        $jobSvc = new JobPostBusinessService();
+        try{
+            $this->validateJobPost($request);
+            $jobSvc = new JobPostBusinessService();
 
-        $jobSvc->updateJobPost($request->get("id"), $request->get("title"), $request->get("location"),
-            $request->get("description"), $request->get("requirements"), (int)$request->get("salary"));
+            $jobSvc->updateJobPost($request->get("id"), $request->get("title"), $request->get("location"),
+                $request->get("description"), $request->get("requirements"), (int)$request->get("salary"));
 
-        return redirect()->action('AdminController@index');
+            return redirect()->action('AdminController@index');
+        }
+
+        catch (ValidationException $e){
+            throw $e;
+        }
+
+        catch (\PDOException $e){
+            return view("error");
+        }
     }
 
     public function deleteJobPost($id)
     {
-
+        try{
         $jobSvc = new JobPostBusinessService();
         $jobSvc->deleteJobPost($id);
         return redirect()->action('AdminController@index');
+        } catch (\PDOException $e){
+            return view("error");
+        }
     }
 
     public function addJobPost(Request $request)
     {
+        try{
         $this->validateJobPost($request);
         $jobSvc = new JobPostBusinessService();
         $jobSvc->createJobPost($request->get("title"), $request->get("location"),
             $request->get("description"), $request->get("requirements"), $request->get("salary"));
 
         return redirect()->action('AdminController@index');
+        }
+
+        catch (\PDOException $e){
+            return view("error");
+        }
+
+        catch (ValidationException $e){
+            return view("error");
+        }
     }
 
     private function isAdmin()
