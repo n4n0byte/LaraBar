@@ -40,7 +40,7 @@ We used source code from the following websites to complete this assignment: N/A
             @endforeach
         @endif
         @component('components.form', ['action' => 'search', 'status' => isset($status) ? $status : null])
-            @component('components.editTextInput', ['id' => 'search-input',
+            @component('components.editTextInput', ['id' => 'search-input', 'min' => 1,
             'label' => "Search for positions", 'name' => 'term', 'placeholder' => "Search for a job..."])
             @endcomponent
             <label for="search-filter">Filter by</label>

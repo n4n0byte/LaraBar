@@ -5,6 +5,7 @@ namespace App\Services\Business;
 use App\Model\JobModel;
 use App\Services\BusinessInterfaces\IJobSearchBusinessService;
 use App\Services\Data\JobSearchDataAccessService;
+use Mockery\Exception;
 
 /**
  * Class JobSearchBusinessService
@@ -73,7 +74,14 @@ class JobSearchBusinessService implements IJobSearchBusinessService
      */
     public function searchJobPost(string $criteria, string $filter, int $page): array
     {
-        return $this->jobSearchScv->searchJobPost($criteria, $filter, $page);
+        $map = ["Job Title" => "TITLE",
+            "Description" => "DESCRIPTION",
+            "Company" => "AUTHOR"
+        ];
+        if (!array_key_exists($filter, $map)) {
+            throw new Exception("You did something bad.");
+        }
+        return $this->jobSearchScv->searchJobPost($criteria, $map[$filter], $page);
     }
 
     /**

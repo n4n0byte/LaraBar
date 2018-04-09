@@ -21,7 +21,7 @@ class CheckedLoggedIn
         if(is_null(session("user")) || !session("user") instanceof UserModel)
 
             // TODO change to send to a custom error view.
-            return response("Session ended", 403);
+            return redirect("login");
 
         // continue on to route action
         return $next($request);

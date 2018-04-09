@@ -11,9 +11,8 @@ We used source code from the following websites to complete this assignment: N/A
 /* @var $job \App\Model\JobModel */
 ?>
 
-@component('components.security')@endcomponent
 @extends('layouts.master')
-@section('title',"Job #" . $job->getId());
+@section('title',"Job #" . $job->getId())
 @section('navbar')
 
     @component('components.navbar')

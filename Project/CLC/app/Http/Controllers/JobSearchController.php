@@ -24,13 +24,8 @@ class JobSearchController extends Controller
         // check input validity
         $this->validation($request);
 
-        $map = ["Job Title" => "TITLE",
-                "Description" => "DESCRIPTION",
-                "Company" => "AUTHOR"
-               ];
-
         // pass request->input to business service
-        $jobs = $this->service->searchJobPost($request->input("term"), $map[$request->input("filter")],0);
+        $jobs = $this->service->searchJobPost($request->input("term"), $request->input('filter'),0);
         $data = ["searchResults" => $jobs];
 
         return view("home")->with($data);

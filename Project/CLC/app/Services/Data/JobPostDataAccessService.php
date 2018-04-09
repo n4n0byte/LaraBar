@@ -76,12 +76,12 @@ class JobPostDataAccessService {
         $query = $this->ini['Job']['update'];
         $statement = $this->conn->prepare($query);
         $statement->bindParam(":id", $modelArr[0]);
-        $statement->bindParam(":title",$modelArr[2]);
-        $statement->bindParam(":author",$modelArr[3]);
-        $statement->bindParam(":location",$modelArr[4]);
-        $statement->bindParam(":description",$modelArr[5]);
-        $statement->bindParam(":requirements",$modelArr[6]);
-        $statement->bindParam(":salary",$modelArr[7]);
+        $statement->bindParam(":title",$modelArr[1]);
+        $statement->bindParam(":author",$modelArr[2]);
+        $statement->bindParam(":location",$modelArr[3]);
+        $statement->bindParam(":description",$modelArr[4]);
+        $statement->bindParam(":requirements",$modelArr[5]);
+        $statement->bindParam(":salary",$modelArr[6]);
 
         try {
 

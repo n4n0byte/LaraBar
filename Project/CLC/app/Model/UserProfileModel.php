@@ -1,12 +1,14 @@
 <?php
 /**
- * version 1.0
+ * version 2.0
  *
- * Student Name: Ali
+ * Student Name: Ali, Connor
  * Course Number: CST-256
  * Date: 1/31/2018
  * This assignment was completed in collaboration with Connor Low, Ali Cooper.
  * We used source code from the following websites to complete this assignment: N/A
+ *
+ * 4/5/18: Added Education, Skills, and Employment history for REST API.
  */
 
 namespace App\Model;
@@ -18,6 +20,7 @@ use PDOStatement;
 class UserProfileModel
 {
     private $id, $imgURL, $uid, $bio, $location;
+    private $education, $skills, $employment;
 
     /**
      * UserProfileModel constructor.
@@ -31,6 +34,55 @@ class UserProfileModel
         $this->bio = $bio;
         $this->location = $location;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEducation() : EducationModel
+    {
+        return $this->education;
+    }
+
+    /**
+     * @param mixed $education
+     */
+    public function setEducation(EducationModel $education)
+    {
+        $this->education = $education;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSkills() : SkillsModel
+    {
+        return $this->skills;
+    }
+
+    /**
+     * @param mixed $skills
+     */
+    public function setSkills(SkillsModel $skills)
+    {
+        $this->skills = $skills;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmployment() : EmploymentHistoryModel
+    {
+        return $this->employment;
+    }
+
+    /**
+     * @param mixed $employment
+     */
+    public function setEmployment(EmploymentHistoryModel $employment)
+    {
+        $this->employment = $employment;
+    }
+
 
     public static function getFields()
     {
