@@ -14,36 +14,51 @@ class JobSearchController extends Controller
 
     /**
      * @param Request $request
-     * Input should include search term, filter, and page.
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function search(Request $request)
     {
-        $this->service = JobService::getInstance();
-        
-        // check input validity
-        $this->validation($request);
+        try {
+            $this->service = JobService::getInstance();
 
-        // pass request->input to business service
-        $jobs = $this->service->searchJobPost($request->input("term"), $request->input('filter'),0);
-        $data = ["searchResults" => $jobs];
+            // check input validity
+            $this->validation($request);
 
-        return view("home")->with($data);
+            // pass request->input to business service
+            $jobs = $this->service->searchJobPost($request->input("term"), $request->input('filter'), 0);
+            $data = ["searchResults" => $jobs];
+
+            return view("home")->with($data);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        } catch (Exception $e) {
+            return redirect("error");
+        }
     }
 
+    /**
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function show($id)
     {
-        $this->service = JobService::getInstance();
-        // select job by ID
-        $job = $this->service->getJobPostById($id);
+        try {
+            $this->service = JobService::getInstance();
+            // select job by ID
+            $job = $this->service->getJobPostById($id);
 
-        // data to pass to view
-        $data = [
-            "job" => $job
-        ];
+            // data to pass to view
+            $data = [
+                "job" => $job
+            ];
 
-        // go to job view page with job
-        return view("view_job")->with($data);
+            // go to job view page with job
+            return view("view_job")->with($data);
+        } catch (ValidationException $ve) {
+            throw $ve;
+        } catch (Exception $e) {
+            return redirect("error");
+        }
     }
 
     private function validation(Request $request)

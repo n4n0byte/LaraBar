@@ -10,72 +10,84 @@ class JobRestController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|string
+     * @throws \Exception
      */
     public function index()
     {
+        try {
+            $jobBusSvc = new JobPostBusinessService();
+            $results = $jobBusSvc->getJobPosts();
 
-        $jobBusSvc = new JobPostBusinessService();
-        $results = $jobBusSvc->getJobPosts();
+            $message = "success";
 
-        $message = "success";
+            if (count($results) > 99) {
+                $message = "warning over 100 rows requested, returned exactly ";
+            }
 
-        if (count($results) > 99){
-            $message = "warning over 100 rows requested, returned exactly ";
+            $dto = new DTO(200, $message, $results);
+            return json_encode($dto);
+        } catch (Exception $e) {
+            $dto = new DTO(500, "It broke", []);
+            return json_encode($dto);
         }
-
-        $dto = new DTO(200,$message,$results);
-        return json_encode($dto);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-        $statusCode = 200;
-        $message = "success";
-        $dto = null;
-        $jobBusSvc = new JobPostBusinessService();
-        $results = $jobBusSvc->getJobPosts($id,true);
+    public function show($id)
+    {
+        try {
+            $statusCode = 200;
+            $message = "success";
+            $dto = null;
+            $jobBusSvc = new JobPostBusinessService();
+            $results = $jobBusSvc->getJobPosts($id, true);
 
-        if (count($results) > 0){
+            if (count($results) > 0) {
 
-            $dto = new DTO($statusCode,$message,$results);
+                $dto = new DTO($statusCode, $message, $results);
+            } else {
+                $statusCode = 404;
+                $message = "No job post with that id";
+                $dto = new DTO($statusCode, $message);
+            }
+
+            return json_encode($dto);
+        } catch (Exception $e) {
+            $dto = new DTO(500, "It broke", []);
+            return json_encode($dto);
         }
-        else {
-            $statusCode = 404;
-            $message = "No job post with that id";
-            $dto = new DTO($statusCode, $message);
-        }
-
-        return json_encode($dto);
     }
 
     /**
      * @param $show
      * @return DTO|null
      */
-    public function searchByName($show){
+    public function searchByName($show)
+    {
+        try {
+            $dto = null;
 
-        $dto = null;
+            $searchSvc = JobSearchBusinessService::getInstance();
 
-        $searchSvc = JobSearchBusinessService::getInstance();
+            $results = $searchSvc->getJobPostByDetails($show);
 
-        $results = $searchSvc->getJobPostByDetails($show);
+            if (count($results) > 0) {
+                $dto = new DTO(200, "success", $results);
+            } else {
+                $dto = new DTO(404, "No job post with that name (empty)");
+            }
 
-        if (count($results) > 0){
-            $dto = new DTO(200,"success", $results);
+            return $dto;
+        } catch (Exception $e) {
+            $dto = new DTO(500, "It broke", []);
+            return json_encode($dto);
         }
-        else {
-            $dto = new DTO(404,"No job post with that name (empty)");
-        }
-
-        return $dto;
     }
 
 
