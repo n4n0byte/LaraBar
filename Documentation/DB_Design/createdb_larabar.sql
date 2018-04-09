@@ -1,7 +1,8 @@
--- drop schema if exists laratest ;
+drop schema if exists laratest ;
 create schema if not exists laratest;
 use laratest;
 
+drop table if exists jobs;
 CREATE TABLE if not exists jobs (
     ID INT(11) NOT NULL AUTO_INCREMENT,
     TITLE VARCHAR(255) NOT NULL,
@@ -14,16 +15,18 @@ CREATE TABLE if not exists jobs (
     PRIMARY KEY (ID)
 );
 
-CREATE TABLE if not exists users (
+drop table if exists users;
+CREATE TABLE IF NOT EXISTS users (
     ID INT(11) NOT NULL AUTO_INCREMENT,
     EMAIL VARCHAR(255) UNIQUE NOT NULL,
-    PASSWORD VARCHAR(255) BINARY NOT NULL,
+    PASSWORD VARCHAR(255)BINARY NOT NULL,
     FIRSTNAME VARCHAR(255) DEFAULT NULL,
     LASTNAME VARCHAR(255) DEFAULT NULL,
     ADMIN BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (ID)
 );
 
+drop table if exists user_profiles;
 CREATE TABLE if not exists user_profiles (
     ID INT(11) NOT NULL AUTO_INCREMENT,
     USER_ID INT(11) NOT NULL,
@@ -80,6 +83,7 @@ CREATE TABLE suspended_users (
         REFERENCES users(ID)
 );
 
+drop table if exists groups;
 CREATE TABLE if not exists groups (
     ID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (ID),
@@ -88,6 +92,7 @@ CREATE TABLE if not exists groups (
     DESCRIPTION TEXT
 );
 
+drop table if exists join_user_group;
 CREATE TABLE if not exists join_user_group (
     ID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (ID),
@@ -98,3 +103,12 @@ CREATE TABLE if not exists join_user_group (
     FOREIGN KEY (GROUP_ID)
         REFERENCES groups (ID)
 );
+
+create index EMAIL_INDEX on USERS(EMAIL);
+CREATE INDEX TITLE_INDEX ON JOBS(TITLE);
+CREATE INDEX USER_INDEX ON user_profiles(USER_ID);
+CREATE INDEX TITLE_INDEX ON groups(TITLE);
+CREATE INDEX USER_INDEX ON suspended_users(USER_ID);
+CREATE INDEX PROFILE_INDEX ON SKILLS(USER_PROFILE_ID);
+CREATE INDEX PROFILE_INDEX ON employment_history(USER_PROFILE_ID);
+CREATE INDEX PROFILE_INDEX ON education(USER_PROFILE_ID);
