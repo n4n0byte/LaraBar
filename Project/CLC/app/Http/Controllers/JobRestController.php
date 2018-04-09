@@ -56,10 +56,12 @@ class JobRestController extends Controller
         return json_encode($dto);
     }
 
+    /**
+     * @param $show
+     * @return DTO|null
+     */
     public function searchByName($show){
 
-        $statusCode = 200;
-        $message = "success";
         $dto = null;
 
         $searchSvc = JobSearchBusinessService::getInstance();
@@ -67,7 +69,7 @@ class JobRestController extends Controller
         $results = $searchSvc->getJobPostByDetails($show);
 
         if (count($results) > 0){
-            $dto = new DTO($statusCode,$message, $results);
+            $dto = new DTO(200,"success", $results);
         }
         else {
             $dto = new DTO(404,"No job post with that name (empty)");

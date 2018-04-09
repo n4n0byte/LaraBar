@@ -116,5 +116,3 @@ Route::resource("/api/profile","ProfileRestController");
 Route::resource("/api/jobs","JobRestController");
 Route::get("/api/jobs/byname/{id}","JobRestController@searchByName");
 
-/* ==== Profile REST ==== */
-Route::resource("/api/jobs","");
