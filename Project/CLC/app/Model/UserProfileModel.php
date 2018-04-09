@@ -13,11 +13,7 @@
 
 namespace App\Model;
 
-use App\Services\DatabaseAccess;
-use PDO;
-use PDOStatement;
-
-class UserProfileModel
+class UserProfileModel implements \JsonSerializable
 {
     private $id, $imgURL, $uid, $bio, $location;
     private $education, $skills, $employment;
@@ -172,6 +168,10 @@ class UserProfileModel
     public function setLocation($location)
     {
         $this->location = $location;
+    }
+
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
 }

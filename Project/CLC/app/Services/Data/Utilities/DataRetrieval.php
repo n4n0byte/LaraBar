@@ -13,7 +13,6 @@ namespace App\Services\Data\Utilities;
 
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
-use App\Services\Data\UserProfileDataAccessService;
 use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
@@ -123,11 +122,20 @@ class DataRetrieval
      * Returns an array containing a UserModel and a UserProfileModel
      * @return array
      */
-    public static function getUserProfileById()
+    public static function getUserProfileById($inputId = -1)
     {
-        $ask = session()->get("user");
-        $id = $ask->getId();
-        session()->save();
+
+        $id = -1;
+
+        if ($inputId != -1){
+            $id = $inputId;
+        } else{
+            $ask = session()->get("user");
+            $id = $ask->getId();
+            session()->save();
+        }
+
+
         $conn = DatabaseAccess::connect();
 
         // build query
@@ -140,8 +148,12 @@ class DataRetrieval
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
+            if ($assoc_array == null) return null;
+
             $userProfile = new UserProfileModel($assoc_array["IMGURL"], $assoc_array["BIO"], $assoc_array["LOCATION"]);
             $user = self::getModelByUID($id);
+
+
             return array('user' => $user, 'userProfile' => $userProfile);
 
         } catch (PDOException $e) {

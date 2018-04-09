@@ -108,3 +108,13 @@ Route::post('search', 'JobSearchController@search');//->middleware('auth');
 
 // view job description
 Route::get('view_job/{id}', 'JobSearchController@show');//->middleware('auth');
+
+/* ==== Profile REST ==== */
+Route::resource("/api/profile","ProfileRestController");
+
+/* ==== Job REST ==== */
+Route::resource("/api/jobs","JobRestController");
+Route::get("/api/jobs/byname/{id}","JobRestController@searchByName");
+
+/* ==== Profile REST ==== */
+Route::resource("/api/jobs","");

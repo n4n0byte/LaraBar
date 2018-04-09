@@ -14,17 +14,16 @@ namespace App\Services\Business;
 
 use App\Model\UserProfileModel;
 use App\Services\Data\UserProfileDataAccessService;
-use App\User;
 
 class UserProfileBusinessService
 {
     /**
      * @return array
      */
-    public function getProfileData()
+    public function getProfileData($id = -1)
     {
         $profile = new UserProfileDataAccessService();
-        return $profile->read();
+        return $profile->read($id);
     }
 
     public function updateUserProfile(UserProfileModel $model)
