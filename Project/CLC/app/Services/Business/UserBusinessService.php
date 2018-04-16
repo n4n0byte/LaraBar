@@ -39,7 +39,7 @@ class UserBusinessService
      */
     public function __construct()
     {
-        LarabarLogger::info("UserBusinessService constructed",[]);
+        LarabarLogger::info("UserBusinessService constructed", []);
         $this->service = new UserDataAccessService();
     }
 
@@ -72,8 +72,16 @@ class UserBusinessService
     {
         LarabarLogger::info("-> UserBusinessService::register");
 
+        // check that passwords match
+        if ($data['password'] != $data["confirmPassword"]) {
+            $this->status = "Passwords do not match";
+            return false;
+        }
+
+
         // check for illegal characters
         if (!$this->inputIsValid($data)) {
+            $this->status = "Illegal characters";
             return FALSE;
         }
 

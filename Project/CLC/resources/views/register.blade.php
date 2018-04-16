@@ -37,25 +37,27 @@ We used source code from the following websites to complete this assignment: N/A
     @component('components.form',['method' => 'POST', 'action' => 'register', 'status' => isset($status) ? $status : null])
 
 
-        @component('components.emailTextInput')@endcomponent
+        @component('components.emailTextInput', ['data' => isset($user["email"]) ? $user["email"] : '' ])@endcomponent
         @if($errors->first('email'))
             <div class="alert alert-warning">
                 <p>{{$errors->first('email')}}</p>
             </div>
         @endif
-        @component('components.editTextInput',['label' => 'First Name', 'name' => 'firstName'])@endcomponent
+        @component('components.editTextInput',['label' => 'First Name', 'name' => 'firstName',
+        'data' => isset($user["firstName"]) ? $user["firstName"] : '' ])@endcomponent
         @if($errors->first('firstName'))
             <div class="alert alert-warning">
                 <p>{{$errors->first('firstName')}}</p>
             </div>
         @endif
-        @component('components.editTextInput',['label' => 'Last Name', 'name' => 'lastName'])@endcomponent
+        @component('components.editTextInput',['label' => 'Last Name', 'name' => 'lastName',
+        'data' => isset($user["lastName"]) ? $user["lastName"] : '' ])@endcomponent
         @if($errors->first('lastName'))
             <div class="alert alert-warning">
                 <p>{{$errors->first('lastName')}}</p>
             </div>
         @endif
-        @component('components.editPasswordInput',['label' => 'Last Name', 'name' => 'password'])@endcomponent
+        @component('components.editPasswordInput',['confirm' => true])@endcomponent
         @if($errors->first('password'))
             <div class="alert alert-warning">
                 <p>{{$errors->first('password')}}</p>

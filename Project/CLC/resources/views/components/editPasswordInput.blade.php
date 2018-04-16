@@ -1,4 +1,11 @@
 <div class="form-group">
-    <label class="label">Password</label>
-    <input type="password" class="form-control" name="password" cols="40" rows="5" value="{{$data or ''}}">
+    <label for="password-input" class="label">Password</label>
+    <input id='password-input' type="password" class="form-control" name="password" value="{{$data or ''}}">
 </div>
+@if(isset($confirm)? $confirm : FALSE)
+    <div class="form-group">
+        <label for="confirm-input" class="label">Confirm Password</label>
+        <input id="confirm-input" type="password"
+               class="form-control" name="confirmPassword" value="{{$data or ''}}">
+    </div>
+@endif

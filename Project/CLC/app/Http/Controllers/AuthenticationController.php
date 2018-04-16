@@ -72,7 +72,7 @@ class AuthenticationController extends Controller
                 return view("home")->with(['user' => $user]);
             } else {
                 $data = [
-                    'user' => $user,
+                    'user' => $request->input(),
                     'message' => $service->getStatus()
                 ];
                 return view("register")->with($data);
