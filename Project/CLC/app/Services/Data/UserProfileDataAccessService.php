@@ -11,13 +11,15 @@
 
 namespace App\Services\Data;
 
+use App\Model\UserModel;
 use App\Model\UserProfileModel;
 use App\Services\Data\Utilities\DataEdit;
 use App\Services\Data\Utilities\DataRetrieval;
 use App\Services\DatabaseAccess;
+use PDO;
 use PDOException;
 
-class UserProfileDataAccessService implements \JsonSerializable
+class UserProfileDataAccessService
 {
     private $conn, $ini;
 
@@ -33,9 +35,9 @@ class UserProfileDataAccessService implements \JsonSerializable
     /**
      * @return array
      */
-    public function read($id = -1)
+    public function read()
     {
-        return DataRetrieval::getUserProfileById($id);
+        return DataRetrieval::getUserProfileById();
     }
 
     public function update(UserProfileModel $model)
@@ -44,11 +46,6 @@ class UserProfileDataAccessService implements \JsonSerializable
         $bio = $model->getBio();
         DataEdit::updateProfile($location, $bio);
     }
-
-    public function jsonSerialize() {
-        return get_object_vars($this);
-    }
-
 
     /**
      * @param UserProfileModel $model

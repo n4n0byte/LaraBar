@@ -11,13 +11,11 @@ use Mockery\Exception;
  * Class JobSearchBusinessService
  * @package app\Services\Business
  */
-class JobSearchBusinessService implements IJobSearchBusinessService, \JsonSerializable
+class JobSearchBusinessService implements IJobSearchBusinessService
 {
 
     private static $instance = null;
     private $jobSearchScv = null;
-
-
 
     /**
      * returns single instance of Job search serviec
@@ -92,13 +90,6 @@ class JobSearchBusinessService implements IJobSearchBusinessService, \JsonSerial
     public function getJobPosts(): array
     {
         return $this->jobSearchScv->getJobPosts();
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function jsonSerialize() {
-        return get_object_vars($this);
     }
 
 

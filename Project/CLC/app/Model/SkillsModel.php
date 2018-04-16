@@ -95,9 +95,5 @@ class SkillsModel
         return [$this->title, $this->description];
     }
 
-    public function jsonSerialize() {
-        return get_object_vars($this);
-    }
-
 
 }

@@ -34,7 +34,7 @@ class UserProfileModel implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getEducation() : EducationModel
+    public function getEducation() : array
     {
         return $this->education;
     }
@@ -42,7 +42,7 @@ class UserProfileModel implements \JsonSerializable
     /**
      * @param mixed $education
      */
-    public function setEducation(EducationModel $education)
+    public function setEducation(array $education)
     {
         $this->education = $education;
     }
@@ -50,7 +50,7 @@ class UserProfileModel implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getSkills() : SkillsModel
+    public function getSkills() : array
     {
         return $this->skills;
     }
@@ -58,7 +58,7 @@ class UserProfileModel implements \JsonSerializable
     /**
      * @param mixed $skills
      */
-    public function setSkills(SkillsModel $skills)
+    public function setSkills(array $skills)
     {
         $this->skills = $skills;
     }
@@ -66,7 +66,7 @@ class UserProfileModel implements \JsonSerializable
     /**
      * @return mixed
      */
-    public function getEmployment() : EmploymentHistoryModel
+    public function getEmployment() : array
     {
         return $this->employment;
     }
@@ -74,7 +74,7 @@ class UserProfileModel implements \JsonSerializable
     /**
      * @param mixed $employment
      */
-    public function setEmployment(EmploymentHistoryModel $employment)
+    public function setEmployment(array $employment)
     {
         $this->employment = $employment;
     }

@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
  * Class AdminGroupController
  * @package app\Http\Controllers
  */
-class AdminGroupController {
+class AdminGroupController
+{
 
     private $adminSvc;
 
@@ -18,7 +19,8 @@ class AdminGroupController {
      * AdminGroupController constructor.
      * stores service as member variable
      */
-    public function __construct() {
+    public function __construct()
+    {
         try {
             $this->adminSvc = AdminGroupService::getInstance();
         } catch (\PDOException $e) {
@@ -30,7 +32,8 @@ class AdminGroupController {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * shows view with list of groups
      */
-    public function index() {
+    public function index()
+    {
         try {
             $groups = $this->adminSvc->listAllGroups();
             return view('admin_groups_view')->with(["groups" => $groups]);
@@ -43,7 +46,8 @@ class AdminGroupController {
      * shows view that adds a group
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showAddGroupView() {
+    public function showAddGroupView()
+    {
         return view('add_group');
     }
 
@@ -53,7 +57,8 @@ class AdminGroupController {
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addGroup(Request $request): RedirectResponse {
+    public function addGroup(Request $request): RedirectResponse
+    {
 
         try {
             $this->adminSvc->createGroup($request->input());
@@ -67,7 +72,8 @@ class AdminGroupController {
      * @param $groupId
      * @return RedirectResponse
      */
-    public function removeGroup($groupId) {
+    public function removeGroup($groupId)
+    {
 
         try {
             $this->adminSvc->deleteGroup($groupId);
@@ -81,7 +87,8 @@ class AdminGroupController {
      * @param Request $request
      * @return RedirectResponse
      */
-    public function updateGroupDetails(Request $request): RedirectResponse {
+    public function updateGroupDetails(Request $request): RedirectResponse
+    {
 
         try {
             $this->adminSvc->editGroupDetails($request->input());
@@ -96,7 +103,8 @@ class AdminGroupController {
      * @param $id
      * @return $this
      */
-    public function showEditGroupView($id) {
+    public function showEditGroupView($id)
+    {
         try {
             $group = $this->adminSvc->getGroupById($id);
             return view('edit_group_info')->with(['group' => $group]);

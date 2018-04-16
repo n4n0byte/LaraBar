@@ -11,13 +11,16 @@
 
 namespace App\Model;
 
+use App\Services\DatabaseAccess;
 use App\Services\Utility\LarabarLogger;
+use PDO;
+use PDOStatement;
 
 /**
  * Class UserModel
  * @package App\Model
  */
-class UserModel implements \JsonSerializable
+class UserModel
 {
     private $id;
     private $email;
@@ -172,11 +175,6 @@ class UserModel implements \JsonSerializable
     {
         $this->admin = $admin;
     }
-
-    public function jsonSerialize() {
-        return get_object_vars($this);
-    }
-
 
 
 }

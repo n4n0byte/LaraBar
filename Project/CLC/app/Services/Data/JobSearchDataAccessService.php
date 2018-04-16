@@ -81,9 +81,7 @@ class JobSearchDataAccessService
 
             $statement->execute(array("%$criteria%"));
 
-            $count = 0;
-
-            while ($count++ < 101 && $row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
                 $job = new JobModel($row["ID"], $row["TITLE"], $row["AUTHOR"],
                     $row["LOCATION"], $row["DESCRIPTION"], $row["REQUIREMENTS"], $row["SALARY"]);
                 array_push($JobArr, $job);

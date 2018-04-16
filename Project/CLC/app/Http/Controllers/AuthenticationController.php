@@ -43,45 +43,43 @@ class AuthenticationController extends Controller
      */
     public function register(Request $request)
     {
-        try{
-        // validation
-        $this->validateRegistration($request);
+        try {
+            // validation
+            $this->validateRegistration($request);
 
-        // get inputs
-        $inputEmail = $request->input('email');
-        $inputPassword = $request->input('password');
-        $inputFirstName = $request->input('firstName');
-        $inputLastName = $request->input('lastName');
+            // get inputs
+            $inputEmail = $request->input('email');
+            $inputPassword = $request->input('password');
+            $inputFirstName = $request->input('firstName');
+            $inputLastName = $request->input('lastName');
 
-        // create UserModel
-        $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
+            // create UserModel
+            $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
 
-        // create a business service
-        $service = new UserBusinessService($user);
+            // create a business service
+            $service = new UserBusinessService($user);
 
-        // attempt registration
-        if ($user = $service->register()) {
-            session()->put(['UID' => $user->getId()]);
-            session()->save();
+            // attempt registration
+            if ($user = $service->register()) {
+                session()->put(['UID' => $user->getId()]);
+                session()->save();
 
-            // create default profile
-            $profile = new UserProfileModel();
-            $profileService = new UserProfileBusinessService();
-            $profileService->initializeProfile($profile);
+                // create default profile
+                $profile = new UserProfileModel();
+                $profileService = new UserProfileBusinessService();
+                $profileService->initializeProfile($profile);
 
-            return view("home")->with(['user' => $user]);
-        } else {
-            $data = [
-                'user' => $user,
-                'message' => $service->getStatus()
-            ];
-            return view("register")->with($data);
-        }
-        }
-        catch (ValidationException $e){
+                return view("home")->with(['user' => $user]);
+            } else {
+                $data = [
+                    'user' => $user,
+                    'message' => $service->getStatus()
+                ];
+                return view("register")->with($data);
+            }
+        } catch (ValidationException $e) {
             throw $e;
-        }
-        catch (\PDOException $e){
+        } catch (\PDOException $e) {
             return view("error");
         }
     }
