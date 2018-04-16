@@ -43,12 +43,12 @@ We used source code from the following websites to complete this assignment: N/A
         @break
 
         @case('personal')
-        @component('components.profile.editPersonalInfo',['id' => $model->getId()])
+        @component('components.profile.editPersonalInfo',['model' => $model])
         @endcomponent
         @break
 
         @case('location')
-            @component('components.profile.editLocation',['id' => $model->getId(), 'location' => $model->getLocation() ])
+        @component('components.profile.editLocation',['id' => $model->getId(), 'location' => $model->getLocation() ])
         @endcomponent
         @break
 

@@ -1,13 +1,13 @@
 @component('components.form',['method' => 'POST', 'action' => 'profile/editPersonalInfo'])
-    <input type="hidden" name="post-id" value="{{$id}}">
+    <input type="hidden" name="post-id" value="{{$model->getId()}}">
     @component('components.editTextInput',['id' => 'firstName', 'label' => 'First Name',
-                                                 'name' => 'firstName'])
+                                                 'name' => 'firstName', 'data' => $model->getFirstName()])
     @endcomponent
     @component('components.editTextInput',['id' => 'lastName', 'label' => 'Last Name',
-                                                 'name' => 'lastName'])
+                                                 'name' => 'lastName', 'data' => $model->getLastName()])
     @endcomponent
     @component('components.editTextInput',['id' => 'email', 'label' => 'Email',
-                                                 'name' => 'email'])
+                                                 'name' => 'email', 'data' => $model->getEmail()])
     @endcomponent
     @component('components.editPasswordInput')@endcomponent
 

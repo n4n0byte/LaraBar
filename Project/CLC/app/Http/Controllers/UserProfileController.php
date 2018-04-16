@@ -21,6 +21,7 @@ use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use PHPUnit\Runner\Exception;
 
@@ -48,14 +49,11 @@ class UserProfileController extends Controller
     {
 
         try {
-            $user = session('user');
-            $this->userService = new UserBusinessService($user);
-            $model = new UserModel(
-                $user->getId(), $request->get('email'), $request->get('password'),
-                $request->get('firstName'), $request->get('lastName')
-            );
+            $data = $request->input();
+            $data["id"] = session("user")->getId();
+            $this->userService = new UserBusinessService();
 
-            $this->userService->updateUserInfo($model);
+            $this->userService->updateUserInfo($data);
 
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {

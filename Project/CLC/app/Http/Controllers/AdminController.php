@@ -15,8 +15,7 @@ class AdminController extends Controller
     public function index($toolId = -1)
     {
         // generate users list
-        $temp = new UserModel(0);
-        $userService = new UserBusinessService($temp);
+        $userService = new UserBusinessService();
         $userList = $userService->listUsers();
         $jobData = new JobPostBusinessService();
 
@@ -58,11 +57,10 @@ class AdminController extends Controller
     public function deleteUser($userId)
     {
         // create a user business service
-        $user = new UserModel($userId);
-        $service = new UserBusinessService($user);
+        $service = new UserBusinessService();
 
         // call reactive user method
-        $service->deleteUser();
+        $service->deleteUser($userId);
 
         // run index to generate updated user list
         $message = "User $userId deleted";
@@ -104,12 +102,6 @@ class AdminController extends Controller
             $request->get("description"), $request->get("requirements"), $request->get("salary"));
 
         return redirect()->action('AdminController@index');
-    }
-
-    private function isAdmin()
-    {
-        // TODO check if user has admin access using session
-        return TRUE;
     }
 
     public function validateJobPost(Request $request)

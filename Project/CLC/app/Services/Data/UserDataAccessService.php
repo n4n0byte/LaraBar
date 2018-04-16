@@ -118,15 +118,15 @@ class UserDataAccessService
         }
     }
 
-    public function update(UserModel $user)
+    public function update($data)
     {
 
         // define params from input
-        $email = $user->getEmail();
-        $password = $user->getPassword();
-        $firstName = $user->getFirstName();
-        $lastName = $user->getLastName();
-        $id = $user->getId();
+        $email = $data["email"];
+        $password = $data["password"];
+        $firstName = $data["firstName"];
+        $lastName = $data["lastName"];
+        $id = $data["id"];
 
         //
         $query = $this->ini["Users"]["update.id"];
@@ -141,6 +141,7 @@ class UserDataAccessService
 
         try {
             $statement->execute();
+            $user = new UserModel($id, $email, $password, $firstName, $lastName);
             session()->forget('user');
             session()->put('user', $user);
             session()->save();
@@ -202,13 +203,17 @@ class UserDataAccessService
         }
     }
 
-    public function delete(UserModel $user)
+    public function delete($id)
     {
+        // get sql query statement from ini
         $query = $this->ini["Users"]["delete.id"];
         $statement = $this->conn->prepare($query);
-        $id = $user->getId();
+
+        // bind id
         $statement->bindParam(":id", $id);
         try {
+
+            // return execution result
             return $statement->execute();
         } catch (PDOException $e) {
             LarabarLogger::error("Exception in SecurityDAO::delete\n" . $e->getMessage());

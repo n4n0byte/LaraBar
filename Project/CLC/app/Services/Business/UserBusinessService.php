@@ -136,20 +136,21 @@ class UserBusinessService
     }
 
     /**
-     * @param UserModel $model
+     * @param $data
      */
-    public function updateUserInfo(UserModel $model)
+    public function updateUserInfo($data)
     {
         $svc = new UserDataAccessService();
-        $svc->update($model);
+        $svc->update($data);
     }
 
     /**
+     * @param $id
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function deleteUser()
+    public function deleteUser($id)
     {
-        $result = $this->service->delete($this->user);
+        $result = $this->service->delete($id);
         $this->status = $result ? "Successfully deleted " : "Failed to delete ";
         return $result;
     }
