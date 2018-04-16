@@ -9,7 +9,7 @@
     @component('components.editTextInput',['id' => 'email', 'label' => 'Email',
                                                  'name' => 'email', 'data' => $model->getEmail()])
     @endcomponent
-    @component('components.editPasswordInput')@endcomponent
+    @component('components.editPasswordInput', ['confirm' => true])@endcomponent
 
 
     <div class="container">

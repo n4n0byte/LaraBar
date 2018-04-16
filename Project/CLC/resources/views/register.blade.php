@@ -57,7 +57,9 @@ We used source code from the following websites to complete this assignment: N/A
                 <p>{{$errors->first('lastName')}}</p>
             </div>
         @endif
-        @component('components.editPasswordInput',['confirm' => true])@endcomponent
+        @component('components.editPasswordInput',['confirm' => true,
+        'passwordClick' => 'checkPassword()',
+        'confirmClick' => 'checkConfirm()'])@endcomponent
         @if($errors->first('password'))
             <div class="alert alert-warning">
                 <p>{{$errors->first('password')}}</p>
@@ -68,3 +70,4 @@ We used source code from the following websites to complete this assignment: N/A
     @endcomponent
 
 @endsection
+<script src="/CLC/resources/assets/js/scripts/register.js"></script>

@@ -25,7 +25,7 @@ We used source code from the following websites to complete this assignment:
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="/CLC/public/js/bootstrap.js"></script>
     <script src="/CLC/public/js/bootstrap.bundle.js"></script>
-    <script src="/CLC/public/js/particles.js"></script>
+    <script src="/CLC/resources/assets/js/particles.js"></script>
     <script src="/CLC/public/js/tether.js"></script>
     <title>@yield('title')</title>
     <style>
