@@ -14,12 +14,6 @@ class AdminController extends Controller
     //
     public function index($toolId = -1)
     {
-
-
-        // TODO add page for insufficient role-access
-        if (!$this->isAdmin())
-            return "User does not have administrative privileges";
-
         // generate users list
         $temp = new UserModel(0);
         $userService = new UserBusinessService($temp);

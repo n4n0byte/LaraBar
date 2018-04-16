@@ -25,13 +25,13 @@ class LogServiceProvider extends ServiceProvider
     public function register()
     {
         //
-        $this->app->singleton('App\Services\Utility\ILoggerService', function ($app) {
+        $this->app->singleton('App\Services\Utility\ILogger', function ($app) {
             return new LarabarLogger();
         });
     }
 
     public function provides()
     {
-        return ['App/Service/Utility/ILoggerService'];
+        return ['App/Service/Utility/ILogger'];
     }
 }

@@ -16,23 +16,31 @@ use App\Model\UserProfileModel;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
+use App\Services\Utility\ILogger;
 use App\Services\Utility\LarabarLogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class AuthenticationController extends Controller
 {
+    /* @var $logger ILogger */
+    protected $logger;
 
-    public function ask()
+    /**
+     * AuthenticationController constructor.
+     * @param ILogger $logger
+     */
+    public function __construct(ILogger $logger)
     {
-        // if user is logged in, return home
-
-        // else, send to login form
-        return view('Login');
+        $this->logger = $logger;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function login_error()
     {
+        $this->logger->info("AuthenticationController::login_error()", []);
         return view('login_error');
     }
 
@@ -43,6 +51,7 @@ class AuthenticationController extends Controller
      */
     public function register(Request $request)
     {
+        $this->logger->info("AuthenticationController::register()", []);
         try {
             // validation
             $this->validateRegistration($request);
@@ -92,7 +101,7 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request)
     {
-        LarabarLogger::info("-> Authentication::login", $request->input());
+        $this->logger->info("AuthenticationController::login()", $request->input());
 
         // validation
         $this->validateLogin($request);
@@ -105,7 +114,7 @@ class AuthenticationController extends Controller
         if ($inputPassword == "" || $inputEmail == "")
             return view("login")->with(['message' => "Please fill out all forms."]);
         $user = new UserModel(0, $inputEmail, $inputPassword);
-        LarabarLogger::info("User successfully created");
+        $this->logger->info("User successfully created", []);
 
         // create a business service
         $service = new UserBusinessService($user);
@@ -122,9 +131,12 @@ class AuthenticationController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     */
     public function validateLogin(Request $request)
     {
-        LarabarLogger::info("-> Authentication::validateLogin");
+        $this->logger->info("AuthenticationController::validateLogin", $request->input());
 
         // Define rules
         $rules = [
@@ -136,6 +148,7 @@ class AuthenticationController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
+            $this->logger->warning("Validation failed: " . $ve, $rules);
             throw $ve;
         }
     }
@@ -145,7 +158,7 @@ class AuthenticationController extends Controller
      */
     public function validateRegistration(Request $request)
     {
-
+        $this->logger->info("AuthenticationController::validateRegistration", $request->input());
         // Define rules
         $rules = [
             'email' => 'Required|Between:5,60|E-Mail',
@@ -158,6 +171,7 @@ class AuthenticationController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
+            $this->logger->warning("Validation failed: " . $ve, $rules);
             throw $ve;
         }
     }
