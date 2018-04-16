@@ -56,20 +56,11 @@ class AuthenticationController extends Controller
             // validation
             $this->validateRegistration($request);
 
-            // get inputs
-            $inputEmail = $request->input('email');
-            $inputPassword = $request->input('password');
-            $inputFirstName = $request->input('firstName');
-            $inputLastName = $request->input('lastName');
-
-            // create UserModel
-            $user = new UserModel(0, $inputEmail, $inputPassword, $inputFirstName, $inputLastName);
-
             // create a business service
-            $service = new UserBusinessService($user);
+            $service = new UserBusinessService();
 
             // attempt registration
-            if ($user = $service->register()) {
+            if ($user = $service->register($request->input())) {
                 session()->put(['UID' => $user->getId()]);
                 session()->save();
 
@@ -106,24 +97,22 @@ class AuthenticationController extends Controller
         // validation
         $this->validateLogin($request);
 
-        // get inputs
-        $inputEmail = $request->input('email');
-        $inputPassword = $request->input('password');
-
         // create UserModel
-        if ($inputPassword == "" || $inputEmail == "")
-            return view("login")->with(['message' => "Please fill out all forms."]);
-        $user = new UserModel(0, $inputEmail, $inputPassword);
+        $user = new UserModel(0, $request->input()["email"], $request->input()["password"]);
         $this->logger->info("User successfully created", []);
 
         // create a business service
-        $service = new UserBusinessService($user);
+        $service = new UserBusinessService();
 
         // attempt login
-        if ($status = $service->login()) {
-            $susService = new SuspendUserBusinessService();
+        if ($status = $service->login($request->input())) {
+
+            // save user in session
             session()->put(['user' => $user]);
             session()->save();
+
+            // check if user is suspended: return appropriate view (suspend/home)
+            $susService = new SuspendUserBusinessService();
             return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
         } else {
             return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);

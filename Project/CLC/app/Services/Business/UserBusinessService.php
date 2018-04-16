@@ -32,44 +32,27 @@ class UserBusinessService
     /**
      * @var UserModel
      */
-    private $user, $service, $status = "";
+    private $service, $status = "";
 
     /**
      * UserBusinessService constructor.
-     * @param UserModel $user
      */
-    public function __construct(UserModel $user)
+    public function __construct()
     {
-        LarabarLogger::info("UserBusinessService constructed", (array)$user);
-        $this->user = $user;
+        LarabarLogger::info("UserBusinessService constructed",[]);
         $this->service = new UserDataAccessService();
     }
 
     /**
-     * @return mixed
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
+     * @param $data
      * @return UserModel|bool|int
      */
-    public function login()
+    public function login($data)
     {
         LarabarLogger::info("-> UserBusinessService::login");
 
         // select user from data source
-        $user = $this->service->read($this->user);
+        $user = $this->service->read($data);
 
         // check for success.
         if ($user) {
@@ -82,19 +65,20 @@ class UserBusinessService
     }
 
     /**
+     * @param $data
      * @return UserModel|bool|int
      */
-    public function register()
+    public function register($data)
     {
         LarabarLogger::info("-> UserBusinessService::register");
 
         // check for illegal characters
-        if (!$this->inputIsValid()) {
+        if (!$this->inputIsValid($data)) {
             return FALSE;
         }
 
         // insert user with defaults (ID, ADMIN)
-        $result = $this->service->create($this->user);
+        $result = $this->service->create($data);
         if (!$result) {
             LarabarLogger::info("UserBusinessService: Register fail");
             $this->status = "Username taken";
@@ -103,13 +87,14 @@ class UserBusinessService
 
         // login
         LarabarLogger::info("UserBusinessService: Register success");
-        return $this->login();
+        return $this->login($data);
     }
 
     /**
+     * @param $data
      * @return bool|int
      */
-    public function inputIsValid()
+    public function inputIsValid($data)
     {
         LarabarLogger::info("-> UserBusinessService::inputIsValid");
 
@@ -117,7 +102,7 @@ class UserBusinessService
         $invalidChars = array("\"", "'", "\\", "*", "/", "=");
 
         // run character checks
-        foreach ((array)$this->user as $param)
+        foreach ($data as $param)
             foreach ($invalidChars as $c) {
                 if (str_contains($param, $c)) {
                     $this->status = "Invalid characters: <pre>\" ' \\ * / =</pre>. " .
