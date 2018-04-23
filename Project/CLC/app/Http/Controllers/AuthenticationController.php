@@ -107,10 +107,6 @@ class AuthenticationController extends Controller
         // attempt login
         if ($status = $service->login($request->input())) {
 
-            // save user in session
-            session()->put(['user' => $user]);
-            session()->save();
-
             // check if user is suspended: return appropriate view (suspend/home)
             $susService = new SuspendUserBusinessService();
             return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
