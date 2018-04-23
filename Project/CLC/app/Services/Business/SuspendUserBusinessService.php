@@ -21,6 +21,7 @@ class SuspendUserBusinessService
      * Suspend a user if they are not suspended
      * @param UserModel $user
      * @return bool
+     * @throws \Exception
      */
     public function suspend(UserModel $user)
     {
@@ -39,6 +40,7 @@ class SuspendUserBusinessService
      * attempt to reactivate a user
      * @param UserModel $user
      * @return bool
+     * @throws \Exception
      */
     public function reactivate(UserModel $user)
     {
@@ -51,6 +53,7 @@ class SuspendUserBusinessService
      * check to see if a user is suspended (TRUE for suspended)
      * @param $user
      * @return bool
+     * @throws \Exception
      */
     public function suspensionStatus($user)
     {

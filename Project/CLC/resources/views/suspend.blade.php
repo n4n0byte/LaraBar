@@ -18,6 +18,6 @@ We used source code from the following websites to complete this assignment: N/A
     @endcomponent
 @endsection
 
-@section('body')
-    @component('components.errorMessage',['message','message'])@endcomponent
+@section('content')
+    <p>You have been banned.</p>
 @endsection

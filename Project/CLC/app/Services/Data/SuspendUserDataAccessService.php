@@ -39,7 +39,7 @@ class SuspendUserDataAccessService
 
         // make sure user is not an admin
         $userDAS = new UserDataAccessService();
-        $result = $userDAS->selectUserById($user);
+        $result = $userDAS->selectUserById($user->getId());
 
         if ($result["ADMIN"] == 1)
             return FALSE;

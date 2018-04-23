@@ -19,6 +19,7 @@ use App\Services\Business\UserProfileBusinessService;
 use App\Services\Utility\ILogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AuthenticationController extends Controller
 {
@@ -112,7 +113,12 @@ class AuthenticationController extends Controller
 
                 // check if user is suspended: return appropriate view (suspend/home)
                 $susService = new SuspendUserBusinessService();
-                return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $status]);
+                if($susService->suspensionStatus($status)){
+                    session()->put(['user' => null]);
+                    session()->save();
+                    return view("suspend");
+                }
+                return view("home")->with(['user' => $status]);
             } else {
                 return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
             }

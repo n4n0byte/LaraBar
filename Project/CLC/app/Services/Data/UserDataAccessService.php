@@ -205,13 +205,45 @@ class UserDataAccessService
 
     public function delete($id)
     {
-        // get sql query statement from ini
-        $query = $this->ini["Users"]["delete.id"];
-        $statement = $this->conn->prepare($query);
-
-        // bind id
-        $statement->bindParam(":id", $id);
         try {
+            // delete user profile components
+            // Education
+            $query = "DELETE FROM EDUCATION WHERE USER_PROFILE_ID = :id";
+            $statement = $this->conn->prepare($query);
+            $statement->bindParam(":id", $id);
+            $statement->execute();
+
+            // Employment History
+            $query = "DELETE FROM EMPLOYMENT_HISTORY WHERE USER_PROFILE_ID = :id";
+            $statement = $this->conn->prepare($query);
+            $statement->bindParam(":id", $id);
+            $statement->execute();
+
+            // Skills
+            $query = "DELETE FROM SKILLS WHERE USER_PROFILE_ID = :id";
+            $statement = $this->conn->prepare($query);
+            $statement->bindParam(":id", $id);
+            $statement->execute();
+
+            // Profile
+            $query = "DELETE FROM USER_PROFILES WHERE USER_ID = :id";
+            $statement = $this->conn->prepare($query);
+            $statement->bindParam(":id", $id);
+            $statement->execute();
+
+            // Groups
+            $query = "DELETE FROM JOIN_USER_GROUP WHERE USER_ID = :id";
+            $statement = $this->conn->prepare($query);
+            $statement->bindParam(":id", $id);
+            $statement->execute();
+
+            // get sql query statement from ini
+            $query = $this->ini["Users"]["delete.id"];
+            $statement = $this->conn->prepare($query);
+
+
+            // bind id
+            $statement->bindParam(":id", $id);
 
             // return execution result
             return $statement->execute();
