@@ -8,6 +8,12 @@ use App\Services\Business\UserProfileBusinessService;
 class ProfileRestController extends Controller
 {
 
+    /**
+     * @return DTO
+     */
+    public function index(){
+        return new DTO(400,"Input Error");
+    }
 
     /**
      * Display the specified resource.

@@ -61,7 +61,7 @@ class JobSearchDataAccessService
     public function getJobPostByDetails(string $criteria): array
     {
 
-        return $this->searchJobPost($criteria, "DESCRIPTION");
+        return $this->searchJobPost($criteria, "TITLE");
 
     }
 

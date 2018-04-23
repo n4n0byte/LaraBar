@@ -17,7 +17,6 @@ use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 use App\Services\Utility\ILogger;
-use App\Services\Utility\LarabarLogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
@@ -92,26 +91,33 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request)
     {
-        $this->logger->info("AuthenticationController::login()", $request->input());
 
-        // validation
-        $this->validateLogin($request);
+        try{
+            $this->logger->info("AuthenticationController::login()", $request->input());
 
-        // create UserModel
-        $user = new UserModel(0, $request->input()["email"], $request->input()["password"]);
-        $this->logger->info("User successfully created", []);
+            // validation
+            $this->validateLogin($request);
 
-        // create a business service
-        $service = new UserBusinessService();
+            // create UserModel
+            $user = new UserModel(0, $request->input()["email"], $request->input()["password"]);
+            $this->logger->info("User successfully created", []);
 
-        // attempt login
-        if ($status = $service->login($request->input())) {
+            // create a business service
+            $service = new UserBusinessService();
 
-            // check if user is suspended: return appropriate view (suspend/home)
-            $susService = new SuspendUserBusinessService();
-            return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $user]);
-        } else {
-            return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
+            $status = $service->login($request->input());
+
+            // attempt login
+            if ($status != null) {
+
+                // check if user is suspended: return appropriate view (suspend/home)
+                $susService = new SuspendUserBusinessService();
+                return $susService->suspensionStatus($user) ? view("suspend") : view("home")->with(['user' => $status]);
+            } else {
+                return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
+            }
+        } catch (\Exception $e){
+            return view("error");
         }
 
     }

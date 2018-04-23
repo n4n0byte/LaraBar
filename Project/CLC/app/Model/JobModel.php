@@ -11,7 +11,7 @@
 
 namespace App\Model;
 
-class JobModel
+class JobModel implements \JsonSerializable
 {
 
     private $id, $title, $author, $location;
@@ -161,5 +161,10 @@ class JobModel
         return [$this->id, $this->title, $this->author, $this->location,
             $this->description, $this->requirements, $this->salary];
     }
+
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
+
 
 }

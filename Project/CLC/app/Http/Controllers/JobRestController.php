@@ -16,6 +16,8 @@ class JobRestController extends Controller
     public function index()
     {
 
+        $dto = null;
+
         try {
 
             $jobBusSvc = new JobPostBusinessService();
@@ -28,19 +30,17 @@ class JobRestController extends Controller
 
             // check if 100
             if (count($results) == 100) {
-                $message = "Ok, first 100 rows returned";
-                $statusCode = 206;
-                
+                $dto = new DTO(206, "Ok, first 100 rows returned", $results);
             }
             elseif ($results != null){
-
+                $dto = new DTO(200, $message, $results);
+            }
+            else {
+                $dto = new DTO(404,"Not Found", $results);
             }
 
-            $dto = new DTO(200, $message, $results);
-            return json_encode($dto);
         } catch (\Exception $e) {
             $dto = new DTO(500, "It broke", []);
-            return json_encode($dto);
         }
 
         return json_encode($dto);
@@ -86,7 +86,6 @@ class JobRestController extends Controller
         $dto = null;
 
         try {
-
             $searchSvc = JobSearchBusinessService::getInstance();
 
             $results = $searchSvc->getJobPostByDetails($show);
@@ -94,7 +93,7 @@ class JobRestController extends Controller
             if (count($results) > 0) {
                 $dto = new DTO(200, "success", $results);
             } else {
-                $dto = new DTO(404, "No job post with that name (empty)");
+                $dto = new DTO(404, "No job post with that name \" {$show} \" (empty)");
             }
 
         } catch (\Exception $e) {
