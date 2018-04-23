@@ -58,7 +58,7 @@ class UserGroupController extends Controller
                 'groupId' => $groupId]);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect("error");
         }
     }
@@ -76,7 +76,7 @@ class UserGroupController extends Controller
             return redirect()->action('UserGroupController@viewUsersInGroup', $groupId);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect("error");
         }
     }
@@ -94,7 +94,7 @@ class UserGroupController extends Controller
             return redirect()->action('UserGroupController@viewUsersInGroup', $groupId);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect("error");
         }
     }

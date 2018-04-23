@@ -17,7 +17,10 @@ class ProfileRestController extends Controller
      */
     public function show($id)
     {
+        $dto = null;
+
         try {
+
             $userSvc = new UserProfileBusinessService();
             $result = $userSvc->getProfileData($id);
             $statusCode = 200;
@@ -30,11 +33,12 @@ class ProfileRestController extends Controller
 
             $dto = new DTO($statusCode, $message, $result);
 
-            return json_encode($dto);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+
             $dto = new DTO(500, "It broke", []);
-            return json_encode($dto);
         }
+
+        return json_encode($dto);
 
     }
 

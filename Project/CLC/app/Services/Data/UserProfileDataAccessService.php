@@ -11,12 +11,10 @@
 
 namespace App\Services\Data;
 
-use App\Model\UserModel;
 use App\Model\UserProfileModel;
 use App\Services\Data\Utilities\DataEdit;
 use App\Services\Data\Utilities\DataRetrieval;
 use App\Services\DatabaseAccess;
-use PDO;
 use PDOException;
 
 class UserProfileDataAccessService
@@ -28,8 +26,12 @@ class UserProfileDataAccessService
      */
     public function __construct()
     {
-        $this->conn = DatabaseAccess::connect();
-        $this->ini = parse_ini_file("db.ini", true);
+        try{
+            $this->conn = DatabaseAccess::connect();
+            $this->ini = parse_ini_file("db.ini", true);
+        } catch (\Exception $e){
+            throw $e;
+        }
     }
 
     /**

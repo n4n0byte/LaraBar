@@ -31,7 +31,7 @@ class JobSearchController extends Controller
             return view("home")->with($data);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect("error");
         }
     }
@@ -56,7 +56,7 @@ class JobSearchController extends Controller
             return view("view_job")->with($data);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect("error");
         }
     }

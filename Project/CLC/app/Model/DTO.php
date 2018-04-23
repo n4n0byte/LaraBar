@@ -33,6 +33,50 @@ class DTO implements \JsonSerializable {
     }
 
     /**
+     * @return string
+     */
+    public function getStatusCode(): string {
+        return $this->statusCode;
+    }
+
+    /**
+     * @param string $statusCode
+     */
+    public function setStatusCode(string $statusCode): void {
+        $this->statusCode = $statusCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMsg(): string {
+        return $this->msg;
+    }
+
+    /**
+     * @param string $msg
+     */
+    public function setMsg(string $msg): void {
+        $this->msg = $msg;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array {
+        return $this->data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData(array $data): void {
+        $this->data = $data;
+    }
+
+
+
+    /**
      * @return array|mixed
      */
     public function jsonSerialize() {

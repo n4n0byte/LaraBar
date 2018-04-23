@@ -15,22 +15,35 @@ class JobRestController extends Controller
      */
     public function index()
     {
+
         try {
+
             $jobBusSvc = new JobPostBusinessService();
             $results = $jobBusSvc->getJobPosts();
+            $statusCode = -1;
+
+            $dto = new DTO();
 
             $message = "success";
 
-            if (count($results) > 99) {
-                $message = "warning over 100 rows requested, returned exactly ";
+            // check if 100
+            if (count($results) == 100) {
+                $message = "Ok, first 100 rows returned";
+                $statusCode = 206;
+                
+            }
+            elseif ($results != null){
+
             }
 
             $dto = new DTO(200, $message, $results);
             return json_encode($dto);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $dto = new DTO(500, "It broke", []);
             return json_encode($dto);
         }
+
+        return json_encode($dto);
     }
 
     /**
@@ -58,7 +71,7 @@ class JobRestController extends Controller
             }
 
             return json_encode($dto);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $dto = new DTO(500, "It broke", []);
             return json_encode($dto);
         }
@@ -70,8 +83,9 @@ class JobRestController extends Controller
      */
     public function searchByName($show)
     {
+        $dto = null;
+
         try {
-            $dto = null;
 
             $searchSvc = JobSearchBusinessService::getInstance();
 
@@ -83,11 +97,10 @@ class JobRestController extends Controller
                 $dto = new DTO(404, "No job post with that name (empty)");
             }
 
-            return $dto;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $dto = new DTO(500, "It broke", []);
-            return json_encode($dto);
         }
+        return json_encode($dto);
     }
 
 

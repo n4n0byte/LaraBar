@@ -25,3 +25,5 @@ C:\Users\speed\Documents\_code\Visual Stud\Topic4\HelloWorldService\obj\Debug\He
 C:\Users\speed\Documents\_code\Visual Stud\Topic4\HelloWorldService\obj\Debug\HelloWorldService.csproj.CoreCompileInputs.cache
 C:\Users\speed\Documents\_code\Visual Stud\Topic4\HelloWorldService\obj\Debug\HelloWorldService.dll
 C:\Users\speed\Documents\_code\Visual Stud\Topic4\HelloWorldService\obj\Debug\HelloWorldService.pdb
+D:\Users\Ali\Documents\Laravel\CST256\Topic4\HelloWorldService\obj\Debug\HelloWorldService.dll
+D:\Users\Ali\Documents\Laravel\CST256\Topic4\HelloWorldService\obj\Debug\HelloWorldService.pdb

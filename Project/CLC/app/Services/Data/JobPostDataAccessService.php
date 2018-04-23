@@ -22,8 +22,9 @@ class JobPostDataAccessService {
      * UserDataAccessService constructor.
      */
     public function __construct() {
-        $this->conn = DatabaseAccess::connect();
-        $this->ini = parse_ini_file("db.ini", true);
+            $this->conn = DatabaseAccess::connect();
+            $this->ini = parse_ini_file("db.ini", true);
+
     }
 
     public function createJobPost($data){
