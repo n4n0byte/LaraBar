@@ -40,6 +40,7 @@ class AdminGroupsDataAccessService
     /**
      * @param array $details
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public static function create(array $details)
     {
@@ -67,20 +68,33 @@ class AdminGroupsDataAccessService
     /**
      * @param $id
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public static function delete($id)
     {
 //        LarabarLogger::info("Enter AdminGroupsDataAccessService::delete", $id);
 
-        // select query statement
-        $query = self::getIni()['Groups']['delete'];
-        $statement = DatabaseAccess::connect()->prepare($query);
-
-        // bind parameters
-        $statement->bindParam(":id", $id);
-
-        // execute
         try {
+            // remove group from join table
+            // select query statement
+            $query = self::getIni()['JoinUsersGroups']['delete.group'];
+            $statement = DatabaseAccess::connect()->prepare($query);
+
+            // bind parameters
+            $statement->bindParam(":groupid", $id);
+
+            // execute
+            $statement->execute();
+
+            // Delete group
+            // select query statement
+            $query = self::getIni()['Groups']['delete'];
+            $statement = DatabaseAccess::connect()->prepare($query);
+
+            // bind parameters
+            $statement->bindParam(":id", $id);
+
+            // execute
 //            LarabarLogger::info("AdminGroupsDataAccessService::delete executing statement", $id);
             return $statement->execute();
         } catch (PDOException $e) {
@@ -92,6 +106,7 @@ class AdminGroupsDataAccessService
     /**
      * @param $details
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public static function update($details)
     {
@@ -120,6 +135,7 @@ class AdminGroupsDataAccessService
     /**
      * @param int $id
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public static function read($id = -1)
     {
