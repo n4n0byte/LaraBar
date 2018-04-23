@@ -34,6 +34,7 @@
             </div>
         @endif
     @endif
+
     @component('components.form',['method' => 'POST', 'action' => 'login', 'status' => isset($status) ? $status : null])
         @component('components.emailTextInput')@endcomponent
         @if($errors->first('email'))
@@ -49,4 +50,5 @@
         @endif
         @component('components.submitButton', ['title'])@endcomponent
     @endcomponent
+
 @endsection

@@ -1,5 +1,6 @@
 @component('components.form',['method' => 'POST', 'action' => 'profile/editPersonalInfo'])
     <input type="hidden" name="post-id" value="{{$model->getId()}}">
+
     @component('components.editTextInput',['id' => 'firstName', 'label' => 'First Name',
                                                  'name' => 'firstName', 'data' => $model->getFirstName()])
     @endcomponent

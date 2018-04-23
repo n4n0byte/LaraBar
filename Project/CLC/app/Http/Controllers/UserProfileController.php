@@ -21,9 +21,8 @@ use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
-use Illuminate\Contracts\Session\Session;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
-use PHPUnit\Runner\Exception;
 
 class UserProfileController extends Controller
 {
@@ -58,8 +57,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -80,8 +79,8 @@ class UserProfileController extends Controller
                 view("add")->with($data);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -129,8 +128,8 @@ class UserProfileController extends Controller
             return view('profile')->with($data);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -142,6 +141,7 @@ class UserProfileController extends Controller
     function updateBiography(Request $request)
     {
         try {
+            $this->validateProfile($request);
             $bio = $request->get('biography');
             $location = $this->userProfileService->getProfileData()['userProfile']->getLocation();
 
@@ -151,8 +151,8 @@ class UserProfileController extends Controller
             return redirect()->action('UserProfileController@show');
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -164,6 +164,7 @@ class UserProfileController extends Controller
     function updateLocation(Request $request)
     {
         try {
+            $this->validateProfile($request);
             $location = $request->get('location');
             $bio = $this->userProfileService->getProfileData()['userProfile']->getBio();
 
@@ -173,8 +174,8 @@ class UserProfileController extends Controller
             return redirect()->action('UserProfileController@show');
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -234,8 +235,8 @@ class UserProfileController extends Controller
             return view('edit_profile')->with($data);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -252,6 +253,7 @@ class UserProfileController extends Controller
     function updateProfile(Request $request)
     {
         try {
+            $this->validateProfile($request);
             // get inputs
             $inputLocation = $request->input('location');
             $inputBio = $request->input('bio');
@@ -270,8 +272,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -283,6 +285,7 @@ class UserProfileController extends Controller
     function updateEducation(Request $request)
     {
         try {
+            $this->validateEducation($request);
             // get inputs
             $inputInstitution = $request->input('institution');
             $inputLevel = $request->input('level');
@@ -302,8 +305,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -315,6 +318,7 @@ class UserProfileController extends Controller
     function createEducation(Request $request)
     {
         try {
+            $this->validateEducation($request);
             // get inputs
             $inputInstitution = $request->input('institution');
             $inputLevel = $request->input('level');
@@ -333,8 +337,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -346,6 +350,7 @@ class UserProfileController extends Controller
     function updateEmployment(Request $request)
     {
         try {
+            $this->validateEmployment($request);
             // get inputs
             $inputEmployer = $request->input('employer');
             $inputPosition = $request->input('position');
@@ -363,8 +368,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -376,6 +381,7 @@ class UserProfileController extends Controller
     function createEmployment(Request $request)
     {
         try {
+            $this->validateEmployment($request);
             // get inputs
             $inputEmployer = $request->input('employer');
             $inputPosition = $request->input('position');
@@ -392,8 +398,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -405,6 +411,7 @@ class UserProfileController extends Controller
     function updateSkills(Request $request)
     {
         try {
+            $this->validateSkills($request);
             // get inputs
             $inputTitle = $request->input('title');
             $inputDescription = $request->input('description');
@@ -421,8 +428,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -434,6 +441,7 @@ class UserProfileController extends Controller
     function createSkills(Request $request)
     {
         try {
+            $this->validateSkills($request);
             // get inputs
             $inputTitle = $request->input('title');
             $inputDescription = $request->input('description');
@@ -449,8 +457,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -462,6 +470,7 @@ class UserProfileController extends Controller
     function addEditor($category)
     {
         try {
+
             /* @var $user UserModel */
             $user = session('user');
 
@@ -487,8 +496,8 @@ class UserProfileController extends Controller
             return view('add_profile')->with(['data' => $data]);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -525,8 +534,8 @@ class UserProfileController extends Controller
             return redirect()->action("UserProfileController@show")->with(['confirmation' => $message]);
         } catch (ValidationException $ve) {
             throw $ve;
-        } catch (Exception $e) {
-            return redirect("error");
+        } catch (\PDOException $e) {
+            return view("error");
         }
     }
 
@@ -538,8 +547,8 @@ class UserProfileController extends Controller
     {
         // Define rules
         $rules = [
-            'bio' => 'Between:0,50|',
-            'location' => 'Between:0,50'
+            'biography' => 'Between:5,50|',
+            'location' => 'Between:5,50'
         ];
 
         // Run checks
