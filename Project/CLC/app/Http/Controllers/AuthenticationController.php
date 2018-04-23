@@ -116,7 +116,11 @@ class AuthenticationController extends Controller
             } else {
                 return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
             }
-        } catch (\Exception $e){
+        }
+        catch (ValidationException $ve){
+            throw $ve;
+        }
+        catch (\Exception $e){
             return view("error");
         }
 
