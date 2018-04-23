@@ -28,7 +28,7 @@ class ProfileRestController extends Controller
         try {
 
             $userSvc = new UserProfileBusinessService();
-            $result = $userSvc->getProfileData($id);
+            $result = $userSvc->getProfileById($id);
             $statusCode = 200;
             $message = "success";
 

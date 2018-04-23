@@ -14,27 +14,27 @@ namespace App\Services\Business;
 
 use App\Model\UserProfileModel;
 use App\Services\Data\UserProfileDataAccessService;
-use App\User;
 
-class UserProfileBusinessService
-{
+class UserProfileBusinessService {
     /**
      * @return array
      */
-    public function getProfileData()
-    {
+    public function getProfileData() {
         $profile = new UserProfileDataAccessService();
         return $profile->read();
     }
 
-    public function updateUserProfile(UserProfileModel $model)
-    {
+    public function getProfileById($id) {
+        $profile = new UserProfileDataAccessService();
+        return $profile->getDataById($id);
+    }
+
+    public function updateUserProfile(UserProfileModel $model) {
         $service = new UserProfileDataAccessService();
         $service->update($model);
     }
 
-    public function initializeProfile(UserProfileModel $model)
-    {
+    public function initializeProfile(UserProfileModel $model) {
         $service = new UserProfileDataAccessService();
         $service->create($model);
     }

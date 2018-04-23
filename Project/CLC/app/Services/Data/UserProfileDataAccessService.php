@@ -35,6 +35,13 @@ class UserProfileDataAccessService
     }
 
     /**
+     * @param $id
+     */
+    public function getDataById($id){
+        return DataRetrieval::getModelByUID($id);
+    }
+
+    /**
      * @return array
      */
     public function read()
@@ -48,6 +55,9 @@ class UserProfileDataAccessService
         $bio = $model->getBio();
         DataEdit::updateProfile($location, $bio);
     }
+
+
+
 
     /**
      * @param UserProfileModel $model

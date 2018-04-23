@@ -569,7 +569,7 @@ class UserProfileController extends Controller
         $rules = [
             'employer' => 'Required|Between:1,50',
             'position' => 'Required|Between:1,50',
-            'duration' => 'Required|Between:0,50'
+            'duration' => 'Required|Between:1,50'
         ];
 
         // Run checks
@@ -590,7 +590,7 @@ class UserProfileController extends Controller
         $rules = [
             'institution' => 'Required|Between:1,50',
             'level' => 'Required|Between:1,50',
-            'degree' => 'Required|Between:0,50'
+            'degree' => 'Required|Between:1,50'
         ];
 
 

@@ -1,16 +1,18 @@
 <?php
 
-namespace app\Http\Controllers;
+namespace App\Http\Controllers;
 
 use App\Services\Business\AdminGroupsBusinessService as AdminGroupService;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+
 
 /**
  * Class AdminGroupController
  * @package app\Http\Controllers
  */
-class AdminGroupController
+class AdminGroupController extends Controller
 {
 
     private $adminSvc;
@@ -61,6 +63,7 @@ class AdminGroupController
     {
 
         try {
+            $this->validateGroup($request);
             $this->adminSvc->createGroup($request->input());
             return redirect()->action("AdminGroupController@index");
         } catch (\PDOException $e) {
@@ -91,6 +94,7 @@ class AdminGroupController
     {
 
         try {
+            $this->validateGroup($request);
             $this->adminSvc->editGroupDetails($request->input());
 
             return redirect()->action('AdminGroupController@index');
@@ -110,6 +114,21 @@ class AdminGroupController
             return view('edit_group_info')->with(['group' => $group]);
         } catch (\PDOException $e) {
             return view("error");
+        }
+    }
+
+    public function validateGroup($request){
+        // Define rules
+        $rules = [
+            'title' => 'Required|Between:4,20',
+            'description' => 'Required|Between:10,100',
+            'summary' => 'Required|Between:1,100'
+        ];
+
+        try {
+            $this->validate($request, $rules);
+        } catch (ValidationException $ve) {
+            throw $ve;
         }
     }
 

@@ -13,7 +13,6 @@ namespace App\Services\Data\Utilities;
 
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
-use App\Services\Data\UserProfileDataAccessService;
 use App\Services\DatabaseAccess;
 use PDO;
 use PDOException;
@@ -73,7 +72,7 @@ class DataRetrieval
                 $user->setLastName($assoc_array["LASTNAME"]);
                 return $user;
             } else {
-                return new UserModel(session('UID'));
+                return null;
             }
             return FALSE;
         } catch (PDOException $e) {
@@ -118,6 +117,33 @@ class DataRetrieval
         }
     }
 
+    /**
+     * Returns an array containing a UserModel and a UserProfileModel
+     * @return array
+     */
+    public static function getUserProfileByInputId($id)
+    {
+        $conn = DatabaseAccess::connect();
+
+        // build query
+        $query = self::getParsedIni()['UserProfile']['select'];
+        $query = self::getParsedIni()['UserProfile']['select'];
+        $statement = $conn->prepare($query);
+        $statement->bindParam(":id", $id);
+        $userProfile = null;
+
+        try {
+            $statement->execute();
+            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
+
+            $userProfile = new UserProfileModel($assoc_array["IMGURL"], $assoc_array["BIO"], $assoc_array["LOCATION"]);
+            $user = self::getModelByUID($id);
+            return array('user' => $user, 'userProfile' => $userProfile);
+
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
+        }
+    }
 
     /**
      * Returns an array containing a UserModel and a UserProfileModel
