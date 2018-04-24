@@ -102,6 +102,11 @@ class UserDataAccessService
         }
     }
 
+    /**
+     * Used: 1
+     * Gets all users from the database
+     * @return array
+     */
     public function readAll()
     {
         // get sql statement from ini
@@ -112,6 +117,8 @@ class UserDataAccessService
             // execute: return both (associative and indexed) array
             $statement->execute();
             $assoc_array = $statement->fetchAll();
+
+            // return User table data
             return $assoc_array;
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
@@ -203,50 +210,58 @@ class UserDataAccessService
         }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|int
+     */
     public function delete($id)
     {
+        LarabarLogger::info("-> UserDataAccessService::delete");
         try {
             // delete user profile components
             // Education
-            $query = "DELETE FROM EDUCATION WHERE USER_PROFILE_ID = :id";
-            $statement = $this->conn->prepare($query);
-            $statement->bindParam(":id", $id);
-            $statement->execute();
+            LarabarLogger::info("UserDataAccessService::delete education");
+            $query = "DELETE FROM EDUCATION WHERE USER_PROFILE_ID = :id"; // query to be executed
+            $statement = $this->conn->prepare($query); // sql added to PDO statement
+            $statement->bindParam(":id", $id); // user id bound to param
+            $statement->execute(); // execution
 
             // Employment History
+            LarabarLogger::info("UserDataAccessService::delete employment history");
             $query = "DELETE FROM EMPLOYMENT_HISTORY WHERE USER_PROFILE_ID = :id";
             $statement = $this->conn->prepare($query);
             $statement->bindParam(":id", $id);
             $statement->execute();
 
             // Skills
+            LarabarLogger::info("UserDataAccessService::delete skills");
             $query = "DELETE FROM SKILLS WHERE USER_PROFILE_ID = :id";
             $statement = $this->conn->prepare($query);
             $statement->bindParam(":id", $id);
             $statement->execute();
 
             // Profile
+            LarabarLogger::info("UserDataAccessService::delete profile");
             $query = "DELETE FROM USER_PROFILES WHERE USER_ID = :id";
             $statement = $this->conn->prepare($query);
             $statement->bindParam(":id", $id);
             $statement->execute();
 
             // Groups
+            LarabarLogger::info("UserDataAccessService::delete from groups");
             $query = "DELETE FROM JOIN_USER_GROUP WHERE USER_ID = :id";
             $statement = $this->conn->prepare($query);
             $statement->bindParam(":id", $id);
             $statement->execute();
 
             // get sql query statement from ini
+            LarabarLogger::info("UserDataAccessService::delete user");
             $query = $this->ini["Users"]["delete.id"];
             $statement = $this->conn->prepare($query);
-
-
-            // bind id
             $statement->bindParam(":id", $id);
 
-            // return execution result
-            return $statement->execute();
+            // return 1 if successful, 0 if not
+            return $statement->execute() ? 1 : 0;
         } catch (PDOException $e) {
             LarabarLogger::error("Exception in SecurityDAO::delete\n" . $e->getMessage());
             return view("error");

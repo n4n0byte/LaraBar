@@ -8,125 +8,169 @@ January 31, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
+
 namespace App\Services\Data;
+
 use App\Model\JobModel;
 use App\Services\DatabaseAccess;
+use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
-class JobPostDataAccessService {
+class JobPostDataAccessService
+{
 
     private $conn, $ini;
 
     /**
      * UserDataAccessService constructor.
      */
-    public function __construct() {
-            $this->conn = DatabaseAccess::connect();
-            $this->ini = parse_ini_file("db.ini", true);
+    public function __construct()
+    {
+        $this->conn = DatabaseAccess::connect();
+        $this->ini = parse_ini_file("db.ini", true);
 
     }
 
-    public function createJobPost($data){
-        $user = session()->get('user');
-        $uid = $user->getID();
-        $author = $user->getEmail();
+    /**
+     * used: 1
+     * Add a new row to the job post table
+     * @param $data
+     */
+    public function createJobPost($data)
+    {
+        LarabarLogger::info("-> JobPostDataAccessService::createJobPost");
+
+        // get query from ini
         $query = $this->ini['Job']['insert'];
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam(":title",$data[0]);
-        $statement->bindParam(":author",$author);
-        $statement->bindParam(":location",$data[1]);
-        $statement->bindParam(":description",$data[2]);
-        $statement->bindParam(":requirements",$data[3]);
-        $statement->bindParam(":salary",$data[4]);
+        // bind all params for job post (except id)
+        $statement->bindParam(":title", $data["title"]);
+        $statement->bindParam(":author", $data["author"]);
+        $statement->bindParam(":location", $data["location"]);
+        $statement->bindParam(":description", $data["description"]);
+        $statement->bindParam(":requirements", $data["requirements"]);
+        $statement->bindParam(":salary", $data["salary"]);
 
-
-
+        // try to execute insertion
         try {
-
-            $result = $statement->execute();
-
+            $statement->execute();
         } catch (PDOException $e) {
+            LarabarLogger::error("JobPostDataAccessService::createJobPost error " .
+                $e->getMessage());
             throw new PDOException("Exception in JobPostDAO::create\n" . $e->getMessage());
         }
 
     }
 
-    public function deleteJobPost(int $id){
+    /**
+     * used: 1
+     * Delete row from job post table matching id
+     * @param int $id
+     */
+    public function deleteJobPost(int $id)
+    {
+        LarabarLogger::info("-> JobPostDataAccessService::deleteJobPost");
+
+        // get job delete query from ini
         $query = $this->ini['Job']['delete'];
         $statement = $this->conn->prepare($query);
 
-        $statement->bindParam("id",$id);
+        // bind id param
+        $statement->bindParam("id", $id);
 
+        // try to execute deletion
         try {
-
-            $result = $statement->execute();
-
+            $statement->execute();
         } catch (PDOException $e) {
+            LarabarLogger::error("JobPostDataAccessService::deleteJobPost error " .
+                $e->getMessage());
             throw new PDOException("Exception in JobPostDAO::delete\n" . $e->getMessage());
         }
 
     }
 
-    public function updateJobPost(JobModel $model){
+    /**
+     * used: 1
+     * Update row in job post table matching id
+     * @param array $data
+     */
+    public function updateJobPost(array $data)
+    {
+        LarabarLogger::info("-> JobPostDataAccessService::updateJobPost");
 
-        $modelArr = array($model->getId(),$model->getTitle(),
-                          $model->getAuthor(),$model->getLocation(),$model->getDescription(),
-                          $model->getRequirements(),(int)$model->getSalary());
+        // get sql statement from ini
         $query = $this->ini['Job']['update'];
+
+        // bind all params for job post
         $statement = $this->conn->prepare($query);
-        $statement->bindParam(":id", $modelArr[0]);
-        $statement->bindParam(":title",$modelArr[1]);
-        $statement->bindParam(":author",$modelArr[2]);
-        $statement->bindParam(":location",$modelArr[3]);
-        $statement->bindParam(":description",$modelArr[4]);
-        $statement->bindParam(":requirements",$modelArr[5]);
-        $statement->bindParam(":salary",$modelArr[6]);
+        $statement->bindParam(":id", $data["id"]);
+        $statement->bindParam(":title", $data["title"]);
+        $statement->bindParam(":author", $data["author"]);
+        $statement->bindParam(":location", $data["location"]);
+        $statement->bindParam(":description", $data["description"]);
+        $statement->bindParam(":requirements", $data["requirements"]);
+        $statement->bindParam(":salary", $data["salary"]);
 
+        // try to execute
         try {
-
-            $result = $statement->execute();
-
+            $statement->execute();
         } catch (PDOException $e) {
+            LarabarLogger::error("JobPostDataAccessService::updateJobPost error " .
+                $e->getMessage());
             throw new PDOException("Exception in JobPostDAO::update\n" . $e->getMessage());
         }
 
     }
 
 
-    public function getJobs($id = -1, $usePid = false){
+    /**
+     * Used: 1
+     * Get all Job Post from database
+     * @param int $id
+     * @param bool $usePid
+     * @return array
+     */
+    public function getJobs($id = -1, $usePid = false)
+    {
+        LarabarLogger::info("-> JobPostDataAccessService::getJobs(" .
+            $id . "," . ($usePid ? "true)" : "false)"));
 
-        $jobs = array();
-        $query = $id === -1 ? $this->ini['Job']['select.all'] : $this->ini['Job']['select.id'];
+        // declare a job array
+        $jobs = [];
 
-        if ($usePid){
+        // determine sql statement to pull from ini (by post id, by user id, or all jobs)
+        if ($usePid) {
             $query = $this->ini['Job']['select.pid'];
+        } else {
+            $query = $id === -1 ? $this->ini['Job']['select.all'] : $this->ini['Job']['select.id'];
         }
-
         $statement = $this->conn->prepare($query);
 
+        // if not all jobs, bind id
         if ($id !== -1) {
             $statement->bindParam(":id", $id);
         }
         try {
 
+            // get all relevant rows as an associative array; iterate through and add to job array
             $statement->execute();
-            $x = $statement->rowCount();
-            while($row = $statement->fetch(PDO::FETCH_ASSOC)){
-                //$id, $uid, $title, $author, $location, $description, $requirements, $salary
-                $job = new JobModel($row["ID"],$row["TITLE"],$row["AUTHOR"],
-                    $row["LOCATION"],$row["DESCRIPTION"], $row["REQUIREMENTS"],$row["SALARY"]);
-                array_push($jobs,$job);
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+                // JobModel needs: $id, $uid, $title, $author, $location, $description, $requirements, $salary
+                $job = new JobModel($row["ID"], $row["TITLE"], $row["AUTHOR"],
+                    $row["LOCATION"], $row["DESCRIPTION"], $row["REQUIREMENTS"], $row["SALARY"]);
+                array_push($jobs, $job);
             }
-
-
         } catch (PDOException $e) {
+            LarabarLogger::error("JobPostDataAccessService::getJobs error: " .
+                $e->getMessage());
             throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
         }
 
+        // return array
         return $jobs;
-
     }
 
 }

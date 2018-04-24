@@ -13,6 +13,7 @@ namespace App\Services\Business;
 
 use App\Model\JobModel;
 use \App\Services\Data\JobPostDataAccessService;
+use App\Services\Utility\LarabarLogger;
 use Illuminate\Queue\Jobs\Job;
 
 class JobPostBusinessService
@@ -28,27 +29,51 @@ class JobPostBusinessService
         $this->jobSvc = new JobPostDataAccessService();
     }
 
-    public function createJobPost($title, $location, $description, $requirements, $salary)
+    /**
+     * used: 1
+     * Insert a new job post into the database
+     * @param array $data
+     */
+    public function createJobPost(array $data)
     {
-        $this->jobSvc->createJobPost([$title, $location, $description, $requirements, $salary]);
+        LarabarLogger::info("-> JobPostBusinessService::createJobPost");
+
+        // call data access service method
+        $this->jobSvc->createJobPost($data);
     }
 
+    /**
+     * Delete a job post from the database
+     * @param $id
+     */
     public function deleteJobPost($id)
     {
+        LarabarLogger::info("-> JobPostBusinessService::deleteJobPost");
         $this->jobSvc->deleteJobPost($id);
     }
 
-    public function updateJobPost($id, $title, $location, $description, $requirements, $salary)
+    /**
+     * used: 1
+     * Update a job post in database
+     * @param array $data
+     */
+    public function updateJobPost(array $data)
     {
-        $user = session()->get('user');
-        $model = new JobModel($id, $title, $user->getEmail(), $location, $description, $requirements, $salary);
-        $this->jobSvc->updateJobPost($model);
+        LarabarLogger::info("-> JobPostBusinessService::updateJobPost");
+        $this->jobSvc->updateJobPost($data);
     }
 
 
-
+    /**
+     * Used: 1
+     * Get all Job Posts
+     * @param int $uid
+     * @param bool $usePid
+     * @return array
+     */
     public function getJobPosts($uid = -1, $usePid = false)
     {
+        LarabarLogger::info("-> JobPostBusinessService::getJobPosts");
         return $this->jobSvc->getJobs($uid, $usePid);
     }
 

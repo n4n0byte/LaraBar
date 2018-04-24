@@ -124,16 +124,20 @@ class UserBusinessService
     }
 
     /**
+     * Used: 1
+     * Gets all users as an array
      * @return array
      */
     public function listUsers()
     {
-        // get all from data source
+        // get all from data access service as a 2D array
         $list = $this->service->readAll();
 
         // convert to UserModel array
         $users = array();
         $i = 0;
+
+        // iterate through list and add to a UserModel array
         foreach ($list as $item) {
             $users[$i] = new UserModel($item["ID"], $item["EMAIL"]);
             $users[$i++]->setAdmin($item["ADMIN"]);
@@ -153,13 +157,21 @@ class UserBusinessService
     }
 
     /**
+     * used: 1
+     * Delete a user from the database
      * @param $id
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function deleteUser($id)
     {
+        LarabarLogger::info("-> UserBusinessService::deleteUser");
+        // call delete method from the data access service
         $result = $this->service->delete($id);
+
+        // set status
         $this->status = $result ? "Successfully deleted " : "Failed to delete ";
+
+        // return true if successful
         return $result;
     }
 

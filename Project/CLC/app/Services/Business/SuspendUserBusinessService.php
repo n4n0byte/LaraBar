@@ -14,10 +14,13 @@ namespace App\Services\Business;
 use App\Model\UserModel;
 use App\Services\Data\SuspendUserDataAccessService;
 use App\Services\DatabaseAccess;
+use App\Services\Utility\LarabarLogger;
+use Mockery\Exception;
 
 class SuspendUserBusinessService
 {
     /**
+     * Used: 1
      * Suspend a user if they are not suspended
      * @param UserModel $user
      * @return bool
@@ -25,18 +28,29 @@ class SuspendUserBusinessService
      */
     public function suspend(UserModel $user)
     {
-        $conn = DatabaseAccess::connect();
-        $service = new SuspendUserDataAccessService($conn);
+        LarabarLogger::info("-> SuspendUserBusinessService::suspend (" .
+            $user->getId() . ")");
+        try {
 
-        // check for existing suspension
-        if ($service->checkSuspended($user))
+            // create new SuspendUserDataAccessService
+            $conn = DatabaseAccess::connect();
+            $service = new SuspendUserDataAccessService($conn);
+
+            // check for existing suspension
+            if ($service->checkSuspended($user))
+                return FALSE;
+
+            // return success of suspension
+            return $service->suspend($user);
+        } catch (Exception $e) {
+            LarabarLogger::error("SuspendUserBusinessService::suspend error: " .
+                $e->getMessage());
             return FALSE;
-
-        // suspend
-        return $service->suspend($user);
+        }
     }
 
     /**
+     * used: 1
      * attempt to reactivate a user
      * @param UserModel $user
      * @return bool
@@ -44,8 +58,11 @@ class SuspendUserBusinessService
      */
     public function reactivate(UserModel $user)
     {
+        // call data access service to reactivate user
         $conn = DatabaseAccess::connect();
         $service = new SuspendUserDataAccessService($conn);
+
+        // return true if reactivation successful
         return $service->reactivate($user);
     }
 

@@ -6,106 +6,220 @@ use App\Model\UserModel;
 use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
+use App\Services\Utility\LarabarLogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class AdminController extends Controller
 {
-    //
-    public function index($toolId = -1)
+    /**
+     * Render the admin view
+     * @param int $toolId
+     * @param string $message
+     * @return $this
+     */
+    public function index($toolId = -1, $message = null)
     {
-        // generate users list
+        // get users list from database
         $userService = new UserBusinessService();
         $userList = $userService->listUsers();
-        $jobData = new JobPostBusinessService();
 
+        // get job postings from database
+        $jobService = new JobPostBusinessService();
+        $jobData = $jobService->getJobPosts();
+
+        // create new data array with list of users, job posts, and the selected tool
         $data = [
             "userList" => $userList,
             "toolId" => $toolId,
-            "jobData" => $jobData->getJobPosts()
+            "jobData" => $jobData,
+            "message" => $message
         ];
+
         // return view with users list
         return view("admin")->with($data);
     }
 
+    /**
+     * Suspend a user
+     * @param $userId
+     * @return AdminController|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
+     */
     public function suspend($userId)
     {
-        // create suspended_user business service
-        $service = new SuspendUserBusinessService();
+        LarabarLogger::info("-> AdminController::suspend");
 
-        // call suspend user method
-        $user = new UserModel($userId);
-        $service->suspend($user);
+        // try to record suspension in database
+        try {
 
-        // run index to generate updated user list
-        return $this->index("User [$userId] suspended.");
+            // call suspend user method from service
+            $service = new SuspendUserBusinessService();
+            $user = new UserModel($userId);
+            $service->suspend($user);
+
+            // run index to generate updated user list
+            return $this->index("User [$userId] suspended.");
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::suspend error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
+    /**
+     * Reactivate a user
+     * @param $userId
+     * @return AdminController
+     * @throws \Exception
+     */
     public function reactivate($userId)
     {
-        // create suspended_user business service
-        $service = new SuspendUserBusinessService();
+        LarabarLogger::info("-> AdminController::reactivate");
+        try {
 
-        // call reactive user method
-        $user = new UserModel($userId);
-        $service->reactivate($user);
+            // call reactive user method from service
+            $service = new SuspendUserBusinessService();
+            $user = new UserModel($userId);
+            $service->reactivate($user);
 
-        // run index to generate updated user list
-        return $this->index("User [$userId] suspended.");
+            // run index to generate updated user list. Pass message.
+            return $this->index(-1, "User [$userId] suspended.");
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::reactivate error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
+    /**
+     * Delete a user
+     * @param $userId
+     * @return mixed
+     */
     public function deleteUser($userId)
     {
-        // create a user business service
-        $service = new UserBusinessService();
+        LarabarLogger::info("-> AdminController::deleteUser");
+        try {
+            // create a user business service
+            $service = new UserBusinessService();
 
-        // call reactive user method
-        $service->deleteUser($userId);
+            // call reactive user method
+            $service->deleteUser($userId);
 
-        // run index to generate updated user list
-        $message = "User $userId deleted";
-        return $this->index("User [$userId] suspended.")->with("message", $message);
+            // run index to generate updated user list. Pass deletion message
+            return $this->index(-1, "User [$userId] deleted.");
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::deleteUser error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
+    /**
+     * Render job post editing form
+     * @param $id
+     * @return $this
+     */
     public function updateJobPost($id)
     {
-        $jobSvc = new JobPostBusinessService();
-        $jobPost = $jobSvc->getJobPosts($id, true)[0];
-        return view('updateInfo')->with(['post' => $jobPost]);
+        LarabarLogger::info("-> AdminController::updateJobPost");
+        try {
 
+            // load job from database using id
+            $jobSvc = new JobPostBusinessService();
+            $jobPost = $jobSvc->getJobPosts($id, true)[0];
+
+            // return update view with job post
+            return view('updateInfo')->with(['post' => $jobPost]);
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::updateJobPost error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
+    /**
+     * Save updated job post data
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateJobPostData(Request $request)
     {
-        $this->validateJobPost($request);
-        $jobSvc = new JobPostBusinessService();
+        LarabarLogger::info("-> AdminController::updateJobPostData");
+        try {
+            // validate job post rules were kept
+            $this->validateJobPost($request);
 
-        $jobSvc->updateJobPost($request->get("id"), $request->get("title"), $request->get("location"),
-            $request->get("description"), $request->get("requirements"), (int)$request->get("salary"));
+            // call update method from service
+            $jobSvc = new JobPostBusinessService();
+            $jobSvc->updateJobPost($request->input());
 
-        return redirect()->action('AdminController@index');
+            // execute controller index action to render view
+            return redirect()->action('AdminController@index');
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::updateJobPostData error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
+    /**
+     * Delete a Job Post
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteJobPost($id)
     {
+        LarabarLogger::info("-> AdminController::deleteJobPost");
+        try {
+            // call JobPostBusinessService delete method
+            $jobSvc = new JobPostBusinessService();
+            $jobSvc->deleteJobPost($id);
 
-        $jobSvc = new JobPostBusinessService();
-        $jobSvc->deleteJobPost($id);
-        return redirect()->action('AdminController@index');
+            // execute controller index action to render view
+            return redirect()->action('AdminController@index');
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::deleteJobPost error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
+    /**
+     * Create a new Job Post
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function addJobPost(Request $request)
     {
-        $this->validateJobPost($request);
-        $jobSvc = new JobPostBusinessService();
-        $jobSvc->createJobPost($request->get("title"), $request->get("location"),
-            $request->get("description"), $request->get("requirements"), $request->get("salary"));
+        LarabarLogger::info("-> AdminController::addJobPost");
+        try {
 
-        return redirect()->action('AdminController@index');
+            // validate input follows rules
+            $this->validateJobPost($request);
+
+            // JobPostBusinessService create method to save job post in database
+            $jobSvc = new JobPostBusinessService();
+            $jobSvc->createJobPost($request->input());
+
+            // execute controller index action to render view
+            return redirect()->action('AdminController@index');
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::addJobPost error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
+    /**
+     * Validate request input follows rules
+     * @param Request $request
+     */
     public function validateJobPost(Request $request)
     {
+        LarabarLogger::info("-> AdminController::validateJobPost");
 
         // Define rules
         $rules = [
@@ -121,6 +235,7 @@ class AdminController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
+            LarabarLogger::warning("AdminController::validateJobPost validation exception");
             throw $ve;
         }
     }
