@@ -42,7 +42,7 @@ Route::get("addJobPost", function () {
     return view("addJobPost");
 });
 
-Route::post("updateJobPostData/", "AdminController@updateJobPostData");
+Route::post("updateJobPostData", "AdminController@updateJobPostData");
 Route::get("updateJobPost/{id}", "AdminController@updateJobPost");
 Route::get("deleteJobPost/{id}", "AdminController@deleteJobPost");
 Route::post("addJobPost", "AdminController@addJobPost");

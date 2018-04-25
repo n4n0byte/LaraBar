@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\DTO;
+use App\Services\Business\EducationBusinessService;
+use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 
 class ProfileRestController extends Controller
@@ -25,26 +27,44 @@ class ProfileRestController extends Controller
     {
         $dto = null;
 
+        // try to access all Profile Related services
+        // to convert
         try {
 
+            // instantiate all profile related business services and fill an array
+            // with the data returned by their find by id
             $userSvc = new UserProfileBusinessService();
-            $result = $userSvc->getProfileById($id);
+            $profile = $userSvc->getProfileById($id);
+
+            $employmentHistorySvc = new EducationBusinessService();
+            $employmentHistory = $employmentHistorySvc->getEducation($id);
+
+            $skillsSvc = new SkillsBusinessService();
+            $skills = $skillsSvc->getSkill($id);
+
+            $educationSvc = new EducationBusinessService();
+            $education = $educationSvc->getEducation($id);
+
+            $resultArr = [$profile,$employmentHistory, $skills, $education];
+
+
             $statusCode = 200;
             $message = "success";
 
-            if ($result == null) {
+            // check if user exists
+            if ($profile == null) {
                 $statusCode = 404;
                 $message = "No profile found";
+                $resultArr = [];
             }
 
-            $dto = new DTO($statusCode, $message, $result);
-
         } catch (\Exception $e) {
-
-            $dto = new DTO(500, "It broke", []);
+           $statusCode = 500;
+           $message = "It broke";
+           $resultArr = [];
         }
 
-        return json_encode($dto);
+        return json_encode(new DTO($statusCode, $message, $resultArr),JSON_PRETTY_PRINT);
 
     }
 

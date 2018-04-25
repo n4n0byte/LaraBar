@@ -14,7 +14,7 @@ namespace App\Model;
 
 use App\Services\Utility\LarabarLogger;
 
-class GroupModel
+class GroupModel implements \JsonSerializable
 {
     private $name, $description, $summary, $id;
 
@@ -110,5 +110,10 @@ class GroupModel
     {
         return ["Group Name", "Description", "Summary", "Edit"];
     }
+
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
+
 
 }

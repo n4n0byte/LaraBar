@@ -12,7 +12,7 @@ We used source code from the following websites to complete this assignment: N/A
 namespace App\Model;
 
 
-class EmploymentHistoryModel
+class EmploymentHistoryModel implements \JsonSerializable
 {
 
     private $id, $uid, $employer, $position, $duration;
@@ -122,6 +122,10 @@ class EmploymentHistoryModel
     public function setDuration($duration): void
     {
         $this->duration = $duration;
+    }
+
+    public function jsonSerialize() {
+        return get_object_vars($this);
     }
 
 

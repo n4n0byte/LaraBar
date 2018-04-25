@@ -10,7 +10,8 @@
  */
 
 namespace App\Model;
-class EducationModel
+
+class EducationModel implements \JsonSerializable
 {
 
     private $id, $uid, $institution, $level, $degree;
@@ -122,5 +123,8 @@ class EducationModel
         $this->degree = $degree;
     }
 
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
 
 }
