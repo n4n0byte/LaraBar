@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\DTO;
 use App\Services\Business\EducationBusinessService;
+use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 
@@ -13,8 +14,9 @@ class ProfileRestController extends Controller
     /**
      * @return DTO
      */
-    public function index(){
-        return new DTO(400,"Input Error");
+    public function index()
+    {
+        return new DTO(400, "Input Error");
     }
 
     /**
@@ -36,8 +38,8 @@ class ProfileRestController extends Controller
             $userSvc = new UserProfileBusinessService();
             $profile = $userSvc->getProfileById($id);
 
-            $employmentHistorySvc = new EducationBusinessService();
-            $employmentHistory = $employmentHistorySvc->getEducation($id);
+            $employmentHistorySvc = new EmploymentHistoryBusinessService();
+            $employmentHistory = $employmentHistorySvc->getEmploymentHistory($id);
 
             $skillsSvc = new SkillsBusinessService();
             $skills = $skillsSvc->getSkill($id);
@@ -45,7 +47,7 @@ class ProfileRestController extends Controller
             $educationSvc = new EducationBusinessService();
             $education = $educationSvc->getEducation($id);
 
-            $resultArr = [$profile,$employmentHistory, $skills, $education];
+            $resultArr = [$profile, $employmentHistory, $skills, $education];
 
 
             $statusCode = 200;
@@ -58,15 +60,14 @@ class ProfileRestController extends Controller
                 $resultArr = [];
             }
 
-        }
-        // set error status code
+        } // set error status code
         catch (\Exception $e) {
-           $statusCode = 500;
-           $message = "It broke";
-           $resultArr = [];
+            $statusCode = 500;
+            $message = "It broke";
+            $resultArr = [];
+        } finally {
+            return json_encode(new DTO($statusCode, $message, $resultArr), JSON_PRETTY_PRINT);
         }
-
-        return json_encode(new DTO($statusCode, $message, $resultArr),JSON_PRETTY_PRINT);
 
     }
 
