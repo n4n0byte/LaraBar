@@ -86,7 +86,7 @@ Route::get('editGroup/{id}', 'AdminGroupController@showEditGroupView')->middlewa
 Route::post('editGroup', 'AdminGroupController@updateGroupDetails')->middleware('auth', 'admin');
 
 // delete groups
-Route::get('removeGroup/{id}','AdminGroupController@removeGroup');
+Route::get('removeGroup/{id}', 'AdminGroupController@removeGroup');
 
 /* ==== User Group Management ==== */
 
@@ -110,8 +110,16 @@ Route::post('search', 'JobSearchController@search');//->middleware('auth');
 Route::get('view_job/{id}', 'JobSearchController@show');//->middleware('auth');
 
 /* ==== Profile REST ==== */
-Route::resource("/api/profile","ProfileRestController");
+Route::resource("/api/profile", "ProfileRestController");
 
 /* ==== Job REST ==== */
-Route::resource("/api/jobs","JobRestController");
-Route::get("/api/jobs/byname/{id}","JobRestController@searchByName");
+Route::resource("/api/jobs", "JobRestController");
+Route::get("/api/jobs/byname/{id}", "JobRestController@searchByName");
+
+Route::get("error", function () {
+    return view("error");
+});
+
+Route::get("search", function () {
+    return view("home");
+})->middleware('auth');

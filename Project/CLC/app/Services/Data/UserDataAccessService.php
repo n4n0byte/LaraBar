@@ -69,28 +69,28 @@ class UserDataAccessService
 
         // build query
         $query = $this->ini['Users']['select.login'];
-        $statement = $this->conn->prepare($query);
+            $statement = $this->conn->prepare($query);
 
-        // bind email and password to query
-        $statement->bindParam(":email", $email);
-        $statement->bindParam(":password", $password);
-        try {
-            $statement->execute();
-            if ($statement->rowCount() != 1)
-                return false;
-            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
+            // bind email and password to query
+            $statement->bindParam(":email", $email);
+            $statement->bindParam(":password", $password);
+            try {
+                $statement->execute();
+                if ($statement->rowCount() != 1)
+                    return false;
+                $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
-            // make sure values were returned (check if null)
-            $user = new UserModel($assoc_array["ID"]);
-            session()->put(['UID' => $user->getId()]);
-            $user->setEmail($assoc_array["EMAIL"]);
-            $user->setPassword($assoc_array["PASSWORD"]);
-            if (!is_null($assoc_array["FIRSTNAME"]))
-                $user->setFirstName($assoc_array["FIRSTNAME"]);
-            if (!is_null($assoc_array["LASTNAME"]))
-                $user->setLastName($assoc_array["LASTNAME"]);
-            if (!is_null($assoc_array["ADMIN"]))
-                $user->setAdmin($assoc_array["ADMIN"]);
+                // make sure values were returned (check if null)
+                $user = new UserModel($assoc_array["ID"]);
+                session()->put(['UID' => $user->getId()]);
+                $user->setEmail($assoc_array["EMAIL"]);
+                $user->setPassword($assoc_array["PASSWORD"]);
+                if (!is_null($assoc_array["FIRSTNAME"]))
+                    $user->setFirstName($assoc_array["FIRSTNAME"]);
+                if (!is_null($assoc_array["LASTNAME"]))
+                    $user->setLastName($assoc_array["LASTNAME"]);
+                if (!is_null($assoc_array["ADMIN"]))
+                    $user->setAdmin($assoc_array["ADMIN"]);
 
             // TODO return warning if information is missing
             // add user to session

@@ -21,24 +21,31 @@ class AdminController extends Controller
      */
     public function index($toolId = -1, $message = null)
     {
-        // get users list from database
-        $userService = new UserBusinessService();
-        $userList = $userService->listUsers();
+        LarabarLogger::info("-> AdminController::index");
+        try {
+            // get users list from database
+            $userService = new UserBusinessService();
+            $userList = $userService->listUsers();
 
-        // get job postings from database
-        $jobService = new JobPostBusinessService();
-        $jobData = $jobService->getJobPosts();
+            // get job postings from database
+            $jobService = new JobPostBusinessService();
+            $jobData = $jobService->getJobPosts();
 
-        // create new data array with list of users, job posts, and the selected tool
-        $data = [
-            "userList" => $userList,
-            "toolId" => $toolId,
-            "jobData" => $jobData,
-            "message" => $message
-        ];
+            // create new data array with list of users, job posts, and the selected tool
+            $data = [
+                "userList" => $userList,
+                "toolId" => $toolId,
+                "jobData" => $jobData,
+                "message" => $message
+            ];
 
-        // return view with users list
-        return view("admin")->with($data);
+            // return view with users list
+            return view("admin")->with($data);
+        } catch (Exception $e) {
+            LarabarLogger::error("AdminController::index error: " .
+                $e->getMessage());
+            return view("error");
+        }
     }
 
     /**

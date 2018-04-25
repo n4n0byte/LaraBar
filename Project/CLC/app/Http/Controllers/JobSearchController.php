@@ -31,6 +31,8 @@ class JobSearchController extends Controller
             return view("home")->with($data);
         } catch (ValidationException $ve) {
             throw $ve;
+        } catch (\PDOException $e) {
+            return redirect("error");
         }
     }
 

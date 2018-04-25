@@ -111,7 +111,7 @@ class SuspendUserDataAccessService
         } catch (PDOException $e) {
             LarabarLogger::error("SuspendUserDataAccessService::checkSuspended error: " .
                 $e->getMessage());
-            throw;
+            throw $e;
         }
     }
 }
