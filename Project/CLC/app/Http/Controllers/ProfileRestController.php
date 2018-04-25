@@ -58,7 +58,9 @@ class ProfileRestController extends Controller
                 $resultArr = [];
             }
 
-        } catch (\Exception $e) {
+        }
+        // set error status code
+        catch (\Exception $e) {
            $statusCode = 500;
            $message = "It broke";
            $resultArr = [];
