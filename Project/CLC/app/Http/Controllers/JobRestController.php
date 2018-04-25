@@ -17,33 +17,33 @@ class JobRestController extends Controller
     {
 
         $dto = null;
+        $message = "success";
+        $statusCode = 200;
 
         try {
 
             $jobBusSvc = new JobPostBusinessService();
             $results = $jobBusSvc->getJobPosts();
-            $statusCode = -1;
 
-            $dto = new DTO();
-
-            $message = "success";
-
-            // check if 100
+            // check if results size is over, 100
             if (count($results) == 100) {
-                $dto = new DTO(206, "Ok, first 100 rows returned", $results);
+                $message = "Ok, first 100 rows returned";
+                $statusCode = 206;
             }
-            elseif ($results != null){
-                $dto = new DTO(200, $message, $results);
-            }
-            else {
-                $dto = new DTO(404,"Not Found", $results);
+            // check if any jobs is found
+            elseif ($results == null){
+                $statusCode = 404;
+                $message = "Not Found";
+                $results = [];
             }
 
         } catch (\Exception $e) {
-            $dto = new DTO(500, "It broke", []);
+            $statusCode = 500;
+            $message = "It broke";
+            $results = [];
         }
 
-        return json_encode($dto);
+        return json_encode(new DTO($statusCode,$message,$results));
     }
 
     /**
