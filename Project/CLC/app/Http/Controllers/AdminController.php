@@ -6,13 +6,30 @@ use App\Model\UserModel;
 use App\Services\Business\JobPostBusinessService;
 use App\Services\Business\SuspendUserBusinessService;
 use App\Services\Business\UserBusinessService;
-use App\Services\Utility\LarabarLogger;
+use App\Services\Utility\ILogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Mockery\Exception;
 
+/**
+ * Class AdminController
+ * @package App\Http\Controllers
+ */
 class AdminController extends Controller
 {
+
+    /* @var $logger ILogger */
+    protected $logger;
+
+    /**
+     * AdminController constructor.
+     * @param ILogger $logger
+     */
+    public function __construct(ILogger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * Render the admin view
      * @param int $toolId
@@ -21,8 +38,9 @@ class AdminController extends Controller
      */
     public function index($toolId = -1, $message = null)
     {
-        LarabarLogger::info("-> AdminController::index");
+        $this->logger->info("-> AdminController::index");
         try {
+
             // get users list from database
             $userService = new UserBusinessService();
             $userList = $userService->listUsers();
@@ -41,8 +59,11 @@ class AdminController extends Controller
 
             // return view with users list
             return view("admin")->with($data);
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::index error: " .
+            $this->logger->error("AdminController::index error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -56,7 +77,7 @@ class AdminController extends Controller
      */
     public function suspend($userId)
     {
-        LarabarLogger::info("-> AdminController::suspend");
+        $this->logger->info("-> AdminController::suspend");
 
         // try to record suspension in database
         try {
@@ -68,8 +89,11 @@ class AdminController extends Controller
 
             // run index to generate updated user list
             return $this->index("User [$userId] suspended.");
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::suspend error: " .
+            $this->logger->error("AdminController::suspend error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -83,7 +107,7 @@ class AdminController extends Controller
      */
     public function reactivate($userId)
     {
-        LarabarLogger::info("-> AdminController::reactivate");
+        $this->logger->info("-> AdminController::reactivate");
         try {
 
             // call reactive user method from service
@@ -93,8 +117,11 @@ class AdminController extends Controller
 
             // run index to generate updated user list. Pass message.
             return $this->index(-1, "User [$userId] suspended.");
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::reactivate error: " .
+            $this->logger->error("AdminController::reactivate error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -107,7 +134,7 @@ class AdminController extends Controller
      */
     public function deleteUser($userId)
     {
-        LarabarLogger::info("-> AdminController::deleteUser");
+        $this->logger->info("-> AdminController::deleteUser");
         try {
             // create a user business service
             $service = new UserBusinessService();
@@ -117,8 +144,11 @@ class AdminController extends Controller
 
             // run index to generate updated user list. Pass deletion message
             return $this->index(-1, "User [$userId] deleted.");
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::deleteUser error: " .
+            $this->logger->error("AdminController::deleteUser error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -131,7 +161,7 @@ class AdminController extends Controller
      */
     public function updateJobPost($id)
     {
-        LarabarLogger::info("-> AdminController::updateJobPost");
+        $this->logger->info("-> AdminController::updateJobPost");
         try {
 
             // load job from database using id
@@ -140,8 +170,11 @@ class AdminController extends Controller
 
             // return update view with job post
             return view('updateInfo')->with(['post' => $jobPost]);
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::updateJobPost error: " .
+            $this->logger->error("AdminController::updateJobPost error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -154,7 +187,7 @@ class AdminController extends Controller
      */
     public function updateJobPostData(Request $request)
     {
-        LarabarLogger::info("-> AdminController::updateJobPostData");
+        $this->logger->info("-> AdminController::updateJobPostData");
         try {
             // validate job post rules were kept
             $this->validateJobPost($request);
@@ -165,8 +198,11 @@ class AdminController extends Controller
 
             // execute controller index action to render view
             return redirect()->action('AdminController@index');
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::updateJobPostData error: " .
+            $this->logger->error("AdminController::updateJobPostData error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -179,7 +215,7 @@ class AdminController extends Controller
      */
     public function deleteJobPost($id)
     {
-        LarabarLogger::info("-> AdminController::deleteJobPost");
+        $this->logger->info("-> AdminController::deleteJobPost");
         try {
             // call JobPostBusinessService delete method
             $jobSvc = new JobPostBusinessService();
@@ -187,8 +223,11 @@ class AdminController extends Controller
 
             // execute controller index action to render view
             return redirect()->action('AdminController@index');
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::deleteJobPost error: " .
+            $this->logger->error("AdminController::deleteJobPost error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -201,7 +240,7 @@ class AdminController extends Controller
      */
     public function addJobPost(Request $request)
     {
-        LarabarLogger::info("-> AdminController::addJobPost");
+        $this->logger->info("-> AdminController::addJobPost");
         try {
 
             // validate input follows rules
@@ -213,8 +252,11 @@ class AdminController extends Controller
 
             // execute controller index action to render view
             return redirect()->action('AdminController@index');
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
+            throw $ve;
         } catch (Exception $e) {
-            LarabarLogger::error("AdminController::addJobPost error: " .
+            $this->logger->error("AdminController::addJobPost error: " .
                 $e->getMessage());
             return view("error");
         }
@@ -226,7 +268,7 @@ class AdminController extends Controller
      */
     public function validateJobPost(Request $request)
     {
-        LarabarLogger::info("-> AdminController::validateJobPost");
+        $this->logger->info("-> AdminController::validateJobPost");
 
         // Define rules
         $rules = [
@@ -242,7 +284,7 @@ class AdminController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
-            LarabarLogger::warning("AdminController::validateJobPost validation exception");
+            $this->logger->warning("AdminController::validateJobPost validation exception");
             throw $ve;
         }
     }

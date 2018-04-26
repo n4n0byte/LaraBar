@@ -130,6 +130,7 @@ class UserBusinessService
      */
     public function listUsers()
     {
+        LarabarLogger::info("-> UserBusinessService::listUsers");
         // get all from data access service as a 2D array
         $list = $this->service->readAll();
 

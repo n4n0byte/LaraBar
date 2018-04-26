@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Business\AdminGroupsBusinessService as AdminGroupService;
+use App\Services\Utility\ILogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,16 +16,18 @@ use Illuminate\Http\Request;
 class AdminGroupController extends Controller
 {
 
-    private $adminSvc;
+    private $adminSvc, $logger;
 
     /**
      * AdminGroupController constructor.
-     * stores service as member variable
+     * stores service and logger as member variables
+     * @param ILogger $logger
      */
-    public function __construct()
+    public function __construct(ILogger $logger)
     {
         try {
             $this->adminSvc = AdminGroupService::getInstance();
+            $this->logger = $logger;
         } catch (\PDOException $e) {
             return view("error");
         }
@@ -117,7 +120,8 @@ class AdminGroupController extends Controller
         }
     }
 
-    public function validateGroup($request){
+    public function validateGroup($request)
+    {
         // Define rules
         $rules = [
             'title' => 'Required|Between:4,20',

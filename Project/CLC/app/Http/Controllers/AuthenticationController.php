@@ -36,15 +36,6 @@ class AuthenticationController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function login_error()
-    {
-        $this->logger->info("AuthenticationController::login_error()", []);
-        return view('login_error');
-    }
-
-    /**
      * registers user
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
