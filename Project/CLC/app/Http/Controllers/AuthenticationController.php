@@ -44,14 +44,15 @@ class AuthenticationController extends Controller
     {
         $this->logger->info("AuthenticationController::register()", []);
         try {
-            // validation
+
+            // validate request
             $this->validateRegistration($request);
 
-            // create a business service
+            // create a business service to attempt registration
             $service = new UserBusinessService();
-
-            // attempt registration
             if ($user = $service->register($request->input())) {
+
+                // save user in session
                 session()->put(['UID' => $user->getId()]);
                 session()->save();
 
@@ -62,6 +63,8 @@ class AuthenticationController extends Controller
 
                 return view("home")->with(['user' => $user]);
             } else {
+
+                // If failed to register, return to register view with $data
                 $data = [
                     'user' => $request->input(),
                     'message' => $service->getStatus()
@@ -70,7 +73,8 @@ class AuthenticationController extends Controller
             }
         } catch (ValidationException $e) {
             throw $e;
-        } catch (\PDOException $e) {
+        } catch (\Exception $e) {
+            $this->logger->error("AdminController error: " . $e);
             return view("error");
         }
     }
@@ -83,9 +87,8 @@ class AuthenticationController extends Controller
      */
     public function login(Request $request)
     {
-
-        try{
-            $this->logger->info("AuthenticationController::login()", $request->input());
+        $this->logger->info("AuthenticationController::login()", $request->input()["email"]);
+        try {
 
             // validation
             $this->validateLogin($request);
@@ -94,9 +97,8 @@ class AuthenticationController extends Controller
             $user = new UserModel(0, $request->input()["email"], $request->input()["password"]);
             $this->logger->info("User successfully created", []);
 
-            // create a business service
+            // create a business service to log in user
             $service = new UserBusinessService();
-
             $status = $service->login($request->input());
 
             // attempt login
@@ -104,20 +106,27 @@ class AuthenticationController extends Controller
 
                 // check if user is suspended: return appropriate view (suspend/home)
                 $susService = new SuspendUserBusinessService();
-                if($susService->suspensionStatus($status)){
-                    session()->put(['user' => null]);
-                    session()->save();
+                if ($susService->suspensionStatus($status)) {
+
+                    // remove session information
+                    session()->forget(['UID', 'user']);
+
+                    // return the suspension page
                     return view("suspend");
                 }
+
+                // return the user home page with the information from the database
                 return view("home")->with(['user' => $status]);
             } else {
+
+                // return the login page
                 return view("login")->with(['user' => $user, 'message' => $service->getStatus()]);
             }
-        }
-        catch (ValidationException $ve){
+        } catch (ValidationException $ve) {
+            $this->logger->warning("AdminController::validateJobPost validation exception");
             throw $ve;
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
+            $this->logger->error("AdminController error: " . $e);
             return view("error");
         }
 
@@ -130,7 +139,7 @@ class AuthenticationController extends Controller
     {
         $this->logger->info("AuthenticationController::validateLogin", $request->input());
 
-        // Define rules
+        // Define rules for email and password
         $rules = [
             'email' => 'Required|Between:5,60|E-Mail',
             'password' => 'Required|Between:4,25'
@@ -151,7 +160,8 @@ class AuthenticationController extends Controller
     public function validateRegistration(Request $request)
     {
         $this->logger->info("AuthenticationController::validateRegistration", $request->input());
-        // Define rules
+
+        // Define rules for email, password, firstname, lastname
         $rules = [
             'email' => 'Required|Between:5,60|E-Mail',
             'password' => 'Required|Between:4,25',
