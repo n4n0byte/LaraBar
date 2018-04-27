@@ -44,6 +44,8 @@ class UserBusinessService
     }
 
     /**
+     * used: 2
+     * Find a user in the database
      * @param $data
      * @return UserModel|bool|int
      */
@@ -54,17 +56,21 @@ class UserBusinessService
         // select user from data source
         $user = $this->service->read($data);
 
-        // check for success.
+        // check that a user was found
         if ($user) {
             LarabarLogger::info("UserBusinessService: Login success");
             return $user;
         }
         LarabarLogger::info("UserBusinessService: Login fail");
+
+        // return false if no user found
         $this->status = "Invalid credentials. Please try again";
         return FALSE;
     }
 
     /**
+     * used: 1
+     * Add a user to the database
      * @param $data
      * @return UserModel|bool|int
      */
@@ -87,13 +93,15 @@ class UserBusinessService
 
         // insert user with defaults (ID, ADMIN)
         $result = $this->service->create($data);
+
+        // return false if username taken
         if (!$result) {
             LarabarLogger::info("UserBusinessService: Register fail");
             $this->status = "Username taken";
             return false;
         }
 
-        // login
+        // else, log in new user
         LarabarLogger::info("UserBusinessService: Register success");
         return $this->login($data);
     }

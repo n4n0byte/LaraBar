@@ -21,6 +21,7 @@ use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserBusinessService;
 use App\Services\Business\UserProfileBusinessService;
+use App\Services\Utility\ILogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
@@ -29,14 +30,15 @@ class UserProfileController extends Controller
 
     private static $types = ['employmentHistory', 'education', 'skill'];
     private $eduService, $empService, $skillService, $userProfileService, $userService;
+    private $logger;
 
-
-    function __construct()
+    function __construct(ILogger $logger)
     {
         $this->eduService = new EducationBusinessService();
         $this->empService = new EmploymentHistoryBusinessService();
         $this->skillService = new SkillsBusinessService();
         $this->userProfileService = new UserProfileBusinessService();
+        $this->logger = $logger;
     }
 
     /**
@@ -46,7 +48,7 @@ class UserProfileController extends Controller
      */
     public function updatePersonalInfo(Request $request)
     {
-
+        $this->logger->info("UserProfileController::updatePersonalInfo");
         try {
             $data = $request->input();
             $data["id"] = session("user")->getId();
@@ -56,6 +58,7 @@ class UserProfileController extends Controller
 
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -70,6 +73,8 @@ class UserProfileController extends Controller
      */
     public function viewAdd($type, $name)
     {
+        $this->logger->info("UserProfileController::viewAdd");
+
         try {
             $result = array_search($type, self::$types);
 
@@ -78,6 +83,7 @@ class UserProfileController extends Controller
             return $result === false ? redirect()->action('UserProfileController@show') :
                 view("add")->with($data);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -86,6 +92,8 @@ class UserProfileController extends Controller
 
     public function add(Request $request)
     {
+        $this->logger->info("UserProfileController::add");
+
         return redirect()->action("ProfileController@index");
     }
 
@@ -96,6 +104,8 @@ class UserProfileController extends Controller
      */
     function show()
     {
+        $this->logger->info("UserProfileController::show");
+
         try {
             /* @var $user UserModel */
             $user = session()->get("user");
@@ -127,6 +137,7 @@ class UserProfileController extends Controller
 
             return view('profile')->with($data);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -140,6 +151,8 @@ class UserProfileController extends Controller
      */
     function updateBiography(Request $request)
     {
+        $this->logger->info("UserProfileController::updateBiography");
+
         try {
             $this->validateProfile($request);
             $bio = $request->get('biography');
@@ -150,6 +163,7 @@ class UserProfileController extends Controller
 
             return redirect()->action('UserProfileController@show');
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -163,9 +177,12 @@ class UserProfileController extends Controller
      */
     function updateLocation(Request $request)
     {
+        $this->logger->info("UserProfileController::updateLocation");
+
         try {
             $this->validateProfile($request);
             $location = $request->get('location');
+            /* @var $this ->userProfileService->getProfileData()['userProfile'] UserProfileModel */
             $bio = $this->userProfileService->getProfileData()['userProfile']->getBio();
 
             $model = new UserProfileModel("", $bio, $location);
@@ -173,6 +190,7 @@ class UserProfileController extends Controller
 
             return redirect()->action('UserProfileController@show');
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -187,6 +205,8 @@ class UserProfileController extends Controller
      */
     function showEditor($category, $id)
     {
+        $this->logger->info("UserProfileController::showEditor");
+
         try {
             /* @var $user UserModel */
             $user = session('user');
@@ -234,15 +254,11 @@ class UserProfileController extends Controller
 
             return view('edit_profile')->with($data);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
         }
-    }
-
-    function editMember()
-    {
-
     }
 
     /**
@@ -252,6 +268,8 @@ class UserProfileController extends Controller
      */
     function updateProfile(Request $request)
     {
+        $this->logger->info("UserProfileController::updateProfile");
+
         try {
             $this->validateProfile($request);
             // get inputs
@@ -271,6 +289,7 @@ class UserProfileController extends Controller
             $profileSvc->updateUserProfile($model);
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -284,6 +303,8 @@ class UserProfileController extends Controller
      */
     function updateEducation(Request $request)
     {
+        $this->logger->info("UserProfileController::updateEducation");
+
         try {
             $this->validateEducation($request);
             // get inputs
@@ -304,6 +325,7 @@ class UserProfileController extends Controller
             $profileSvc->updateEducation($model);
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -317,6 +339,8 @@ class UserProfileController extends Controller
      */
     function createEducation(Request $request)
     {
+        $this->logger->info("UserProfileController::createEducation");
+
         try {
             $this->validateEducation($request);
             // get inputs
@@ -336,6 +360,7 @@ class UserProfileController extends Controller
             $profileSvc->updateEducation($model);
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -349,6 +374,8 @@ class UserProfileController extends Controller
      */
     function updateEmployment(Request $request)
     {
+        $this->logger->info("UserProfileController::updateEmployment");
+
         try {
             $this->validateEmployment($request);
             // get inputs
@@ -367,6 +394,7 @@ class UserProfileController extends Controller
             $profileSvc->updateEmploymentHistory($model);
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -380,6 +408,8 @@ class UserProfileController extends Controller
      */
     function createEmployment(Request $request)
     {
+        $this->logger->info("UserProfileController::createEmployment");
+
         try {
             $this->validateEmployment($request);
             // get inputs
@@ -397,6 +427,7 @@ class UserProfileController extends Controller
             $profileSvc->updateEmploymentHistory($model);
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -410,6 +441,8 @@ class UserProfileController extends Controller
      */
     function updateSkills(Request $request)
     {
+        $this->logger->info("UserProfileController::updateSkills");
+
         try {
             $this->validateSkills($request);
             // get inputs
@@ -427,6 +460,7 @@ class UserProfileController extends Controller
             $profileSvc->updateSkill($model);
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -440,6 +474,8 @@ class UserProfileController extends Controller
      */
     function createSkills(Request $request)
     {
+        $this->logger->info("UserProfileController::createSkills");
+
         try {
             $this->validateSkills($request);
             // get inputs
@@ -456,6 +492,7 @@ class UserProfileController extends Controller
             $profileSvc->insertSkill($model);
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -469,6 +506,8 @@ class UserProfileController extends Controller
      */
     function addEditor($category)
     {
+        $this->logger->info("UserProfileController::addEditor");
+
         try {
 
             /* @var $user UserModel */
@@ -495,8 +534,10 @@ class UserProfileController extends Controller
             ];
             return view('add_profile')->with(['data' => $data]);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController error: " . $e);
             return view("error");
         }
     }
@@ -509,6 +550,8 @@ class UserProfileController extends Controller
      */
     function delete($category, $id)
     {
+        $this->logger->info("UserProfileController::delete");
+
         try {
             /* @var $user UserModel */
             $user = session('user');
@@ -533,6 +576,7 @@ class UserProfileController extends Controller
             }
             return redirect()->action("UserProfileController@show")->with(['confirmation' => $message]);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
             return view("error");
@@ -545,6 +589,8 @@ class UserProfileController extends Controller
      */
     function validateProfile(Request $request)
     {
+        $this->logger->info("UserProfileController::validateProfile");
+
         // Define rules
         $rules = [
             'biography' => 'Between:5,50|',
@@ -555,6 +601,7 @@ class UserProfileController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         }
     }
@@ -565,6 +612,8 @@ class UserProfileController extends Controller
      */
     function validateEmployment(Request $request)
     {
+        $this->logger->info("UserProfileController::validateEmployment");
+
         // Define rules
         $rules = [
             'employer' => 'Required|Between:1,50',
@@ -576,6 +625,7 @@ class UserProfileController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         }
     }
@@ -586,6 +636,8 @@ class UserProfileController extends Controller
      */
     function validateEducation(Request $request)
     {
+        $this->logger->info("UserProfileController::validateEducation");
+
         // Define rules
         $rules = [
             'institution' => 'Required|Between:1,50',
@@ -598,6 +650,7 @@ class UserProfileController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         }
     }
@@ -608,6 +661,8 @@ class UserProfileController extends Controller
      */
     function validateSkills(Request $request)
     {
+        $this->logger->info("UserProfileController::validateSkills");
+
         // Define rules
         $rules = [
             'title' => 'Required|Between:1,50',
@@ -618,6 +673,7 @@ class UserProfileController extends Controller
         try {
             $this->validate($request, $rules);
         } catch (ValidationException $ve) {
+            $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         }
     }

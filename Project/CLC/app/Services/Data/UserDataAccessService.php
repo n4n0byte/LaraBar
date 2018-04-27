@@ -24,6 +24,7 @@ class UserDataAccessService
 
     /**
      * UserDataAccessService constructor.
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -57,47 +58,51 @@ class UserDataAccessService
     }
 
     /**
+     * used: 1
+     * Selects a row from the user table with matching email and password
      * @param $data
      * @return UserModel|bool
      */
     public function read($data)
     {
-        // $login should control if one or all users are selected
+        // get input values for email and password
         LarabarLogger::info("-> UserDataAccessService::read");
         $email = $data["email"];
         $password = $data["password"];
 
         // build query
         $query = $this->ini['Users']['select.login'];
-            $statement = $this->conn->prepare($query);
+        $statement = $this->conn->prepare($query);
 
-            // bind email and password to query
-            $statement->bindParam(":email", $email);
-            $statement->bindParam(":password", $password);
-            try {
-                $statement->execute();
-                if ($statement->rowCount() != 1)
-                    return false;
-                $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
+        // bind email and password to query
+        $statement->bindParam(":email", $email);
+        $statement->bindParam(":password", $password);
+        try {
 
-                // make sure values were returned (check if null)
-                $user = new UserModel($assoc_array["ID"]);
-                session()->put(['UID' => $user->getId()]);
-                $user->setEmail($assoc_array["EMAIL"]);
-                $user->setPassword($assoc_array["PASSWORD"]);
-                if (!is_null($assoc_array["FIRSTNAME"]))
-                    $user->setFirstName($assoc_array["FIRSTNAME"]);
-                if (!is_null($assoc_array["LASTNAME"]))
-                    $user->setLastName($assoc_array["LASTNAME"]);
-                if (!is_null($assoc_array["ADMIN"]))
-                    $user->setAdmin($assoc_array["ADMIN"]);
+            // execute and check that 1 row was returned
+            $statement->execute();
+            if ($statement->rowCount() != 1)
+                return false;
+            $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
-            // TODO return warning if information is missing
+            // make sure values were returned (check if null) and build user object
+            $user = new UserModel($assoc_array["ID"]);
+            session()->put(['UID' => $user->getId()]);
+            $user->setEmail($assoc_array["EMAIL"]);
+            $user->setPassword($assoc_array["PASSWORD"]);
+            if (!is_null($assoc_array["FIRSTNAME"]))
+                $user->setFirstName($assoc_array["FIRSTNAME"]);
+            if (!is_null($assoc_array["LASTNAME"]))
+                $user->setLastName($assoc_array["LASTNAME"]);
+            if (!is_null($assoc_array["ADMIN"]))
+                $user->setAdmin($assoc_array["ADMIN"]);
+
             // add user to session
             session()->put(['user' => $user]);
             session()->save();
             return $user;
         } catch (PDOException $e) {
+            LarabarLogger::error("SecurityDAO::read error: " . $e->getMessage());
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
     }
@@ -121,7 +126,7 @@ class UserDataAccessService
             // return User table data
             return $assoc_array;
         } catch (PDOException $e) {
-            throw new PDOException("Exception in SecurityDAO::create\n" . $e->getMessage());
+            throw new PDOException("Exception in SecurityDAO::readAll" . $e->getMessage());
         }
     }
 
@@ -160,12 +165,14 @@ class UserDataAccessService
     }
 
     /**
+     * used: 1
+     * Add a new row to the user table
      * @param $data
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create($data)
     {
-        LarabarLogger::info("Entering UserDataAccessService::create", $data);
+        LarabarLogger::info("-> UserDataAccessService::create", $data);
 
         // First, check that a user with the entered email does not exist
         // define params
@@ -174,12 +181,16 @@ class UserDataAccessService
         $firstName = $data["firstName"];
         $lastName = $data["lastName"];
 
-        // Check for unique email
+        // Check for unique email: select query from ini
         $query = $this->ini['Users']['select.email'];
         $statement = $this->conn->prepare($query);
+
+        // bind email param
         $statement->bindParam(":email", $email);
         try {
             LarabarLogger::info("UserDataAccessService::create executing statement (select.email)");
+
+            // execute query. Return true if email is unique.
             $statement->execute();
             if ($statement->rowCount() >= 1) {
                 LarabarLogger::warning("UserDataAccessService::create email already used for an account");

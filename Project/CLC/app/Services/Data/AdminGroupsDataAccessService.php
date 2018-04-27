@@ -38,6 +38,8 @@ class AdminGroupsDataAccessService
     }
 
     /**
+     * used: 1
+     * insert a new row into the group table
      * @param array $details
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception
@@ -46,11 +48,11 @@ class AdminGroupsDataAccessService
     {
         LarabarLogger::info("Enter AdminGroupsDataAccessService::create", $details);
 
-        // select query statement
+        // select query statement from ini
         $query = self::getIni()['Groups']['insert'];
         $statement = DatabaseAccess::connect()->prepare($query);
 
-        // bind parameters
+        // bind parameters to columns
         $statement->bindParam(":summary", $details["summary"]);
         $statement->bindParam(":title", $details["title"]);
         $statement->bindParam(":description", $details["description"]);
@@ -104,19 +106,21 @@ class AdminGroupsDataAccessService
     }
 
     /**
+     * used: 1
+     * Update a row in the group table with matching id
      * @param $details
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception
      */
     public static function update($details)
     {
-//        LarabarLogger::info("Enter AdminGroupsDataAccessService::update", $details);
+        LarabarLogger::info("-> AdminGroupsDataAccessService::update", $details);
 
         // select query statement
         $query = self::getIni()['Groups']['update'];
         $statement = DatabaseAccess::connect()->prepare($query);
 
-        // bind parameters
+        // bind parameters for id and information
         $statement->bindParam(":id", $details["id"]);
         $statement->bindParam(":summary", $details["summary"]);
         $statement->bindParam(":title", $details["title"]);
@@ -125,33 +129,39 @@ class AdminGroupsDataAccessService
         // execute
         try {
             LarabarLogger::info("AdminGroupsDataAccessService::update executing statement");
+
+            // return true if successful
             return $statement->execute();
         } catch (PDOException $e) {
-            LarabarLogger::error("Error in AdminGroupsDataAccessService::update while trying to execute statement", $statement->queryString);
+            LarabarLogger::error("AdminGroupsDataAccessService::update error", $statement->queryString);
             return view("error");
         }
     }
 
     /**
+     * used: 2
+     * Select groups (all or by id)
      * @param int $id
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception
      */
     public static function read($id = -1)
     {
-        LarabarLogger::info("Enter AdminGroupsDataAccessService::read using method: " . ($id > 0 ? "where id = $id" : "no where"));
+        LarabarLogger::info("-> AdminGroupsDataAccessService::read using method: " . ($id > 0 ? "where id = $id" : "all"));
 
-        // select query statement
+        // select query statement: if id is given, select by id. Else, select all
         $query = $id < 1 ? self::getIni()['Groups']['select.all'] : self::getIni()['Groups']['select.id'];
         $statement = DatabaseAccess::connect()->prepare($query);
 
-        // bind parameters
+        // bind parameter id
         $statement->bindParam(":id", $id);
 
         // execute
         try {
             LarabarLogger::info("AdminGroupsDataAccessService::read executing statement");
             $statement->execute();
+
+            // return as assoc [][]
             return $statement->fetchAll();
         } catch (PDOException $e) {
             LarabarLogger::error("Error in AdminGroupsDataAccessService::read while trying to execute statement", $statement->queryString);

@@ -11,6 +11,7 @@ namespace App\Services\Business;
 use App\Model\GroupModel;
 use App\Services\BusinessInterfaces\IAdminGroupsBusinessService;
 use App\Services\Data\AdminGroupsDataAccessService;
+use App\Services\Utility\LarabarLogger;
 
 class AdminGroupsBusinessService implements IAdminGroupsBusinessService
 {
@@ -28,21 +29,27 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
     }
 
     /**
+     * used: 1
+     * Add a new group to the database
      * @param array $details
      * @return bool
+     * @throws \Exception
      */
     public function createGroup(array $details): bool
     {
+        LarabarLogger::info("-> AdminGroupsBusinessService::createGroup", $details);
+
         // create
         $success = AdminGroupsDataAccessService::create($details);
 
-        // return success
+        // return true if create successful
         return $success;
     }
 
     /**
      * @param $groupId
      * @return bool
+     * @throws \Exception
      */
     public function deleteGroup($groupId): bool
     {
@@ -54,11 +61,14 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
     }
 
     /**
+     * used: 1
+     * Get all groups from database
      * @return array
+     * @throws \Exception
      */
     public function listAllGroups(): array
     {
-        // call data service method
+        // call data service method to get groups
         $raw = AdminGroupsDataAccessService::read();
 
         // convert to array : GroupModel
@@ -73,28 +83,33 @@ class AdminGroupsBusinessService implements IAdminGroupsBusinessService
     }
 
     /**
+     * used: 1
+     * Update group information in database
      * @param array $details
      * @return bool
+     * @throws \Exception
      */
     public function editGroupDetails(array $details): bool
     {
-        // call data service method
-        $success = AdminGroupsDataAccessService::update($details);
-
-        // Return success using a convoluted series of comparisons to get a string of the
-        // original boolean and comparing that to the string, "true". This is bad design,
-        // and we don't recommend it. Use the method show in create group.
-        $successStr = "";
-        if ($success == true | $success != false)
-            $successStr = "true";
-        elseif ($success != true && $success == false)
-            $successStr = "false";
-        return $successStr == "true";
+        // call data service method and pass updated details. Return true if update successful.
+        return AdminGroupsDataAccessService::update($details);
     }
 
+    /**
+     * used: 2
+     * retrieves a group from the database
+     * @param $id
+     * @return GroupModel
+     * @throws \Exception
+     */
     public function getGroupById($id): GroupModel
     {
+        LarabarLogger::info("-> AdminGroupsBusinessService::getGroupById", $id);
+
+        // call data access service method and pass group id
         $raw = AdminGroupsDataAccessService::read($id);
+
+        // return group model
         return new GroupModel($raw[0]["ID"], $raw[0]["TITLE"], $raw[0]["DESCRIPTION"], $raw[0]["SUMMARY"]);
     }
 

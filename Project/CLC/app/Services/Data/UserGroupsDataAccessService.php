@@ -31,9 +31,17 @@ class UserGroupsDataAccessService
         return self::$ini;
     }
 
+    /**
+     * used: 1
+     * Insert a new row into the user_group join table
+     * @param $userId
+     * @param $groupId
+     * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
+     */
     public static function create($userId, $groupId)
     {
-//        LarabarLogger::info("Enter UserGroupsDataAccessService::create", $groupId);
+        LarabarLogger::info("-> UserGroupsDataAccessService::create", $groupId);
 
         // get query string
         $query = self::getIni()["JoinUsersGroups"]["insert.user"];
@@ -59,11 +67,14 @@ class UserGroupsDataAccessService
     }
 
     /**
+     * used: 1
+     * Select all rows from group table
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public static function read()
     {
-        LarabarLogger::info("Enter UserGroupsDataAccessService::read");
+        LarabarLogger::info("-> UserGroupsDataAccessService::read");
 
         // prepare query PDO statement
         $query = self::getIni()["Groups"]["select.all"];
@@ -86,6 +97,7 @@ class UserGroupsDataAccessService
     /**
      * @param bool $withUser
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public static function readForUser($withUser = true)
     {
@@ -118,12 +130,15 @@ class UserGroupsDataAccessService
     }
 
     /**
+     * used: 1
+     * Get all rows from user_group join table with matching group id
      * @param $groupId
      * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public static function readForGroup($groupId)
     {
-        LarabarLogger::info("Enter UserGroupsDataAccessService::readForGroup");
+        LarabarLogger::info("-> UserGroupsDataAccessService::readForGroup");
 
         // get User Id
         $query = self::getIni()["JoinUsersGroups"]["select.userInGroup"];
@@ -148,17 +163,25 @@ class UserGroupsDataAccessService
         }
     }
 
+    /**
+     * used: 1
+     * Removes a row from the user_group join table
+     * @param $userId
+     * @param $groupId
+     * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
+     */
     public static function delete($userId, $groupId)
     {
-//        LarabarLogger::info("Enter UserGroupsDataAccessService::delete", $groupId);
+        LarabarLogger::info("-> UserGroupsDataAccessService::delete", [$userId, $groupId]);
 
-        // get query string
+        // get query string for join table delete row from ini
         $query = self::getIni()["JoinUsersGroups"]["delete.user"];
 
         // prepare query PDO statement
         $statement = DatabaseAccess::connect()->prepare($query);
 
-        // bind parameters to variables
+        // bind user and group id params
         $statement->bindParam(":userid", $userId);
         $statement->bindParam(":groupid", $groupId);
 

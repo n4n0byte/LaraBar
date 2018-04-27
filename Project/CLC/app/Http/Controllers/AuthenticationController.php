@@ -72,6 +72,7 @@ class AuthenticationController extends Controller
                 return view("register")->with($data);
             }
         } catch (ValidationException $e) {
+            $this->logger->warning("Validation failed: " . $e);
             throw $e;
         } catch (\Exception $e) {
             $this->logger->error("AdminController error: " . $e);
@@ -155,13 +156,14 @@ class AuthenticationController extends Controller
     }
 
     /**
+     * Validate user input for registration
      * @param Request $request
      */
     public function validateRegistration(Request $request)
     {
         $this->logger->info("AuthenticationController::validateRegistration", $request->input());
 
-        // Define rules for email, password, firstname, lastname
+        // Define rules for email, password, first name, last name
         $rules = [
             'email' => 'Required|Between:5,60|E-Mail',
             'password' => 'Required|Between:4,25',
