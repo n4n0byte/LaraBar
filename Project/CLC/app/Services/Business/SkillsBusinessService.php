@@ -14,6 +14,7 @@ namespace App\Services\Business;
 
 use App\Model\SkillsModel;
 use App\Services\Data\SkillsDataAccessService;
+use App\Services\Utility\LarabarLogger;
 
 class SkillsBusinessService
 {
@@ -45,12 +46,15 @@ class SkillsBusinessService
     }
 
     /**
+     * used: 2
+     * Get skills from database
      * @param int $id
      * @param bool $usePostId
      * @return array
      */
     public function getSkill($id = -1, $usePostId = false)
     {
+        LarabarLogger::info("-> SkillsBusinessService::getSkill");
         return $this->SkillSvc->getSkillRows($id, $usePostId);
     }
 

@@ -42,6 +42,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * update user information
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -50,22 +51,28 @@ class UserProfileController extends Controller
     {
         $this->logger->info("UserProfileController::updatePersonalInfo");
         try {
+
+            // get request input and user id
             $data = $request->input();
             $data["id"] = session("user")->getId();
-            $this->userService = new UserBusinessService();
 
+            // create a service to store updated information in database
+            $this->userService = new UserBusinessService();
             $this->userService->updateUserInfo($data);
 
+            // redirect to the page render method
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::updatePersonalInfo error");
             return view("error");
         }
     }
 
     /**
+     * render page for adding user profile elements
      * @param $type
      * @param $name
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -74,59 +81,56 @@ class UserProfileController extends Controller
     public function viewAdd($type, $name)
     {
         $this->logger->info("UserProfileController::viewAdd");
-
         try {
-            $result = array_search($type, self::$types);
 
+            // check that user selected employment history, skill, or education
+            $result = array_search($type, self::$types);
             $data = ['type' => $type, 'name' => $name];
 
+            // If an invalid type is selected, return the show view.
+            // Else, render the add view with the type information (specifies which form to load).
             return $result === false ? redirect()->action('UserProfileController@show') :
                 view("add")->with($data);
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::viewAdd error");
             return view("error");
         }
     }
 
-    public function add(Request $request)
-    {
-        $this->logger->info("UserProfileController::add");
-
-        return redirect()->action("ProfileController@index");
-    }
-
-
     /**
+     * Render a user's profile page
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
     function show()
     {
         $this->logger->info("UserProfileController::show");
-
         try {
+
+            // get profile parts
             /* @var $user UserModel */
             $user = session()->get("user");
 
-            // get profile
-            // general
+            // get general information
             $profileService = new UserProfileBusinessService();
-            $profile = $profileService->getProfileData();
+            $profile = $profileService->getProfileData($user->getId());
 
-            // education
+            // get education
             $eduService = new EducationBusinessService();
             $education = $eduService->getEducation($user->getId());
 
-            // employment history
+            // get employment history
             $empService = new EmploymentHistoryBusinessService();
             $employment = $empService->getEmploymentHistory($user->getId());
 
+            // get skills
             $skillsSvc = new SkillsBusinessService();
             $skills = $skillsSvc->getSkill($user->getId());
 
-            // put into $data and send to view
+            // put all profile parts into array and pass to view
             $data = [
                 'userProfile' => $profile['userProfile'],
                 'user' => $user,
@@ -134,17 +138,18 @@ class UserProfileController extends Controller
                 'employment' => $employment,
                 'skills' => $skills
             ];
-
             return view('profile')->with($data);
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::show error");
             return view("error");
         }
     }
 
     /**
+     * Update a user's biography
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -152,25 +157,34 @@ class UserProfileController extends Controller
     function updateBiography(Request $request)
     {
         $this->logger->info("UserProfileController::updateBiography");
-
         try {
+
+            // check that input follows validation rules
             $this->validateProfile($request);
+
+            // get bio from request input
             $bio = $request->get('biography');
-            $location = $this->userProfileService->getProfileData()['userProfile']->getLocation();
 
+            // get location from profile service
+            $location = $this->userProfileService->getProfileData(session("user")->getId())['userProfile']->getLocation();
+
+            // create a user profile model with bio and location
             $model = new UserProfileModel("", $bio, $location);
-            $this->userProfileService->updateUserProfile($model);
 
+            // update user bio and redirect user to profile page
+            $this->userProfileService->updateUserProfile($model);
             return redirect()->action('UserProfileController@show');
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::updateBiography error");
             return view("error");
         }
     }
 
     /**
+     * Update user's location
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -178,26 +192,35 @@ class UserProfileController extends Controller
     function updateLocation(Request $request)
     {
         $this->logger->info("UserProfileController::updateLocation");
-
         try {
-            $this->validateProfile($request);
-            $location = $request->get('location');
-            /* @var $this ->userProfileService->getProfileData()['userProfile'] UserProfileModel */
-            $bio = $this->userProfileService->getProfileData()['userProfile']->getBio();
 
+            // validate request input follows rules
+            $this->validateProfile($request);
+
+            // get location from request input
+            $location = $request->get('location');
+
+            // get current bio and create an update profile model
+            /* @var $this ->userProfileService->getProfileData(session("UID"))['userProfile'] UserProfileModel */
+            $bio = $this->userProfileService->getProfileData(session("UID"))['userProfile']->getBio();
             $model = new UserProfileModel("", $bio, $location);
+
+            // update user profile
             $this->userProfileService->updateUserProfile($model);
 
+            // redirect to user profile page
             return redirect()->action('UserProfileController@show');
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::updateLocation error");
             return view("error");
         }
     }
 
     /**
+     * Render appropriate editor for profile element (employment, skill, education) for update.
      * @param $category
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -206,62 +229,70 @@ class UserProfileController extends Controller
     function showEditor($category, $id)
     {
         $this->logger->info("UserProfileController::showEditor");
-
         try {
+
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
-            // get profile
-            // general
+            // declare model and view variables
             $model = null;
             $view = null;
 
+            // switch for selecting category (education, employment, skill, personal, location, or biography) to add to.
             switch ($category) {
+
+                // education, employment, skill component
                 case "education":
+
+                    // define a new model for category (education) by retrieving existing
+                    // model from database using post id
                     $model = $this->eduService->getEducation((int)$id, true)[0];
-                    $category = "education";
                     break;
                 case "employment":
                     $model = $this->empService->getEmploymentHistory((int)$id, true)[0];
-                    $category = "employment";
                     break;
                 case "skills":
                     $model = $this->skillService->getSkill((int)$id, true)[0];
-                    $category = "skills";
                     break;
                 case "personal":
                     $model = $user;
-                    $category = "personal";
                     break;
+
+                // general profile information
                 case "location":
+
                     //get profile model
-                    $model = $this->userProfileService->getProfileData();
+                    $model = $this->userProfileService->getProfileData(session("UID"));
                     $model = $model['userProfile'];
                     $category = "location";
                     break;
                 case "biography":
+
                     //get profile model
-                    $model = $this->userProfileService->getProfileData();
+                    $model = $this->userProfileService->getProfileData(session("UID"));
                     $model = $model['userProfile'];
                     $category = "biography";
                     break;
             }
 
+            // pass category and model to view (category determines which editor to render)
             $data = [
                 'model' => $model,
                 'category' => $category
             ];
-
             return view('edit_profile')->with($data);
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::showEditor error");
             return view("error");
         }
     }
 
     /**
+     * Update user profile
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -272,31 +303,38 @@ class UserProfileController extends Controller
 
         try {
             $this->validateProfile($request);
-            // get inputs
+
+            // get inputs from request
             $inputLocation = $request->input('location');
             $inputBio = $request->input('bio');
+
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
-            // create model
+            // create model from input values
             $model = new UserProfileModel();
             $model->setBio($inputBio);
             $model->setLocation($inputLocation);
             $model->setUid($user->getId());
 
-            // commit changes
+            // commit changes to database
             $profileSvc = new UserProfileBusinessService();
             $profileSvc->updateUserProfile($model);
+
+            // redirect to user profile page
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::updateProfile error");
             return view("error");
         }
     }
 
     /**
+     * Update a user education history profile item
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -304,23 +342,26 @@ class UserProfileController extends Controller
     function updateEducation(Request $request)
     {
         $this->logger->info("UserProfileController::updateEducation");
-
         try {
+
+            // validate request input follows rules
             $this->validateEducation($request);
-            // get inputs
+
+            // get inputs from request
             $inputInstitution = $request->input('institution');
             $inputLevel = $request->input('level');
             $inputDegree = $request->input('degree');
             $inputId = $request->input('post-id');
 
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
-            // create model
+            // create model from inputs
             /* $model = */
             $model = new EducationModel($inputId, $user->getId(), $inputInstitution, $inputLevel, $inputDegree);
 
-            // commit changes
+            // commit changes to database
             $profileSvc = new EducationBusinessService();
             $profileSvc->updateEducation($model);
             return redirect()->action("UserProfileController@show");
@@ -328,11 +369,13 @@ class UserProfileController extends Controller
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::updateEducation error");
             return view("error");
         }
     }
 
     /**
+     * Create a new education history record for a user's profile
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -340,34 +383,40 @@ class UserProfileController extends Controller
     function createEducation(Request $request)
     {
         $this->logger->info("UserProfileController::createEducation");
-
         try {
+
+            // validate request input follows rules
             $this->validateEducation($request);
+
             // get inputs
             $inputInstitution = $request->input('institution');
             $inputLevel = $request->input('level');
             $inputDegree = $request->input('degree');
 
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
-            // create model
-            /* $model = */
+            // create model (set id to -1 to indicate a new record to insert)
             $model = new EducationModel(-1, $user->getId(), $inputInstitution, $inputLevel, $inputDegree);
 
             // commit changes
             $profileSvc = new EducationBusinessService();
             $profileSvc->updateEducation($model);
+
+            // render user profile page
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::createEducation error");
             return view("error");
         }
     }
 
     /**
+     *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -397,6 +446,7 @@ class UserProfileController extends Controller
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::updateEmployment error");
             return view("error");
         }
     }
@@ -430,6 +480,7 @@ class UserProfileController extends Controller
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::createEmployment error");
             return view("error");
         }
     }
@@ -463,6 +514,7 @@ class UserProfileController extends Controller
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::updateSkills error");
             return view("error");
         }
     }
@@ -495,6 +547,7 @@ class UserProfileController extends Controller
             $this->logger->warning("UserProfileController validation exception");
             throw $ve;
         } catch (\PDOException $e) {
+            $this->logger->error("UserProfileController::createSkills error");
             return view("error");
         }
     }
@@ -516,7 +569,7 @@ class UserProfileController extends Controller
             // get profile
             // general
             $profileService = new UserProfileBusinessService();
-            $profile = $profileService->getProfileData();
+            $profile = $profileService->getProfileData(session("UID"));
 
             // education for current user
             $eduService = new EducationBusinessService();

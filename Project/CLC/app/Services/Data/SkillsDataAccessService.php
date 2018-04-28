@@ -13,6 +13,7 @@ namespace App\Services\Data;
 
 use App\Model\SkillsModel;
 use App\Services\DatabaseAccess;
+use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
@@ -93,43 +94,49 @@ class SkillsDataAccessService
 
     }
 
-
+    /**
+     * used: 1
+     * Select rows from skills table
+     * @param int $id
+     * @param bool $usePid
+     * @return array
+     */
     public function getSkillRows($id = -1, $usePid = false)
     {
+        LarabarLogger::info("-> SkillsDataAccessService::getSkillRows");
 
-        $SkillArr = array();
-        $query = $id === -1 ? $this->ini['Skill']['select.all'] : $this->ini['Skill']['select.id'];
+        // initialize array to hold skills
+        $SkillArr = [];
 
-        if ($usePid){
+        // Get query from ini:
+        // If no id is set, select all. If usePid is set, select by post id, else by user id.
+        if ($usePid) {
             $query = $this->ini['Skill']['select.pid'];
-        }
-
+        } else
+            $query = $id === -1 ? $this->ini['Skill']['select.all'] : $this->ini['Skill']['select.id'];
         $statement = $this->conn->prepare($query);
 
-
+        // bind id param if necessary
         if ($id !== -1) {
             $statement->bindParam(":id", $id);
         }
-
         try {
 
+            // execute selection
+            // iterate through result assoc array and add skills to array
             $statement->execute();
-
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 
-                // TODO
                 //$id, $uid, $title, $author, $location, $description, $requirements, $salary
                 $SkillRow = new SkillsModel($row["ID"], $row["UID"], $row["TITLE"], $row["DESCRIPTION"]);
                 array_push($SkillArr, $SkillRow);
             }
-
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in JobPostDAO::getJobs\n" . $e->getMessage());
         }
 
+        // return result array
         return $SkillArr;
-
     }
 
 

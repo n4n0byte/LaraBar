@@ -14,6 +14,7 @@ namespace App\Services\Data\Utilities;
 use App\Model\UserModel;
 use App\Model\UserProfileModel;
 use App\Services\DatabaseAccess;
+use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
@@ -23,10 +24,13 @@ class DataRetrieval
     private static $iniPath = "app/Services/Data/db.ini";
 
     /**
+     * used: often
+     * Returns the parsed db.ini file with sql statements
      * @return array|bool
      */
     static function getParsedIni()
     {
+        LarabarLogger::info("getParsedIni() called");
         return parse_ini_file(self::$iniPath, true);
     }
 
@@ -146,29 +150,36 @@ class DataRetrieval
     }
 
     /**
-     * Returns an array containing a UserModel and a UserProfileModel
+     * used: 1
+     * Select a row from the user profile table with matching id
+     * Returns an array containing a UserProfileModel.
+     * @param $id
      * @return array
+     * @throws \Exception
      */
-    public static function getUserProfileById()
+    public static function getUserProfileById($id)
     {
-        $ask = session()->get("user");
-        $id = $ask->getId();
-        session()->save();
+        LarabarLogger::info("-> DataRetrieval::getUserProfileById");
+
+        // connect to database
         $conn = DatabaseAccess::connect();
 
         // build query
         $query = self::getParsedIni()['UserProfile']['select'];
         $statement = $conn->prepare($query);
-        $statement->bindParam(":id", $id);
-        $userProfile = null;
 
+        // bind id param
+        $statement->bindParam(":id", $id);
         try {
+
+            // execute select statement and retrieve result as assoc array
             $statement->execute();
             $assoc_array = $statement->fetch(PDO::FETCH_ASSOC);
 
+            // create a new profile model and return data
             $userProfile = new UserProfileModel($assoc_array["IMGURL"], $assoc_array["BIO"], $assoc_array["LOCATION"]);
             $user = self::getModelByUID($id);
-            return array('user' => $user, 'userProfile' => $userProfile);
+            return array('userProfile' => $userProfile);
 
         } catch (PDOException $e) {
             throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());

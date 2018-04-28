@@ -15,6 +15,7 @@ namespace App\Services\Business;
 use App\Model\EducationModel;
 use App\Model\EmploymentHistoryModel;
 use App\Services\Data\EmploymentHistoryDataAccessService;
+use App\Services\Utility\LarabarLogger;
 
 class EmploymentHistoryBusinessService
 {
@@ -49,11 +50,17 @@ class EmploymentHistoryBusinessService
     }
 
     /**
+     * used: 2
+     * Get employment history from database
      * @param int $id
+     * @param bool $usePostId
      * @return array
      */
     public function getEmploymentHistory($id = -1, $usePostId = false)
     {
+        LarabarLogger::info("-> EmploymentHistoryBusinessService::getEmploymentHistory");
+
+        // return array of employment history models
         return $this->employmentHistorySvc->getEmploymentHistoryRows($id, $usePostId);
     }
 
