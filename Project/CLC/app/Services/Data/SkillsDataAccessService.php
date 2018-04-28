@@ -22,6 +22,7 @@ class SkillsDataAccessService
     private $conn, $ini;
 
     /**
+     * Used: 1
      * UserDataAccessService constructor.
      */
     public function __construct()
@@ -30,8 +31,15 @@ class SkillsDataAccessService
         $this->ini = parse_ini_file("db.ini", true);
     }
 
+    /**
+     * Used: 1
+     * @param SkillsModel $model
+     */
     public function createSkillRow(SkillsModel $model)
     {
+
+        // get user properties from session
+        // and passed in model
         $user = session()->get('user');
         $uid = $user->getID();
 
@@ -41,27 +49,38 @@ class SkillsDataAccessService
         $query = $this->ini['Skill']['insert'];
         $statement = $this->conn->prepare($query);
 
+        // bind params to query
         $statement->bindParam(":uid", $uid);
         $statement->bindParam(":title", $title);
         $statement->bindParam(":description", $description);
 
+        // try to execute query
         try {
 
             $result = $statement->execute();
 
-        } catch (PDOException $e) {
+        }
+        // throw db error
+        catch (PDOException $e) {
             throw new PDOException("Exception in SkillDAO::create\n" . $e->getMessage());
         }
 
     }
 
+    /**
+     * Used: 1
+     * @param int $id
+     */
     public function deleteSkillRow(int $id)
     {
+        // select query
         $query = $this->ini['Skill']['delete'];
         $statement = $this->conn->prepare($query);
 
+        //bind id param
         $statement->bindParam("id", $id);
 
+        // try to execute delete query
         try {
 
             $result = $statement->execute();
@@ -72,20 +91,28 @@ class SkillsDataAccessService
 
     }
 
+    /**
+     * Used: 1
+     * @param SkillsModel $model
+     */
     public function updateSkillRow(SkillsModel $model)
     {
 
+        // fill arr with all model attributes
         $modelArr = array($model->getId(), $model->getUid(), $model->getDescription(),
             $model->getTitle());
+
+        // select update query from ini
         $query = $this->ini['Skill']['update'];
         $statement = $this->conn->prepare($query);
 
+        // bind params
         $statement->bindParam(":id", $modelArr[0]);
         $statement->bindParam(":description", $modelArr[2]);
         $statement->bindParam(":title", $modelArr[3]);
 
+        // try to execute query
         try {
-
             $result = $statement->execute();
 
         } catch (PDOException $e) {
