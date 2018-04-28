@@ -30,10 +30,15 @@ class SkillsBusinessService
     }
 
     /**
+     * used: 1
+     * create new skill in database
      * @param SkillsModel $model
      */
     public function insertSkill(SkillsModel $model)
     {
+        LarabarLogger::info("-> SkillsBusinessService::insertSkill");
+
+        // call service method
         $this->SkillSvc->createSkillRow($model);
     }
 
@@ -59,10 +64,15 @@ class SkillsBusinessService
     }
 
     /**
+     * used: 1
+     * Update a skill the database
      * @param SkillsModel $model
      */
     public function updateSkill(SkillsModel $model)
     {
+        LarabarLogger::info("-> SkillsBusinessService::updateSkill");
+
+        // call service method
         $this->SkillSvc->updateSkillRow($model);
     }
 

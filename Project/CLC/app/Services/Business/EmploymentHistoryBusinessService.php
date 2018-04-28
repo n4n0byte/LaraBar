@@ -1,18 +1,17 @@
 <?php
 
 /*
-version 1.0
+version 1.1
 
-Ali
+Ali, Connor
 CST-256
-January 31, 2018
+April 27, 2018
 This assignment was completed in collaboration with Connor Low, Ali Cooper.
 We used source code from the following websites to complete this assignment: N/A
 */
 
 namespace App\Services\Business;
 
-use App\Model\EducationModel;
 use App\Model\EmploymentHistoryModel;
 use App\Services\Data\EmploymentHistoryDataAccessService;
 use App\Services\Utility\LarabarLogger;
@@ -54,7 +53,7 @@ class EmploymentHistoryBusinessService
     }
 
     /**
-     * used: 1
+     * used: 2
      * Create or update employment history records in database
      * @param EmploymentHistoryModel $model
      */

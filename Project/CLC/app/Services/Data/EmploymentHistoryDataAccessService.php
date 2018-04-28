@@ -23,7 +23,8 @@ class EmploymentHistoryDataAccessService
     private $conn, $ini;
 
     /**
-     * UserDataAccessService constructor.
+     * EmploymentHistoryDataAccessService constructor.
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -31,30 +32,39 @@ class EmploymentHistoryDataAccessService
         $this->ini = parse_ini_file("db.ini", true);
     }
 
+    /**
+     * used: 1
+     * Insert row into employment history table
+     * @param EmploymentHistoryModel $model
+     */
     public function createEmploymentHistoryRow(EmploymentHistoryModel $model)
     {
-        $user = session()->get('user');
-        $uid = $user->getID();
+        LarabarLogger::info("-> EmploymentHistoryDataAccessService::createEmploymentHistoryRow");
+
+        // get user from
+        $uid = session()->get('UID');
+
+        // get fields from model
         $employer = $model->getEmployer();
         $position = $model->getPosition();
         $duration = $model->getDuration();
 
+        // get insertion statement from ini
         $query = $this->ini['EmploymentHistory']['insert'];
         $statement = $this->conn->prepare($query);
 
+        // bind employment history params
         $statement->bindParam(":uid", $uid);
         $statement->bindParam(":employer", $employer);
         $statement->bindParam(":position", $position);
         $statement->bindParam(":duration", $duration);
-
         try {
 
+            // execute insertion
             $result = $statement->execute();
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in EmploymentHistoryDAO::create\n" . $e->getMessage());
         }
-
     }
 
     public function deleteEducationRow(int $id)

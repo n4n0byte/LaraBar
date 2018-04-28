@@ -458,6 +458,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Add a user employment record
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -465,22 +466,28 @@ class UserProfileController extends Controller
     function createEmployment(Request $request)
     {
         $this->logger->info("UserProfileController::createEmployment");
-
         try {
+
+            // validate request input follows validation rules
             $this->validateEmployment($request);
-            // get inputs
+
+            // get inputs from request
             $inputEmployer = $request->input('employer');
             $inputPosition = $request->input('position');
             $inputDuration = $request->input('duration');
+
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
-            // create model
+            // create model ( set id = -1 to indicate insertion)
             $model = new EmploymentHistoryModel(-1, $user->getId(), $inputEmployer, $inputPosition, $inputDuration);
 
             // commit changes
             $profileSvc = new EmploymentHistoryBusinessService();
             $profileSvc->updateEmploymentHistory($model);
+
+            // redirect to user profile page
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
@@ -492,6 +499,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Update a skill record
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -499,13 +507,17 @@ class UserProfileController extends Controller
     function updateSkills(Request $request)
     {
         $this->logger->info("UserProfileController::updateSkills");
-
         try {
+
+            // validate input follows rules
             $this->validateSkills($request);
+
             // get inputs
             $inputTitle = $request->input('title');
             $inputDescription = $request->input('description');
             $inputId = $request->input('post-id');
+
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
@@ -515,6 +527,8 @@ class UserProfileController extends Controller
             // commit changes
             $profileSvc = new SkillsBusinessService();
             $profileSvc->updateSkill($model);
+
+            // redirect to user profile page
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
@@ -526,6 +540,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Add a skill to a user profile
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -533,16 +548,20 @@ class UserProfileController extends Controller
     function createSkills(Request $request)
     {
         $this->logger->info("UserProfileController::createSkills");
-
         try {
+
+            // validate inputs follow rules
             $this->validateSkills($request);
+
             // get inputs
             $inputTitle = $request->input('title');
             $inputDescription = $request->input('description');
+
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
-            // create model
+            // create model (set id to -1 to indicate insertion)
             $model = new SkillsModel(-1, $user->getId(), $inputTitle, $inputDescription);
 
             // commit changes
@@ -566,9 +585,9 @@ class UserProfileController extends Controller
     function addEditor($category)
     {
         $this->logger->info("UserProfileController::addEditor");
-
         try {
 
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
@@ -577,13 +596,11 @@ class UserProfileController extends Controller
             $profileService = new UserProfileBusinessService();
             $profile = $profileService->getProfileData(session("UID"));
 
-            // education for current user
+            // instantiate services for education and employment
             $eduService = new EducationBusinessService();
-
-
-            // employment history for current user
             $empService = new EmploymentHistoryBusinessService();
 
+            // send user
             $data = [
                 'user' => $profile["user"],
                 'userProfile' => $profile["userProfile"],

@@ -22,7 +22,8 @@ class SkillsDataAccessService
     private $conn, $ini;
 
     /**
-     * UserDataAccessService constructor.
+     * SkillsDataAccessService constructor.
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -30,29 +31,37 @@ class SkillsDataAccessService
         $this->ini = parse_ini_file("db.ini", true);
     }
 
+    /**
+     * used: 1
+     * Insert new row into skill table
+     * @param SkillsModel $model
+     */
     public function createSkillRow(SkillsModel $model)
     {
-        $user = session()->get('user');
-        $uid = $user->getID();
+        LarabarLogger::info("-> SkillsDataAccessService::createSkillRow");
 
+        // get user id
+        $uid = session()->get('UID');
+
+        // get title and description from model
         $title = $model->getTitle();
         $description = $model->getDescription();
 
+        // get ini sql skill insert statement
         $query = $this->ini['Skill']['insert'];
         $statement = $this->conn->prepare($query);
 
+        // bind skill params
         $statement->bindParam(":uid", $uid);
         $statement->bindParam(":title", $title);
         $statement->bindParam(":description", $description);
-
         try {
 
+            // execute insertion
             $result = $statement->execute();
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in SkillDAO::create\n" . $e->getMessage());
         }
-
     }
 
     public function deleteSkillRow(int $id)
@@ -72,26 +81,32 @@ class SkillsDataAccessService
 
     }
 
+    /**
+     * used: 1
+     * update a row in skill table based on skill id
+     * @param SkillsModel $model
+     */
     public function updateSkillRow(SkillsModel $model)
     {
+        LarabarLogger::info("-> SkillsDataAccessService::updateSkillRow");
 
+        // covert model to array accessible by PDO statement
         $modelArr = array($model->getId(), $model->getUid(), $model->getDescription(),
             $model->getTitle());
         $query = $this->ini['Skill']['update'];
         $statement = $this->conn->prepare($query);
 
+        // bind skill params
         $statement->bindParam(":id", $modelArr[0]);
         $statement->bindParam(":description", $modelArr[2]);
         $statement->bindParam(":title", $modelArr[3]);
-
         try {
 
+            // execute insertion
             $result = $statement->execute();
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in SkillsDAO::update\n" . $e->getMessage());
         }
-
     }
 
     /**
