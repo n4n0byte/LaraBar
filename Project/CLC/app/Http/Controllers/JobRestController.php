@@ -20,6 +20,7 @@ class JobRestController extends Controller
         $message = "success";
         $statusCode = 200;
 
+        // try to create DTO with requested data
         try {
 
             $jobBusSvc = new JobPostBusinessService();
