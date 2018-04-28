@@ -74,26 +74,33 @@ class EmploymentHistoryDataAccessService
 
     }
 
+    /**
+     * used: 1
+     * Update row in Employment history table
+     * @param EmploymentHistoryModel $model
+     */
     public function updateEmploymentHistoryRow(EmploymentHistoryModel $model)
     {
+        LarabarLogger::info("-> EmploymentHistoryDataAccessService::updateEmploymentHistoryRow");
 
+        // convert model to array accessible by PDO statement
         $modelArr = array($model->getId(), $model->getUid(), $model->getEmployer(),
             $model->getPosition(), $model->getDuration());
         $query = $this->ini['EmploymentHistory']['update'];
         $statement = $this->conn->prepare($query);
+
+        // bind employment history params
         $statement->bindParam(":id", $modelArr[0]);
         $statement->bindParam(":employer", $modelArr[2]);
         $statement->bindParam(":position", $modelArr[3]);
         $statement->bindParam(":duration", $modelArr[4]);
-
         try {
 
+            // execute update
             $result = $statement->execute();
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in JobPostDAO::update\n" . $e->getMessage());
         }
-
     }
 
     /**

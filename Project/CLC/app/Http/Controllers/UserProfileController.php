@@ -334,7 +334,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Update a user education history profile item
+     * Update a user education profile item
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -375,7 +375,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Create a new education history record for a user's profile
+     * Create a new education record for a user's profile
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -416,7 +416,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     *
+     * Update a employment history record
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
@@ -424,23 +424,29 @@ class UserProfileController extends Controller
     function updateEmployment(Request $request)
     {
         $this->logger->info("UserProfileController::updateEmployment");
-
         try {
+
+            // validate request input follows validation rules
             $this->validateEmployment($request);
-            // get inputs
+
+            // get inputs from request
             $inputEmployer = $request->input('employer');
             $inputPosition = $request->input('position');
             $inputDuration = $request->input('duration');
             $inputId = $request->input('post-id');
+
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
 
-            // create model
+            // create employment history model
             $model = new EmploymentHistoryModel($inputId, $user->getId(), $inputEmployer, $inputPosition, $inputDuration);
 
             // commit changes
             $profileSvc = new EmploymentHistoryBusinessService();
             $profileSvc->updateEmploymentHistory($model);
+
+            // redirect to user profile page
             return redirect()->action("UserProfileController@show");
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
