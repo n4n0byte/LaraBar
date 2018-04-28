@@ -20,7 +20,6 @@ $user = session('user');
 @section('navbar')
     @component('components.navbar')
         @component('components.navItem', ['title' => 'Home', 'uri' => "home"])@endcomponent
-        @component('components.navItem', ['title' => 'Edit', 'uri' => 'profile/edit'])@endcomponent
         @component('components.navItem', ['title' => 'Log Out', 'uri' => 'logout'])@endcomponent
         @if(session()->get('user')->getAdmin())
             @component('components.navItem', ['title' => 'Administrator', 'uri' => 'admin'])@endcomponent

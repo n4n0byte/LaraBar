@@ -28,21 +28,31 @@ class LarabarLogger implements ILogger
 
     public static function debug($message, $data = array())
     {
+
+        // type saftey
+        if(!is_array($data))
+            $data = [$data];
         self::getLogger()->debug($message, $data);
     }
 
     public static function info($message, $data = array())
     {
+        if(!is_array($data))
+            $data = [$data];
         self::getLogger()->info($message, $data);
     }
 
     public static function warning($message, $data = array())
     {
+        if(!is_array($data))
+            $data = [$data];
         self::getLogger()->warning($message, $data);
     }
 
     public static function error($message, $data = array())
     {
+        if(!is_array($data))
+            $data = [$data];
         self::getLogger()->error($message, $data);
     }
 }

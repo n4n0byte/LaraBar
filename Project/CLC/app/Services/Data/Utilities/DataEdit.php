@@ -41,6 +41,10 @@ class DataEdit
     {
         LarabarLogger::info("-> DataEdit::updateProfile");
 
+        // get params from model
+        $bio = $model->getBio();
+        $location = $model->getLocation();
+
         // establish connection and user id
         $conn = DatabaseAccess::connect();
         $id = session('UID');
@@ -52,8 +56,8 @@ class DataEdit
 
         // Bind bio, location, user id
         $statement = $conn->prepare($query);
-        $statement->bindParam(":bio", $model->getBio());
-        $statement->bindParam(":location", $model->getLocation());
+        $statement->bindParam(":bio", $bio);
+        $statement->bindParam(":location", $location);
         $statement->bindParam(":id", $id);
         try {
 

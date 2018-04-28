@@ -602,7 +602,7 @@ class UserProfileController extends Controller
 
             // send user
             $data = [
-                'user' => $profile["user"],
+                'user' => session("user"),
                 'userProfile' => $profile["userProfile"],
                 'category' => $category,
                 'education' => $eduService->getEducation(),

@@ -12,47 +12,65 @@ We used source code from the following websites to complete this assignment: N/A
 
 use Illuminate\Support\Facades\Route;
 
+// renders welcome page
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Sign-in/login page
+// Sign-up page
 Route::get('register', function () {
     return view('register');
 });
 
+// registration submission
 Route::post('register', 'AuthenticationController@Register');
 
-
+// Sign-in page
 Route::get('login', function () {
     return view('login');
 });
 
+// logout user
 Route::get('logout', function () {
     session()->forget(['UID', 'user']);
     return view('welcome');
 });
+
+// login submission
 Route::post('login', 'AuthenticationController@login');
 
+// user home page
 Route::get('home', function () {
     return view('home');
 })->middleware('auth'); //TODO change to ask when implemented
 
+// editor for adding new job post
 Route::get("addJobPost", function () {
     return view("addJobPost");
 });
 
+// update job post submission
 Route::post("updateJobPostData", "AdminController@updateJobPostData");
+
+// update job post editor
 Route::get("updateJobPost/{id}", "AdminController@updateJobPost");
+
+// delete job post link
 Route::get("deleteJobPost/{id}", "AdminController@deleteJobPost");
+
+// add job post submission
 Route::post("addJobPost", "AdminController@addJobPost");
 
 /* ==== PROFILE ==== */
 // --- Views/Forms
+
+// editors
 Route::get('profile', 'UserProfileController@show')->middleware('auth');
 Route::get('profile/edit/{category}/{id}', 'UserProfileController@showEditor')->middleware('auth');
 Route::get('profile/delete/{category}/{id}', 'UserProfileController@delete')->middleware('auth');
 Route::get('profile/add/{category}', 'UserProfileController@addEditor')->middleware('auth');
+
+// form submission
 Route::post('profile/editProfile', 'UserProfileController@updateProfile')->middleware('auth');
 Route::post('profile/editPersonalInfo', 'UserProfileController@updatePersonalInfo')->middleware('auth');
 Route::post('profile/editEmployment', 'UserProfileController@updateEmployment')->middleware('auth');
@@ -120,6 +138,7 @@ Route::get("error", function () {
     return view("error");
 });
 
+// home view from /search route
 Route::get("search", function () {
     return view("home");
 })->middleware('auth');
