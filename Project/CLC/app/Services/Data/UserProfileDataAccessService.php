@@ -15,6 +15,7 @@ use App\Model\UserProfileModel;
 use App\Services\Data\Utilities\DataEdit;
 use App\Services\Data\Utilities\DataRetrieval;
 use App\Services\DatabaseAccess;
+use App\Services\Utility\LarabarLogger;
 use PDOException;
 
 class UserProfileDataAccessService
@@ -26,37 +27,50 @@ class UserProfileDataAccessService
      */
     public function __construct()
     {
-        try{
+        try {
             $this->conn = DatabaseAccess::connect();
             $this->ini = parse_ini_file("db.ini", true);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
     }
 
     /**
      * @param $id
+     * @return \App\Model\UserModel|bool
      */
-    public function getDataById($id){
+    public function getDataById($id)
+    {
         return DataRetrieval::getModelByUID($id);
     }
 
     /**
+     * used: 1
+     * Get a user profile from the database
+     * @param $id
      * @return array
+     * @throws \Exception
      */
-    public function read()
+    public function read($id)
     {
-        return DataRetrieval::getUserProfileById();
+        LarabarLogger::info("-> UserProfileDataAccessService::read");
+
+        // use static data retrieval method
+        return DataRetrieval::getUserProfileById($id);
     }
 
+    /**
+     * used: 1
+     * Update a user profile in the database
+     * @param UserProfileModel $model
+     * @throws \Exception
+     */
     public function update(UserProfileModel $model)
     {
-        $location = $model->getLocation();
-        $bio = $model->getBio();
-        DataEdit::updateProfile($location, $bio);
+        LarabarLogger::info("-> UserProfileDataAccessService::update");
+        // call static DataEdit method
+        DataEdit::updateProfile($model);
     }
-
-
 
 
     /**

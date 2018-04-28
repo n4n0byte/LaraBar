@@ -15,6 +15,7 @@ namespace App\Services\Business;
 use App\Model\EducationModel;
 use App\Model\EmploymentHistoryModel;
 use App\Services\Data\EmploymentHistoryDataAccessService;
+use App\Services\Utility\LarabarLogger;
 
 class EmploymentHistoryBusinessService
 {
@@ -30,17 +31,6 @@ class EmploymentHistoryBusinessService
     }
 
     /**
-     * @param EmploymentHistoryModel $model
-     */
-    public function addEmploymentHistory(EmploymentHistoryModel $model)
-    {
-
-        $user = session()->get("user");
-        $this->employmentHistorySvc->createEmploymentHistoryRow($model);
-
-    }
-
-    /**
      * @param int $id
      */
     public function removeEmploymentHistory(int $id)
@@ -49,25 +39,34 @@ class EmploymentHistoryBusinessService
     }
 
     /**
+     * used: 2
+     * Get employment history from database
      * @param int $id
+     * @param bool $usePostId
      * @return array
      */
     public function getEmploymentHistory($id = -1, $usePostId = false)
     {
+        LarabarLogger::info("-> EmploymentHistoryBusinessService::getEmploymentHistory");
+
+        // return array of employment history models
         return $this->employmentHistorySvc->getEmploymentHistoryRows($id, $usePostId);
     }
 
     /**
+     * used: 1
+     * Create or update employment history records in database
      * @param EmploymentHistoryModel $model
      */
     public function updateEmploymentHistory(EmploymentHistoryModel $model)
     {
+        LarabarLogger::info("-> EmploymentHistoryBusinessService::updateEmploymentHistory");
 
-        $user = session()->get("user");
+        // If id is greater than 0, record exists and is being updated. Else, call create function.
         if ($model->getId() > 0)
             $this->employmentHistorySvc->updateEmploymentHistoryRow($model);
         else
-            $this->addEmploymentHistory($model);
+            $this->employmentHistorySvc->createEmploymentHistoryRow($model);
 
     }
 

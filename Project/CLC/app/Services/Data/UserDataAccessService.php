@@ -130,8 +130,14 @@ class UserDataAccessService
         }
     }
 
+    /**
+     * used: 1
+     * update a row in the user table
+     * @param $data
+     */
     public function update($data)
     {
+        LarabarLogger::info("-> UserDataAccessService::update");
 
         // define params from input
         $email = $data["email"];
@@ -140,10 +146,11 @@ class UserDataAccessService
         $lastName = $data["lastName"];
         $id = $data["id"];
 
-        //
+        // get query from ini
         $query = $this->ini["Users"]["update.id"];
         $statement = $this->conn->prepare($query);
 
+        // bind user params
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $password);
         $statement->bindParam(':firstName', $firstName);
@@ -152,7 +159,11 @@ class UserDataAccessService
 
 
         try {
+
+            // execute update
             $statement->execute();
+
+            // overwrite the user in the session with the updated credentials
             $user = new UserModel($id, $email, $password, $firstName, $lastName);
             session()->forget('user');
             session()->put('user', $user);

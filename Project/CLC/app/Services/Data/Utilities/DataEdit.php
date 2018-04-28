@@ -8,8 +8,10 @@
 
 namespace App\Services\Data\Utilities;
 
+use App\Model\UserProfileModel;
 use App\Services\DatabaseAccess;
 use App\Services\Data\Utilities\DataRetrieval;
+use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
@@ -29,39 +31,36 @@ class DataEdit
         return $statement->rowCount();
     }
 
-    public static function updateProfile($location, $bio)
+    /**
+     * used: 1
+     * Insert or update a row in the user profile table
+     * @param UserProfileModel $model
+     * @throws \Exception
+     */
+    public static function updateProfile(UserProfileModel $model)
     {
+        LarabarLogger::info("-> DataEdit::updateProfile");
 
+        // establish connection and user id
         $conn = DatabaseAccess::connect();
         $id = session('UID');
+
+        // Determine which sql statement to use. If a user already has a profile, update. Else, select.
         $hasInfo = self::hasInfo();
-
-        if ($hasInfo > 0) {
-            // build query
-            $query = DataRetrieval::getParsedIni()['UserProfile']['update'];
-            $statement = $conn->prepare($query);
-            $statement->bindParam(":bio", $bio);
-            $statement->bindParam(":location", $location);
-            $statement->bindParam(":id", $id);
-            try {
-                $statement->execute();
-            } catch (PDOException $e) {
-                throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
-            }
-        } else {
-            // build query
+        $query = ($hasInfo > 0) ? DataRetrieval::getParsedIni()['UserProfile']['update'] :
             $query = DataRetrieval::getParsedIni()['UserProfile']['insert'];
-            $statement = $conn->prepare($query);
-            $statement->bindParam(":bio", $bio);
-            $statement->bindParam(":location", $location);
-            $statement->bindParam(":id", $id);
-            try {
-                $statement->execute();
-            } catch (PDOException $e) {
-                throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
-            }
+
+        // Bind bio, location, user id
+        $statement = $conn->prepare($query);
+        $statement->bindParam(":bio", $model->getBio());
+        $statement->bindParam(":location", $model->getLocation());
+        $statement->bindParam(":id", $id);
+        try {
+
+            // execute update/insert
+            $statement->execute();
+        } catch (PDOException $e) {
+            throw new PDOException("Exception in SecurityDAO::read\n" . $e->getMessage());
         }
-
-
     }
 }

@@ -157,10 +157,15 @@ class UserBusinessService
     }
 
     /**
+     * used: 1
+     * Update a user profile in the database
      * @param $data
      */
     public function updateUserInfo($data)
     {
+        LarabarLogger::info("-> UserBusinessService::updateUserInfo");
+
+        // pass data to data layer
         $svc = new UserDataAccessService();
         $svc->update($data);
     }

@@ -49,21 +49,30 @@ class EducationBusinessService
     }
 
     /**
+     * used: 2
+     * Get Education components for a user profile.
      * @param int $id
      * @param bool $usePostId
      * @return array
      */
     public function getEducation($id = -1, $usePostId = false)
     {
+        LarabarLogger::info("-> UserProfileBusinessService::getProfileData");
+
+        // Get education model array from data access service. Pass user ID
         return $this->educationSvc->getEducationRows($id, $usePostId);
     }
 
     /**
+     * used: 2
+     * Update User Education in database.
      * @param EducationModel $model
      */
     public function updateEducation(EducationModel $model)
     {
-        $user = session()->get("user");
+        LarabarLogger::info("-> UserProfileBusinessService::updateEducation");
+
+        // If model id is greater than 0, action is an update. Else, is insertion: use create method.
         if ($model->getId() > 0)
             $this->educationSvc->updateEducationRow($model);
         else
