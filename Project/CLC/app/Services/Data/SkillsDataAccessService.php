@@ -22,6 +22,7 @@ class SkillsDataAccessService
     private $conn, $ini;
 
     /**
+     * Used: 1
      * SkillsDataAccessService constructor.
      * @throws \Exception
      */
@@ -32,14 +33,12 @@ class SkillsDataAccessService
     }
 
     /**
-     * used: 1
      * Insert new row into skill table
+     * Used: 1
      * @param SkillsModel $model
      */
     public function createSkillRow(SkillsModel $model)
     {
-        LarabarLogger::info("-> SkillsDataAccessService::createSkillRow");
-
         // get user id
         $uid = session()->get('UID');
 
@@ -55,25 +54,36 @@ class SkillsDataAccessService
         $statement->bindParam(":uid", $uid);
         $statement->bindParam(":title", $title);
         $statement->bindParam(":description", $description);
+
+        // try to execute query
         try {
 
             // execute insertion
-            $result = $statement->execute();
-        } catch (PDOException $e) {
+            $statement->execute();
+
+        } // throw db error
+        catch (PDOException $e) {
             throw new PDOException("Exception in SkillDAO::create\n" . $e->getMessage());
         }
     }
 
+    /**
+     * Used: 1
+     * @param int $id
+     */
     public function deleteSkillRow(int $id)
     {
+        // select query
         $query = $this->ini['Skill']['delete'];
         $statement = $this->conn->prepare($query);
 
+        //bind id param
         $statement->bindParam("id", $id);
 
+        // try to execute delete query
         try {
 
-            $result = $statement->execute();
+            $statement->execute();
 
         } catch (PDOException $e) {
             throw new PDOException("Exception in SkillPostDAO::delete\n" . $e->getMessage());
@@ -82,8 +92,12 @@ class SkillsDataAccessService
     }
 
     /**
+     * <<<<<<< HEAD
      * used: 1
      * update a row in skill table based on skill id
+     * =======
+     * Used: 1
+     * >>>>>>> 5a6862acae6ffd435bd2a63f05292f4345d9b140
      * @param SkillsModel $model
      */
     public function updateSkillRow(SkillsModel $model)
@@ -91,8 +105,11 @@ class SkillsDataAccessService
         LarabarLogger::info("-> SkillsDataAccessService::updateSkillRow");
 
         // covert model to array accessible by PDO statement
+        // fill arr with all model attributes
         $modelArr = array($model->getId(), $model->getUid(), $model->getDescription(),
             $model->getTitle());
+
+        // select update query from ini
         $query = $this->ini['Skill']['update'];
         $statement = $this->conn->prepare($query);
 
@@ -100,10 +117,10 @@ class SkillsDataAccessService
         $statement->bindParam(":id", $modelArr[0]);
         $statement->bindParam(":description", $modelArr[2]);
         $statement->bindParam(":title", $modelArr[3]);
-        try {
 
-            // execute insertion
-            $result = $statement->execute();
+        // try to execute query
+        try {
+            $statement->execute();
         } catch (PDOException $e) {
             throw new PDOException("Exception in SkillsDAO::update\n" . $e->getMessage());
         }

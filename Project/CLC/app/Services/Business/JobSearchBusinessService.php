@@ -19,6 +19,7 @@ class JobSearchBusinessService implements IJobSearchBusinessService
     private $jobSearchScv = null;
 
     /**
+     * Used: 3
      * returns single instance of Job search serviec
      * @return IJobSearchBusinessService
      */
@@ -34,6 +35,7 @@ class JobSearchBusinessService implements IJobSearchBusinessService
     }
 
     /**
+     * Used: 3
      * initializes JobSearch data access service
      * JobSearchBusinessService constructor.
      */
@@ -59,6 +61,7 @@ class JobSearchBusinessService implements IJobSearchBusinessService
     }
 
     /**
+     *
      * returns jon post content, filtered by a specific criteria
      * @param string $criteria
      * @return array

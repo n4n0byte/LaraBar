@@ -22,6 +22,7 @@ class SkillsBusinessService
     private $SkillSvc;
 
     /**
+     * Used: 5
      * SkillBusinessService constructor.
      */
     public function __construct()
@@ -30,8 +31,8 @@ class SkillsBusinessService
     }
 
     /**
-     * used: 1
      * create new skill in database
+     * Used: 1
      * @param SkillsModel $model
      */
     public function insertSkill(SkillsModel $model)
@@ -43,6 +44,7 @@ class SkillsBusinessService
     }
 
     /**
+     * Used: 1
      * @param int $id
      */
     public function deleteSkill(int $id)
@@ -53,6 +55,7 @@ class SkillsBusinessService
     /**
      * used: 2
      * Get skills from database
+     * Used: 3
      * @param int $id
      * @param bool $usePostId
      * @return array
@@ -64,8 +67,12 @@ class SkillsBusinessService
     }
 
     /**
+     * <<<<<<< HEAD
      * used: 1
      * Update a skill the database
+     * =======
+     * Used: 1
+     * >>>>>>> 5a6862acae6ffd435bd2a63f05292f4345d9b140
      * @param SkillsModel $model
      */
     public function updateSkill(SkillsModel $model)
