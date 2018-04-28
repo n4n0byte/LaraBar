@@ -109,6 +109,11 @@ class JobSearchDataAccessService
         return $JobArr;
     }
 
+    /**
+     * Used: 1
+     * @throws PDOException
+     * @return array
+     */
     public function getJobPosts(): array
     {
         $JobArr = array();

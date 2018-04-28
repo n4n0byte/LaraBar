@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 
 /**
+ * Responsible for managing groups,
+ * specifically, allows for CRUD operations
+ * and their corresponding views. Only accessible
+ * to site administrators
  * Class AdminGroupController
  * @package app\Http\Controllers
  */

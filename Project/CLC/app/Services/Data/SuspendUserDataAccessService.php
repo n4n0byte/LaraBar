@@ -16,6 +16,10 @@ use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
+/**
+ * Class SuspendUserDataAccessService
+ * @package App\Services\Data
+ */
 class SuspendUserDataAccessService
 {
     private $ini, $conn;
@@ -33,6 +37,7 @@ class SuspendUserDataAccessService
     /**
      * @param UserModel $user
      * @return bool
+     * @throws \Exception
      */
     public function suspend(UserModel $user)
     {
@@ -62,6 +67,7 @@ class SuspendUserDataAccessService
      * used: 1
      * Remove a row from the suspended user table to reactivate
      * @param UserModel $user
+     * @throws PDOException
      * @return bool
      */
     public function reactivate(UserModel $user)
@@ -87,6 +93,7 @@ class SuspendUserDataAccessService
      * Checks if any rows in the suspended users table match the user id
      * Returns TRUE if suspended
      * @param UserModel $user
+     * @throws PDOException
      * @return bool
      */
     public function checkSuspended(UserModel $user)

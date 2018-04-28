@@ -5,6 +5,11 @@ namespace App\Http\Middleware;
 use App\Model\UserModel;
 use Closure;
 
+/**
+ * Middleware for verifying if user is logged in
+ * Class CheckedLoggedIn
+ * @package App\Http\Middleware
+ */
 class CheckedLoggedIn
 {
     /**

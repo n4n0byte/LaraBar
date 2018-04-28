@@ -13,6 +13,10 @@ use App\Services\DatabaseAccess;
 use App\Services\Utility\LarabarLogger;
 use PDOException;
 
+/**
+ * Class UserGroupsDataAccessService
+ * @package App\Services\Data
+ */
 class UserGroupsDataAccessService
 {
     private static $ini;

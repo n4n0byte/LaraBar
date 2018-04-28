@@ -17,6 +17,10 @@ use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
+/**
+ * Class SkillsDataAccessService
+ * @package App\Services\Data
+ */
 class SkillsDataAccessService
 {
     private $conn, $ini;

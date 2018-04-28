@@ -14,10 +14,13 @@ namespace App\Services\Data;
 use App\Model\UserModel;
 use App\Services\DatabaseAccess;
 use App\Services\Utility\LarabarLogger;
-use App\User;
 use PDO;
 use PDOException;
 
+/**
+ * Class UserDataAccessService
+ * @package App\Services\Data
+ */
 class UserDataAccessService
 {
     private $conn, $ini;
@@ -35,6 +38,7 @@ class UserDataAccessService
 
     /**
      * @param $id
+     * @throws PDOException
      * @return mixed
      */
     public function selectUserById($id)
@@ -61,6 +65,7 @@ class UserDataAccessService
      * used: 1
      * Selects a row from the user table with matching email and password
      * @param $data
+     * @throws PDOException
      * @return UserModel|bool
      */
     public function read($data)
@@ -110,6 +115,7 @@ class UserDataAccessService
     /**
      * Used: 1
      * Gets all users from the database
+     * @throws PDOException
      * @return array
      */
     public function readAll()
@@ -133,6 +139,7 @@ class UserDataAccessService
     /**
      * used: 1
      * update a row in the user table
+     * @throws PDOException
      * @param $data
      */
     public function update($data)
@@ -179,6 +186,7 @@ class UserDataAccessService
      * used: 1
      * Add a new row to the user table
      * @param $data
+     * @throws PDOException
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create($data)

@@ -8,6 +8,12 @@ use App\Services\Utility\ILogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
+/**
+ * Responsible for showing
+ * job results after user searches
+ * Class JobSearchController
+ * @package App\Http\Controllers
+ */
 class JobSearchController extends Controller
 {
     /* @var $service IJobSearchBusinessService */
@@ -24,6 +30,7 @@ class JobSearchController extends Controller
     }
 
     /**
+     * Used: 1
      * Search for a job post
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

@@ -8,6 +8,12 @@ use App\Services\Business\EmploymentHistoryBusinessService;
 use App\Services\Business\SkillsBusinessService;
 use App\Services\Business\UserProfileBusinessService;
 
+/**
+ * Provides a rest service for accessing user
+ * profile information in the form of a DTO
+ * Class ProfileRestController
+ * @package App\Http\Controllers
+ */
 class ProfileRestController extends Controller
 {
 

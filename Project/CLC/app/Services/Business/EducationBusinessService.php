@@ -16,6 +16,12 @@ use App\Model\EducationModel;
 use App\Services\Data\EducationDataAccessService;
 use App\Services\Utility\LarabarLogger;
 
+/**
+ * Business Service for processing data
+ * then using Data Service CRUD operations
+ * Class EducationBusinessService
+ * @package App\Services\Business
+ */
 class EducationBusinessService
 {
 

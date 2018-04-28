@@ -16,6 +16,12 @@ use App\Model\EmploymentHistoryModel;
 use App\Services\Data\EmploymentHistoryDataAccessService;
 use App\Services\Utility\LarabarLogger;
 
+/**
+ * Business Service for processing data
+ * then using Data Service CRUD operations
+ * Class EmploymentHistoryBusinessService
+ * @package App\Services\Business
+ */
 class EmploymentHistoryBusinessService
 {
 

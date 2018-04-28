@@ -4,6 +4,11 @@ namespace App\Http\Middleware;
 
 use Closure;
 
+/**
+ * Middleware for verifying if the User is an administrator
+ * Class CheckAdmin
+ * @package App\Http\Middleware
+ */
 class CheckAdmin
 {
     /**

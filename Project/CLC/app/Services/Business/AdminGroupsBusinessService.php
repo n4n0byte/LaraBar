@@ -13,6 +13,12 @@ use App\Services\BusinessInterfaces\IAdminGroupsBusinessService;
 use App\Services\Data\AdminGroupsDataAccessService;
 use App\Services\Utility\LarabarLogger;
 
+/**
+ * Business Service for processing data
+ * then using Data Service CRUD operations
+ * Class AdminGroupsBusinessService
+ * @package App\Services\Business
+ */
 class AdminGroupsBusinessService implements IAdminGroupsBusinessService
 {
     private static $instance;

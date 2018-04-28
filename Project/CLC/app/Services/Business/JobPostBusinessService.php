@@ -11,11 +11,15 @@ We used source code from the following websites to complete this assignment: N/A
 
 namespace App\Services\Business;
 
-use App\Model\JobModel;
-use \App\Services\Data\JobPostDataAccessService;
+use App\Services\Data\JobPostDataAccessService;
 use App\Services\Utility\LarabarLogger;
-use Illuminate\Queue\Jobs\Job;
 
+/**
+ * Business Service for processing data
+ * then using Data Service CRUD operations
+ * Class JobPostBusinessService
+ * @package App\Services\Business
+ */
 class JobPostBusinessService
 {
 

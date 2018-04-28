@@ -75,6 +75,7 @@ class UserProfileDataAccessService
 
     /**
      * @param UserProfileModel $model
+     * @throws PDOException
      * @return bool|int
      */
     public function create(UserProfileModel $model)

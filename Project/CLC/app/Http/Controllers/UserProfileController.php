@@ -660,6 +660,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Used: 3
      * @param Request $request
      * @throws \Exception
      */
@@ -683,6 +684,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Used: 2
      * @param Request $request
      * @throws \Exception
      */
@@ -707,6 +709,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Used: 2
      * @param Request $request
      * @throws \Exception
      */
@@ -732,6 +735,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Used: 2
      * @param Request $request
      * @throws \Exception
      */

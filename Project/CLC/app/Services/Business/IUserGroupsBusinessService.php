@@ -13,8 +13,12 @@ namespace App\Services\Business;
 
 
 use App\Model\GroupModel;
-use App\Model\UserModel;
 
+/**
+ * Contract for creating UserGroupBusiness Services
+ * Interface IUserGroupsBusinessService
+ * @package App\Services\Business
+ */
 interface IUserGroupsBusinessService
 {
     /**

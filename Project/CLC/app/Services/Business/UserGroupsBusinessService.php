@@ -15,6 +15,10 @@ use App\Services\BusinessInterfaces\IUserGroupsBusinessService;
 use App\Services\Data\UserGroupsDataAccessService;
 use App\Services\Utility\LarabarLogger;
 
+/**
+ * Class UserGroupsBusinessService
+ * @package App\Services\Business
+ */
 class UserGroupsBusinessService implements IUserGroupsBusinessService
 {
     private static $instance;

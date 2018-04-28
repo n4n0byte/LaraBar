@@ -12,7 +12,8 @@
 namespace app\Model;
 
 /**
- * Data Transfer Object
+ * Class DTO
+ * @package app\Model
  */
 class DTO implements \JsonSerializable {
 

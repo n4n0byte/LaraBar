@@ -7,7 +7,13 @@ use App\Services\Business\AdminGroupsBusinessService;
 use App\Services\Business\UserGroupsBusinessService as UserGroupSvc;
 use App\Services\Utility\ILogger;
 
-
+/**
+ * Allows for users to view,
+ * add and remove themselves
+ * from available groups
+ * Class UserGroupController
+ * @package App\Http\Controllers
+ */
 class UserGroupController extends Controller
 {
 

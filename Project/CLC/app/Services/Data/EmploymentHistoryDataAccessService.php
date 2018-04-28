@@ -17,6 +17,10 @@ use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
+/**
+ * Class EmploymentHistoryDataAccessService
+ * @package App\Services\Data
+ */
 class EmploymentHistoryDataAccessService
 {
 

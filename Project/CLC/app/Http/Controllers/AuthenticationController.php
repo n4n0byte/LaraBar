@@ -19,8 +19,12 @@ use App\Services\Business\UserProfileBusinessService;
 use App\Services\Utility\ILogger;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
+/**
+ * For user registration and credential validation
+ * Class AuthenticationController
+ * @package App\Http\Controllers
+ */
 class AuthenticationController extends Controller
 {
     /* @var $logger ILogger */

@@ -16,6 +16,12 @@ use App\Model\SkillsModel;
 use App\Services\Data\SkillsDataAccessService;
 use App\Services\Utility\LarabarLogger;
 
+/**
+ * Business Service for processing data
+ * then using Data Service CRUD operations
+ * Class SkillsBusinessService
+ * @package App\Services\Business
+ */
 class SkillsBusinessService
 {
 

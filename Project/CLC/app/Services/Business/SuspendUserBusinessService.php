@@ -17,6 +17,10 @@ use App\Services\DatabaseAccess;
 use App\Services\Utility\LarabarLogger;
 use Mockery\Exception;
 
+/**
+ * Class SuspendUserBusinessService
+ * @package App\Services\Business
+ */
 class SuspendUserBusinessService
 {
     /**

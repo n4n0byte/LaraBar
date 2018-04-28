@@ -17,6 +17,10 @@ use App\Services\Utility\LarabarLogger;
 use PDO;
 use PDOException;
 
+/**
+ * Class EducationDataAccessService
+ * @package App\Services\Data
+ */
 class EducationDataAccessService
 {
     private $conn, $ini;
@@ -30,8 +34,14 @@ class EducationDataAccessService
         $this->ini = parse_ini_file("db.ini", true);
     }
 
+    /**
+     * inserts education info into db
+     * @param EducationModel $model
+     * @throws PDOException
+     */
     public function createEducationRow(EducationModel $model)
     {
+        // get user model info
         $user = session()->get('user');
         $uid = $user->getID();
         $institution = $model->getInstitution();
@@ -41,11 +51,13 @@ class EducationDataAccessService
         $query = $this->ini['Education']['insert'];
         $statement = $this->conn->prepare($query);
 
+        // bind info to query
         $statement->bindParam(":uid", $uid);
         $statement->bindParam(":institution", $institution);
         $statement->bindParam(":level", $level);
         $statement->bindParam(":degree", $degree);
 
+        // try to insert info into db
         try {
 
             $result = $statement->execute();
@@ -56,13 +68,20 @@ class EducationDataAccessService
 
     }
 
+    /**
+     * deletes education row in db by id
+     * @param int $id
+     * @throws PDOException
+     */
     public function deleteEducationRow(int $id)
     {
+        // select query and bind id
         $query = $this->ini['Education']['delete'];
         $statement = $this->conn->prepare($query);
 
         $statement->bindParam("id", $id);
 
+        // try to execute query
         try {
 
             $result = $statement->execute();

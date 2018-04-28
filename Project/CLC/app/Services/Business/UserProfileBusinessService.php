@@ -16,6 +16,10 @@ use App\Model\UserProfileModel;
 use App\Services\Data\UserProfileDataAccessService;
 use App\Services\Utility\LarabarLogger;
 
+/**
+ * Class UserProfileBusinessService
+ * @package App\Services\Business
+ */
 class UserProfileBusinessService
 {
     /**
