@@ -69,27 +69,26 @@ class EducationDataAccessService
     }
 
     /**
+     * used: 1
      * deletes education row in db by id
      * @param int $id
      * @throws PDOException
      */
     public function deleteEducationRow(int $id)
     {
+        LarabarLogger::info("->EducationDataAccessService::deleteEducationRow");
+
         // select query and bind id
         $query = $this->ini['Education']['delete'];
         $statement = $this->conn->prepare($query);
-
         $statement->bindParam("id", $id);
 
         // try to execute query
         try {
-
             $result = $statement->execute();
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in EducationPostDAO::delete\n" . $e->getMessage());
         }
-
     }
 
     /**

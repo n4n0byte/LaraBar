@@ -71,21 +71,26 @@ class EmploymentHistoryDataAccessService
         }
     }
 
-    public function deleteEducationRow(int $id)
+    /**
+     * used: 1
+     * Delete a row from the employment history table.
+     * @param int $id
+     */
+    public function deleteEmploymentRow(int $id)
     {
+        LarabarLogger::info("-> EmploymentHistoryDataAccessService::deleteEmploymentRow");
+
+        // get query from ini and bind id param for row id.
         $query = $this->ini['EmploymentHistory']['delete'];
         $statement = $this->conn->prepare($query);
-
         $statement->bindParam("id", $id);
-
         try {
 
+            // execute deletion
             $result = $statement->execute();
-
         } catch (PDOException $e) {
             throw new PDOException("Exception in EmploymentHistoryDAO::delete\n" . $e->getMessage());
         }
-
     }
 
     /**

@@ -51,10 +51,14 @@ class SkillsBusinessService
 
     /**
      * Used: 1
+     * Delete a User's skill.
      * @param int $id
      */
     public function deleteSkill(int $id)
     {
+        LarabarLogger::info("-> SkillsBusinessService::deleteSkill");
+
+        // call service method
         $this->SkillSvc->deleteSkillRow($id);
     }
 

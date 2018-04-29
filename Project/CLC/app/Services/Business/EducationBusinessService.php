@@ -36,22 +36,15 @@ class EducationBusinessService
     }
 
     /**
-     * @param $institution
-     * @param $level
-     * @param $degree
-     */
-    public function insertEducation($institution, $level, $degree)
-    {
-        $user = session()->get("user");
-        $educationModel = new EducationModel(-1, $user->getID(), $institution, $level, $degree);
-        $this->educationSvc->createEducationRow($educationModel);
-    }
-
-    /**
+     * used: 1
+     * Removes a User's education record from the database.
      * @param int $id
      */
     public function deleteEducation(int $id)
     {
+        LarabarLogger::info("-> UserProfileBusinessService::deleteEducation");
+
+        // Call data access service method.
         $this->educationSvc->deleteEducationRow($id);
     }
 

@@ -36,11 +36,16 @@ class EmploymentHistoryBusinessService
     }
 
     /**
+     * used: 1
+     * Remove a User's employment history record from the database.
      * @param int $id
      */
     public function removeEmploymentHistory(int $id)
     {
-        $this->employmentHistorySvc->deleteEducationRow($id);
+        LarabarLogger::info("-> EmploymentHistoryBusinessService::removeEmploymentHistory");
+
+        // Call data access service method.
+        $this->employmentHistorySvc->deleteEmploymentRow($id);
     }
 
     /**

@@ -73,10 +73,13 @@ class SkillsDataAccessService
 
     /**
      * Used: 1
+     * Delete a row in the skill table.
      * @param int $id
      */
     public function deleteSkillRow(int $id)
     {
+        LarabarLogger::info("-> SkillsDataAccessService::deleteSkillRow");
+
         // select query
         $query = $this->ini['Skill']['delete'];
         $statement = $this->conn->prepare($query);
@@ -96,12 +99,8 @@ class SkillsDataAccessService
     }
 
     /**
-     * <<<<<<< HEAD
-     * used: 1
-     * update a row in skill table based on skill id
-     * =======
      * Used: 1
-     * >>>>>>> 5a6862acae6ffd435bd2a63f05292f4345d9b140
+     * update a row in skill table based on skill id
      * @param SkillsModel $model
      */
     public function updateSkillRow(SkillsModel $model)

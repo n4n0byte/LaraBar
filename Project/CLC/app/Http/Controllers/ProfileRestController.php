@@ -44,37 +44,36 @@ class ProfileRestController extends Controller
             $userSvc = new UserProfileBusinessService();
             $profile = $userSvc->getProfileById($id);
 
+            // employment history
             $employmentHistorySvc = new EmploymentHistoryBusinessService();
             $employmentHistory = $employmentHistorySvc->getEmploymentHistory($id);
 
+            // skills
             $skillsSvc = new SkillsBusinessService();
             $skills = $skillsSvc->getSkill($id);
 
+            // education
             $educationSvc = new EducationBusinessService();
             $education = $educationSvc->getEducation($id);
 
-            $resultArr = [$profile, $employmentHistory, $skills, $education];
+            // Build result array. If a profile is not found, return empty.
+            $resultArr = $profile != null ? [$profile, $employmentHistory, $skills, $education] : [];
 
+            // Status code: 200 if profile found: else 404.
+            $statusCode = $profile == null ? 404 : 200;
 
-            $statusCode = 200;
-            $message = "success";
+            // status message
+            $message = $profile == null ? "No profile found" : "success";
+        } catch (\Exception $e) {
 
-            // check if user exists
-            if ($profile == null) {
-                $statusCode = 404;
-                $message = "No profile found";
-                $resultArr = [];
-            }
-
-        } // set error status code
-        catch (\Exception $e) {
+            // if error, return a 500 status code in a DTO
             $statusCode = 500;
             $message = "It broke";
             $resultArr = [];
         } finally {
+
+            // return result
             return json_encode(new DTO($statusCode, $message, $resultArr), JSON_PRETTY_PRINT);
         }
-
     }
-
 }

@@ -619,6 +619,7 @@ class UserProfileController extends Controller
     }
 
     /**
+     * Remove a user profile component (employment history, education, skill)
      * @param $category
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -627,12 +628,13 @@ class UserProfileController extends Controller
     function delete($category, $id)
     {
         $this->logger->info("UserProfileController::delete");
-
         try {
+
+            // get user from session
             /* @var $user UserModel */
             $user = session('user');
-            // get profile
-            // general
+
+            // Determine which business service to call for deletion using $category
             $message = null;
             switch ($category) {
                 case "education":
@@ -650,6 +652,8 @@ class UserProfileController extends Controller
                 default:
                     $message = "Nothing has changed";
             }
+
+            // redirect to user profile page
             return redirect()->action("UserProfileController@show")->with(['confirmation' => $message]);
         } catch (ValidationException $ve) {
             $this->logger->warning("UserProfileController validation exception");
@@ -660,7 +664,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Used: 3
+     * Validate request input for profile follows rules
      * @param Request $request
      * @throws \Exception
      */
@@ -684,7 +688,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Used: 2
+     * Validate request input for Employment follows rules
      * @param Request $request
      * @throws \Exception
      */
@@ -709,7 +713,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Used: 2
+     * Validate request input for Education follows rules
      * @param Request $request
      * @throws \Exception
      */
@@ -735,7 +739,7 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Used: 2
+     * Validate request input for Skills follows rules
      * @param Request $request
      * @throws \Exception
      */
